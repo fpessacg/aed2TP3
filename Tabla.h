@@ -98,7 +98,7 @@ namespace aed2 {
 	Conj<Lista<Registro>::Iterador>::Iterador Coincidencias(const Registro& r, const Conj<Registro>& cr);
 
 	// Devuelve la comlumna de c en cr
-	Conj<Dato> DameColumna(const Campo& r, const Conj<Registro>& cr);
+	Conj<Dato> DameColumna(const NombreCampo& r, const Conj<Registro>& cr);
 
 	// Devuelve true si los campos del registros son los mismos que de la tabla
 	bool MismosTipos(const Registro& r, const Tabla& t);
