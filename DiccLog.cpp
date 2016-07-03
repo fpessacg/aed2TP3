@@ -1,9 +1,9 @@
 #include "DiccLog.h"
 
 template<class T>
-bool DiccLog<T>::Def(const DiccLog& d, Nat n){
+bool DiccLog<T>::Def(Nat n){
 	bool definido = false;
-	Nodo* nodoRecorrer = d;
+	Nodo* nodoRecorrer = this->raiz;
 
 	while(nodoRecorrer && definido == false){
 		if(nodoRecorrer->significado > n){
@@ -18,8 +18,8 @@ bool DiccLog<T>::Def(const DiccLog& d, Nat n){
 }
 
 template<class T>
-T DiccLog<T>::Obtener(DiccLog& d, Nat n){
-	Nodo* nodoRecorrer;
+T DiccLog<T>::Obtener(Nat n){
+	Nodo* nodoRecorrer = this->raiz;
 
 	while(true){
 		if(nodoRecorrer->key == n){
@@ -31,13 +31,12 @@ T DiccLog<T>::Obtener(DiccLog& d, Nat n){
 				nodoRecorrer->der;
 			}
 		}
-
 	}
 }
 
 template<class T>
-void DiccLog<T>::Definir(DiccLog& d, Nat n, T& sig){
-	if !(d) {
+void DiccLog<T>::Definir(Nat n, T sig){
+	if !(this->raiz) {
 		Nodo* nuevoNodo;
 		nuevoNodo->significado = sig;
 		nuevoNodo->izq = 0;
@@ -46,9 +45,9 @@ void DiccLog<T>::Definir(DiccLog& d, Nat n, T& sig){
 		nuevoNodo->key = n;
 		nuevoNodo->altura = 1;
 
-		d->raiz = nuevoNodo;		
+		this->raiz = nuevoNodo;		
 	} else {
-		Nodo* nodoRecorrer = d->raiz;
+		Nodo* nodoRecorrer = this->raiz;
 		Nodo* elPadre = 0;
 		
 		while(true){
@@ -86,9 +85,9 @@ void DiccLog<T>::Definir(DiccLog& d, Nat n, T& sig){
 }
 
 template<class T>
-void DiccLog<T>::Borrar(DiccLog& d, Nat n){
-	Nodo* nodoRecorrer = d->raiz;
-	Nodo* elPadre = d->raiz;
+void DiccLog<T>::Borrar(Nat n){
+	Nodo* nodoRecorrer = this->raiz;
+	Nodo* elPadre = this->raiz;
 
 	while(nodoRecorrer){
 		if(nodoRecorrer->significado > num){
@@ -127,7 +126,7 @@ void DiccLog<T>::Borrar(DiccLog& d, Nat n){
 
 template<class T>
 Nat DiccLog<T>::calcularArbolMax(Nodo* n){
-	nodoRecorrer = d->raiz;
+	nodoRecorrer = this->raiz;
 	while(!(nodoRecorrer->der)){
 		nodoRecorrer = nodoRecorrer->der;
 	}

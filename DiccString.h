@@ -9,12 +9,24 @@
 #include "aed2/Dupla.h"
 #include "Auxiliares.h"
 #include "aed2/TiposBasicos.h"
+#include <string>
 
 namespace aed2
 {
 	template<typename T>
 	class DiccString
 	{
+		private:
+			struct Nodo
+			{
+				bool estaDef;
+				Nodo* hijos[];
+				T* significado; 
+			};
+
+			Nodo* raiz;
+			Conj<String> claves;
+
 		public:
 			// Constructor
 			DiccString();
@@ -45,20 +57,22 @@ namespace aed2
 			// del conjunto de claves del diccionario.
 			Conj<String>::Iterador Claves(const DiccString& d);
 
+			class Iterador{
+				public:
+					// Dado un diccionarioLog, crea un iterador que al significado pasado
+					// por parametro
+					Iterador(const DiccString& d, T significado);
 
+					const T& Siguiente() const;
 
-		private:
-			struct Nodo
-			{
-				bool estaDef;
-				Nodo* hijos[];
-				T* significado; 
+					bool HaySiguiente() const;
+
+				private:
+			//		friend Nodo* iterator; 
+
 			};
 
-			Nodo* raiz;
-			Conj<String> claves;
-
-	}
+	};
 
 
 }

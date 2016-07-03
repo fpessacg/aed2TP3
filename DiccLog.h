@@ -40,25 +40,24 @@ namespace aed2
 
 			// Toma un diccionarioLog y un valor natural. Revisa si existe clave
 			// con el valor n.
-			bool Def(const DiccLog& d, Nat n);
+			bool Def(Nat n);
 
 			// Toma un diccionarioLog y un valor natural. Devuelve el significado
 			// que esta asociado al valor n.
-			T Obtener(const DiccLog& d, Nat n);
+			T Obtener(Nat n);
 
 			// Toma un diccionarioLog, un valor natural y un dato. Define una nueva clave
 			// tomando el significado de parametro.
-			void Definir(DiccLog& d, Nat n, T& sig);
+			void Definir(Nat n, T sig);
 
 			// Toma un diccionarioLog y un valor natural. Elimina la clave (y su significado)
 			// del diccionario.
-			void Borrar(DiccLog& d, Nat n);
+			void Borrar(Nat n);
 
 			// Toma un nodo. Devuelve el nodo cuyo significado
 			// contiene al valor que es maximo en d arbol.
 			Nat CalcularMaxArbol(const Nodo* n);
 			
-
 	};
 
 
