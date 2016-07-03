@@ -32,10 +32,13 @@ class Dato
 	const aed2::Nat& dameNat() const;
 	const aed2::String& dameString() const;
 
-	bool operator == (const Dato& otro) const;
+	bool operator == (const Dato& otro) const;	
 	bool operator <  (const Dato& otro) const;
 	bool operator >  (const Dato& otro) const;
 	bool operator != (const Dato& otro) const;
+
+	static Dato max(const aed2::Conj<Dato> cd); 
+	static Dato min(const aed2::Conj<Dato> cd); 
 
   private:
 
@@ -44,12 +47,6 @@ class Dato
 	aed2::Nat nat_;
 	aed2::String str_;
 };
-
-/**
- * Esta clase representa un registro, es decir, un mapeo de nombres de columna a valores.
- */
-//~ typedef aed2::Dicc<NombreCampo, Dato> Registro;
-
 
 
 #endif // DATO_H_

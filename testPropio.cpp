@@ -7,14 +7,13 @@
 #include <string>
 #include <iostream>
  
-//~ void ejemplo_simple()
-//~ {
-//~ 
-//~ }
+void ejemplo_simple(){
+	int a = 1 + 1; 
+}
 
 int main(int argc, char **argv)
 {
-  //RUN_TEST( ejemplo_simple );
+  RUN_TEST( ejemplo_simple );
 
   /********************************************************************
    * TODO: escribir casos de test exhaustivos para todas              *

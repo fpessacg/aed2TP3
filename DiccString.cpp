@@ -60,7 +60,7 @@ T DiccString<T>::Obtener(String& c, const DiccString& d){
 }
 
 template<class T>
-String maxString(const DiccString& d){
+aed2::String maxString(const DiccString& d){
 	int i = 0; int j = 0;
 	String res;
 	Nodo* nodoRecorrer = d->raiz;
@@ -99,6 +99,6 @@ String maxString(const DiccString& d){
 }
 
 template<class T>
-Conj<String>::Iterador DiccString<T>::Claves(const DiccString& d){
+aed2::Conj<aed2::String>::Iterador DiccString<T>::Claves(const DiccString& d){
 	return d->claves.CrearIt();
 }

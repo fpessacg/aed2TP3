@@ -10,56 +10,52 @@
 #include "Dato.h"
 #include "aed2/TiposBasicos.h"
 
-namespace aed2
 
+template<typename T>
+class DiccLog
 {
-	template<typename T>
-	class DiccLog
-	{
-		private:
-			struct Nodo
-			{
-				T* significado;
-				Nodo* der;
-				Nodo* izq;
-				Nodo* padre;
-				Nat key;
-				Nat altura;
-			};
+	private:
+		struct Nodo
+		{
+			T* significado;
+			Nodo* der;
+			Nodo* izq;
+			Nodo* padre;
+			aed2::Nat key;
+			aed2::Nat altura;
+		};
 
-			Nodo* raiz;
+		Nodo* raiz;
 
-			// Dado un nodo, determina cuantos hijos posee.
-			Nat cantHijos(const Nodo* nodo);
+		// Dado un nodo, determina cuantos hijos posee.
+		aed2::Nat cantHijos(const Nodo* nodo);
 
-		public:
-			// Constructor
-			DiccLog(){
-				this->raiz = 0;
-			}
+	public:
+		// Constructor
+		DiccLog(){
+			this->raiz = 0;
+		}
 
-			// Toma un diccionarioLog y un valor natural. Revisa si existe clave
-			// con el valor n.
-			bool Def(Nat n);
+		// Toma un diccionarioLog y un valor natural. Revisa si existe clave
+		// con el valor n.
+		bool Def(aed2::Nat n);
 
-			// Toma un diccionarioLog y un valor natural. Devuelve el significado
-			// que esta asociado al valor n.
-			T Obtener(Nat n);
+		// Toma un diccionarioLog y un valor natural. Devuelve el significado
+		// que esta asociado al valor n.
+		T Obtener(aed2::Nat n);
 
-			// Toma un diccionarioLog, un valor natural y un dato. Define una nueva clave
-			// tomando el significado de parametro.
-			void Definir(Nat n, T sig);
+		// Toma un diccionarioLog, un valor natural y un dato. Define una nueva clave
+		// tomando el significado de parametro.
+		void Definir(aed2::Nat n, T sig);
 
-			// Toma un diccionarioLog y un valor natural. Elimina la clave (y su significado)
-			// del diccionario.
-			void Borrar(Nat n);
+		// Toma un diccionarioLog y un valor natural. Elimina la clave (y su significado)
+		// del diccionario.
+		void Borrar(aed2::Nat n);
 
-			// Toma un nodo. Devuelve el nodo cuyo significado
-			// contiene al valor que es maximo en d arbol.
-			Nat CalcularMaxArbol(const Nodo* n);
-			
-	};
+		// Toma un nodo. Devuelve el nodo cuyo significado
+		// contiene al valor que es maximo en d arbol.
+		aed2::Nat CalcularMaxArbol(const Nodo* n);
+		
+};
 
-
-}
 #endif // AED2_DICCLOG_H_INCLUDED

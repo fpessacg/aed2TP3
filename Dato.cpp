@@ -66,3 +66,28 @@ bool Dato::operator != (const Dato& otro) const
 {
   return not (*this == otro);
 }
+
+Dato Dato::max(const aed2::Conj<Dato> cd){
+	aed2::Conj<Dato>::const_Iterador itConj = cd.CrearIt();
+	Dato dMax = itConj.Siguiente();
+	itConj.Avanzar();
+	while( itConj.HaySiguiente() ){
+		if(dMax < itConj.Siguiente() ){
+			dMax = itConj.Siguiente();
+		}
+		itConj.Avanzar();
+	}
+}
+
+Dato Dato::min(const aed2::Conj<Dato> cd){
+	aed2::Conj<Dato>::const_Iterador itConj = cd.CrearIt();
+	Dato dMin = itConj.Siguiente();
+	itConj.Avanzar();
+	while( itConj.HaySiguiente() ){
+		if(dMin > itConj.Siguiente() ){
+			dMin = itConj.Siguiente();
+		}
+		itConj.Avanzar();
+	}
+}
+

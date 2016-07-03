@@ -1,7 +1,7 @@
 #include "DiccLog.h"
 
 template<class T>
-bool DiccLog<T>::Def(Nat n){
+bool DiccLog<T>::Def(aed2::Nat n){
 	bool definido = false;
 	Nodo* nodoRecorrer = this->raiz;
 
@@ -18,12 +18,12 @@ bool DiccLog<T>::Def(Nat n){
 }
 
 template<class T>
-T DiccLog<T>::Obtener(Nat n){
+T DiccLog<T>::Obtener(aed2::Nat n){
 	Nodo* nodoRecorrer = this->raiz;
 
 	while(true){
 		if(nodoRecorrer->key == n){
-			return nodo->significado;
+			//~ return nodo->significado;
 		} else {
 			if(nodoRecorrer->key > n){
 				nodoRecorrer->izq;
@@ -35,8 +35,8 @@ T DiccLog<T>::Obtener(Nat n){
 }
 
 template<class T>
-void DiccLog<T>::Definir(Nat n, T sig){
-	if !(this->raiz) {
+void DiccLog<T>::Definir(aed2::Nat n, T sig){
+	if (!(this->raiz)) {
 		Nodo* nuevoNodo;
 		nuevoNodo->significado = sig;
 		nuevoNodo->izq = 0;
@@ -46,7 +46,8 @@ void DiccLog<T>::Definir(Nat n, T sig){
 		nuevoNodo->altura = 1;
 
 		this->raiz = nuevoNodo;		
-	} else {
+	} 
+	else {
 		Nodo* nodoRecorrer = this->raiz;
 		Nodo* elPadre = 0;
 		
@@ -85,7 +86,7 @@ void DiccLog<T>::Definir(Nat n, T sig){
 }
 
 template<class T>
-void DiccLog<T>::Borrar(Nat n){
+void DiccLog<T>::Borrar(aed2::Nat n){
 	Nodo* nodoRecorrer = this->raiz;
 	Nodo* elPadre = this->raiz;
 
@@ -125,7 +126,7 @@ void DiccLog<T>::Borrar(Nat n){
 }
 
 template<class T>
-Nat DiccLog<T>::calcularArbolMax(Nodo* n){
+aed2::Nat DiccLog<T>::calcularArbolMax(Nodo* n){
 	nodoRecorrer = this->raiz;
 	while(!(nodoRecorrer->der)){
 		nodoRecorrer = nodoRecorrer->der;
