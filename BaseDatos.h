@@ -6,7 +6,7 @@
 #include "aed2/Lista.h"
 #include "aed2/Dupla.h"
 #include "aed2/Dicc.h"
-#include "Auxiliares.h"
+#include "Dato.h"
 #include "Registro.h"
 #include "Tabla.h"
 #include "DiccLog.h"

@@ -43,24 +43,24 @@ void Tabla::Indexar(const aed2::NombreCampo& c){
 	aed2::Lista<Registro>::Iterador itReg = Registros();
 	Dato max = 0; Dato min = 0;
 	// Si el campo es Nat creo un dicLog
-	//if(TipoCampo(c)){
-	if(true){
+	if(TipoDelCampo(c)){
+	//~ if(true){
 		// lo creo directamente en indices.y.indiceString?????????????????????????????????????
 		//~ aed2::Dicc<aed2::Nat,aed2::Conj<ItLista> >  dic = aed2::Dicc<aed2::Nat,aed2::Conj<ItLista> >();
-		aed2::Dicc<aed2::Nat,aed2::Conj<ItLista> >  dic;
+		//~ aed2::Dicc<aed2::Nat,aed2::Conj<ItLista> >  dic;
 		while(itReg.HaySiguiente()){
 			//Calculo el valor que va a ser clave del Dicc
 			Dato valor = ((itReg.Siguiente()).Significado(c));
 			//Si el valor ya esta en el dicc agrego el iterador al conjunto
-			if(dic.Definido(valor.dameNat())){
-				aed2::Conj<ItLista> conjReg = dic.Significado(valor.dameNat());
+			if(indices.y.indiceNat.Definido(valor.dameNat())){
+				aed2::Conj<ItLista> conjReg = indices.y.indiceNat.Significado(valor.dameNat());
 				conjReg.AgregarRapido(itReg);
 			}
 			// Si no esta lo defino en el dicc con significado un conj con el iterador
 			else{
 				//~ Conj<ItLista> conjNuevo = Conj(Conj<ItLista> itReg);
 				aed2::Conj<ItLista> conjNuevo;
-				dic.Definir(valor.dameNat(), conjNuevo);
+				indices.y.indiceNat.Definir(valor.dameNat(), conjNuevo);
 			}
 			if(max < valor) max=valor;
 			if(min > valor) min=valor;
@@ -71,22 +71,19 @@ void Tabla::Indexar(const aed2::NombreCampo& c){
 		indices.y.minNat = new Dato(min);
 	}
 	else{ // Dicc de String
-		// lo creo directamente en indices.y.indiceString?????????????????????????????????????
-		//~ Dicc<Nat,Conj<ItLista> >  dic = Dicc();
-		aed2::Dicc<aed2::String,aed2::Conj<ItLista> >  dic;
-				while(itReg.HaySiguiente()){
+		while(itReg.HaySiguiente()){
 			//Calculo el valor que va a ser clave del Dicc
 			Dato valor = ((itReg.Siguiente()).Significado(c));
 			//Si el valor ya esta en el dicc agrego el iterador al conjunto
-			if(dic.Definido(valor.dameString() )){
-				aed2::Conj<ItLista> conjReg = dic.Significado(valor.dameString());
+			if(indices.x.indiceString.Definido(valor.dameString() )){
+				aed2::Conj<ItLista> conjReg = indices.x.indiceString.Significado(valor.dameString());
 				conjReg.AgregarRapido(itReg);
 			}
 			// Si no esta lo defino en el dicc con significado un conj con el iterador
 			else{
 				//~ Conj<ItLista> conjNuevo = Conj(Conj<ItLista> itReg);
 				aed2::Conj<ItLista> conjNuevo;
-				dic.Definir(valor.dameString(), conjNuevo);
+				indices.x.indiceString.Definir(valor.dameString(), conjNuevo);
 			}
 			if(max < valor) max=valor;
 			if(min > valor) min=valor;
