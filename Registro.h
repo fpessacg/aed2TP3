@@ -10,40 +10,47 @@
 #include "aed2/TiposBasicos.h"
 
 
-namespace aed2
-{ 
-   /**
-     * Esta clase representa un dato, que puede tomar valores de String o de Nat.
-     */
-    class Dato
-    {
-      public:
+typedef aed2::String NombreTabla;
+typedef aed2::String NombreCampo;
 
-        Dato(const aed2::Nat& x);
-        Dato(const aed2::String& x);
+enum TipoCampo { NAT, STR };
 
-        bool esNat() const;
-        bool esString() const;
-        TipoCampo tipo() const;
 
-        const aed2::Nat& dameNat() const;
-        const aed2::String& dameString() const;
+/**
+ * Esta clase representa un dato, que puede tomar valores de String o de Nat.
+ */
+class Dato
+{
+  public:
 
-        bool operator == (const Dato& otro) const;
-        bool operator != (const Dato& otro) const;
+	Dato(const aed2::Nat& x);
+	Dato(const aed2::String& x);
 
-      private:
+	bool esNat() const;
+	bool esString() const;
+	TipoCampo tipo() const;
 
-        TipoCampo tipo_;
+	const aed2::Nat& dameNat() const;
+	const aed2::String& dameString() const;
 
-        aed2::Nat nat_;
-        aed2::String str_;
-    };
+	bool operator == (const Dato& otro) const;
+	bool operator <  (const Dato& otro) const;
+	bool operator >  (const Dato& otro) const;
+	bool operator != (const Dato& otro) const;
 
-    /**
-     * Esta clase representa un registro, es decir, un mapeo de nombres de columna a valores.
-     */
-    typedef aed2::Dicc<NombreCampo, Dato> Registro;
+  private:
 
-}
+	TipoCampo tipo_;
+
+	aed2::Nat nat_;
+	aed2::String str_;
+};
+
+/**
+ * Esta clase representa un registro, es decir, un mapeo de nombres de columna a valores.
+ */
+typedef aed2::Dicc<NombreCampo, Dato> Registro;
+
+
+
 #endif // REGISTRO_H_

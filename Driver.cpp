@@ -29,10 +29,10 @@ bool Dato::esString() const
   return tipo_ == STR;
 }
 
-//~ TipoCampo Dato::tipo() const
-//~ {
-  //~ return tipo_;
-//~ }
+TipoCampo Dato::tipo() const
+{
+  return tipo_;
+}
 
 const aed2::Nat& Dato::dameNat() const
 {

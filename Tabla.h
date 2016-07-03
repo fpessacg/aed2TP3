@@ -11,112 +11,105 @@
 #include "aed2/TiposBasicos.h"
 
 
-namespace aed2 {
+class Tabla {
+	public:
+		Tabla(const aed2::NombreTabla & nombre, const aed2::Conj < aed2::NombreCampo > &claves, const Registro & columnas)
+		:nombre(nombre), cantAccesos(0) {
+		} 
+		
+			// Agrego un registor a la tabla
+		void AgregarRegistro(const Registro& r);
 
-	class Tabla {
-		public:
-			Tabla(const NombreTabla & nombre, const aed2::Conj < NombreCampo > &claves, const Registro & columnas)
-			:nombre(nombre), cantAccesos(0) {
-			} 
-			
-				// Agrego un registor a la tabla
-			void AgregarRegistro(const Registro& r);
+		// Borro un registro de la tabla
+		void BorrarRegistro(Registro& crit);
 
-			// Borro un registro de la tabla
-			void BorrarRegistro(Registro& crit);
+		// Creo un Indice en el campo c de la tabla
+		void Indexar(const aed2::NombreCampo& c);
 
-			// Creo un Indice en el campo c de la tabla
-			void Indexar(const NombreCampo& c);
+		//Devuelvo el nombre de la tabla
+		aed2::NombreTabla Nombre() const;
 
-			//Devuelvo el nombre de la tabla
-			NombreTabla Nombre() const;
+		//Devuelvo un conjunto de las claves de la tabla
+		aed2::Conj<aed2::NombreCampo>::Iterador Claves();  
 
-			//Devuelvo un conjunto de las claves de la tabla
-			Conj<NombreCampo>::Iterador Claves();  
+		// Devuelvo el conjunto de indices de la tabla
+		aed2::Conj<aed2::NombreCampo>::Iterador Indices() const;
 
-			// Devuelvo el conjunto de indices de la tabla
-			Conj<NombreCampo>::Iterador Indices() const;
+		// Devuelvo un iterador al conjunto de campos de la tabla
+		aed2::Conj<aed2::NombreCampo>::Iterador CamposTabla() const;
 
-			// Devuelvo un iterador al conjunto de campos de la tabla
-			Conj<NombreCampo>::Iterador CamposTabla() const;
+		// Devuelvo el tipo del campo c de la tabla
+		TipoCampo TipoDelCampo(const NombreCampo& c) const;
 
-			// Devuelvo el tipo del campo c de la tabla
-			//~ TipoCampo TipoCampo(const NombreCampo& c) const;
+		// Devuelvo un iterador a la lista de registros de la tabla
+		aed2::Lista<Registro>::Iterador Registros();
 
-			// Devuelvo un iterador a la lista de registros de la tabla
-			Lista<Registro>::Iterador Registros();
+		//Devuelvo la cantidad de accesos de la tabla 
+		aed2::Nat CantidadDeAccesos() const;
 
-			//Devuelvo la cantidad de accesos de la tabla 
-			Nat CantidadDeAccesos() const;
+		// Devuelvo el minimo dato de todos los registros para la tabla
+		Dato Minimo(const aed2::NombreCampo& c) const;
 
-			// Devuelvo el minimo dato de todos los registros para la tabla
-			Dato Minimo(const NombreCampo& c) const;
+		// Devuelvo el Maximo dato de todos los registros para la tabla
+		Dato Maximo(const aed2::NombreCampo& c) const;
 
-			// Devuelvo el Maximo dato de todos los registros para la tabla
-			Dato Maximo(const NombreCampo& c) const;
+		// Devuelvo un bool que es true si se puede crear un indice en ese campo
+		bool PuedeIndexar(const aed2::NombreCampo& c) const;
 
-			// Devuelvo un bool que es true si se puede crear un indice en ese campo
-			bool PuedeIndexar(const NombreCampo& c) const;
-			
-		private:
-			typedef Lista < Registro >::Iterador ItLista;
-			
-			struct IndicesString {
-				Dicc < String, Conj < ItLista > >indiceString;
-				NombreCampo campo;
-				String maxString;
-				String minString;
-			};
-			struct IndicesNat {
-				Dicc<Nat, Conj<ItLista> > indiceNat;
-				NombreCampo campo;
-				Nat maxNat;
-				Nat minNat;
-			};
-			NombreTabla nombre;
-			Nat cantAccesos;
-			Dupla < IndicesString, IndicesNat > indices;
-			Conj < NombreCampo > campos;
-			Lista < Registro > registros;
-			Conj < NombreCampo > claves;
-	};
+		// Da true si cr es no vacio, hay alguna coincidencia entre r y alguno de los cr
+		static bool HayCoincidencia(const Registro& r, const aed2::Conj<aed2::NombreCampo>& cc, const aed2::Conj<Registro>& cr);
 
+		// Devuelve un iterador al conj de iteradores de Lista de Registros que coinciden 
+		static  aed2::Conj<aed2::Lista<Registro>::Iterador>::Iterador Coincidencias(const Registro& r, aed2::Lista<Registro>::Iterador itLisReg);
 
+		// Devuelve la comlumna de c en cr
+		static aed2::Conj<Dato> DameColumna(const aed2::NombreCampo& r, const aed2::Conj<Registro>& cr);
 
-				/**
-				 * inicializa una tabla vacía.
-				 */
-				//~ void aed2::Tabla( const NombreTabla& nombre, const aed2::Conj<NombreCampo>& claves, const Registro& columnas){}
-				//~ :nombre(nombre), cantAccesos(0){}
-				/**
-				 * destruye el contenido de la tabla, liberando la memoria dinámica alocada.
-				 */
-				//~ ~Tabla();
-
-
-	// Da true si cr es no vacio, hay alguna coincidencia entre r y alguno de los cr
-	bool HayCoincidencia(const Registro& r, const Conj<NombreCampo>& cc, const Conj<Registro>& cr);
-
-	// Devuelve un iterador al conj de iteradores de Lista de Registros que coinciden 
-	Conj<Lista<Registro>::Iterador>::Iterador Coincidencias(const Registro& r, Lista<Registro>::Iterador itLisReg);
-
-	// Devuelve la comlumna de c en cr
-	Conj<Dato> DameColumna(const NombreCampo& r, const Conj<Registro>& cr);
-
-	// Devuelve true si los campos del registros son los mismos que de la tabla
-	bool MismosTipos(const Registro& r, const Tabla& t);
+		// Devuelve true si los campos del registros son los mismos que de la tabla
+		static bool MismosTipos(const Registro& r, const Tabla& t);
+		
+	private:
+		typedef aed2::Lista < Registro >::Iterador ItLista;
+		
+		struct IndicesString {
+			aed2::Dicc < aed2::String, aed2::Conj < ItLista > >indiceString;
+			aed2::NombreCampo campo;
+			Dato* maxString;		//Uso un puntero a dato porq no tengo constructor sin parametros
+			Dato* minString;		// Cuando no tengo dato apunta a NULL y si no al dato correspondiente
+		};
+		struct IndicesNat {
+			aed2::Dicc<aed2::Nat, aed2::Conj<ItLista> > indiceNat;
+			aed2::NombreCampo campo;
+			Dato* maxNat;
+			Dato* minNat;
+		};
+		aed2::NombreTabla nombre;
+		aed2::Nat cantAccesos;
+		Dupla < IndicesString, IndicesNat > indices;
+		aed2::Conj < aed2::NombreCampo > campos;
+		aed2::Lista < Registro > registros;
+		aed2::Conj < aed2::NombreCampo > claves;
+};
 
 
 
-	//~ // Agrego un registor a la tabla
-	//~ void Tabla::AgregarRegistro(const Registro& r){
-		//~ Lista<Registro> registros =  registros;
-		//~ registros;
-		//~ int a =1;
-	//~ }
+			/**
+			 * inicializa una tabla vacía.
+			 */
+			//~ void aed2::Tabla( const NombreTabla& nombre, const aed2::Conj<NombreCampo>& claves, const Registro& columnas){}
+			//~ :nombre(nombre), cantAccesos(0){}
+			/**
+			 * destruye el contenido de la tabla, liberando la memoria dinámica alocada.
+			 */
+			//~ ~Tabla();
 
 
 
+//~ // Agrego un registor a la tabla
+//~ void Tabla::AgregarRegistro(const Registro& r){
+	//~ Lista<Registro> registros =  registros;
+	//~ registros;
+	//~ int a =1;
+//~ }
 
-}
 #endif          // TABLA_H_

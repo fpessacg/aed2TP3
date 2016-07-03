@@ -1,7 +1,6 @@
 #include "BaseDatos.h"
 
 
-using namespace aed2;
 
 
 
@@ -18,19 +17,19 @@ void Borrar(const Registro& r, Tabla& t, BaseDatos& bd){
 }
 
 // Devuelvo un iterador a los nombres de las tablas de la BD
-Lista<NombreTabla>::Iterador Tablas(const BaseDatos& bd){
+aed2::Lista<aed2::NombreTabla>::Iterador Tablas(const BaseDatos& bd){
 }
 
 // Devuelvo la tabla que me piden
-Tabla& DameTabla(const NombreTabla&, const BaseDatos& bd){
+Tabla& DameTabla(const aed2::NombreTabla&, const BaseDatos& bd){
 }
 
 // Devuelve la tabla con mayor cantidad de accesos en BD
-NombreTabla& TablaMaxima(const BaseDatos& bd){
+aed2::NombreTabla& TablaMaxima(const BaseDatos& bd){
 }
 
 // Devuelve el campo para los cuales dos tablas estan vinculadas
-NombreCampo& CampoJoin(const Tabla& t1, const Tabla& t2, const BaseDatos& bd){
+aed2::NombreCampo& CampoJoin(const Tabla& t1, const Tabla& t2, const BaseDatos& bd){
 }
 
 // Devuelve true si hay joint entra las dos tablas 
@@ -42,26 +41,26 @@ void BorrarJoin(const Tabla& t1, const Tabla& t2, const BaseDatos& bd){
 }
 
 // Genera el Join entre dos tablas 
-void GenerarVistaJoin(const Tabla& t1, const Tabla& t2, const NombreCampo& ca, const BaseDatos& bd){
+void GenerarVistaJoin(const Tabla& t1, const Tabla& t2, const aed2::NombreCampo& ca, const BaseDatos& bd){
 }
 
 // Visualiza el Join entre dos tablas 
-Conj<Registro> VistaJoin(const Tabla& t1, const Tabla& t2, const BaseDatos& bd){
+aed2::Conj<Registro> VistaJoin(const Tabla& t1, const Tabla& t2, const BaseDatos& bd){
 }
 
 // Busca los registro que conincidan con r en la tabla de la base de datos
-Conj<Registro> Buscar(const Registro& r, const Tabla& t, const BaseDatos& bd){
+aed2::Conj<Registro> Buscar(const Registro& r, const Tabla& t, const BaseDatos& bd){
 }
 
 // Devuelve el nombre de la tabla que tuvo mayor cant de Accesos
-NombreTabla EncontrarMaximo(const NombreTabla& t, const Conj<NombreTabla>&  conjTab, const BaseDatos& bd){
+aed2::NombreTabla EncontrarMaximo(const aed2::NombreTabla& t, const aed2::Conj<aed2::NombreTabla>&  conjTab, const BaseDatos& bd){
 }
 
 // devuelve la cantidad de acsesos de una tabla
-Nat CantidadDeAccesos(const NombreTabla& t, const BaseDatos& bd){
+aed2::Nat CantidadDeAccesos(const aed2::NombreTabla& t, const BaseDatos& bd){
 }
 
 // devuelve los registros de una tabla
-Conj<Registro> Registros(const Tabla& t, const BaseDatos& bd){
+aed2::Conj<Registro> Registros(const Tabla& t, const BaseDatos& bd){
 
 }
