@@ -10,35 +10,34 @@ indent_type=1
 indent_hard_tab_width=8
 detect_indent=false
 detect_indent_width=false
-indent_mode=2
+indent_mode=0
 
 [project]
-name=tp3
-base_path=/home/facu/Documentos/facultad/materias/Algo2/Tps/tp3/tp3-base
+name=Tp3
+base_path=/home/facu/Documentos/facultad/materias/Algo2/Tps/tp3/aed2TP3
 description=
 file_patterns=
 
 [long line marker]
 long_line_behaviour=1
-long_line_column=72
+long_line_column=79
 
 [files]
-current_page=1
-FILE_NAME_0=21;C++;0;EUTF-8;1;1;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Ftp3-base%2FTabla.cpp;0;4
-FILE_NAME_1=304;C;0;EUTF-8;1;1;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Ftp3-base%2FTabla.h;0;4
-FILE_NAME_2=55;C;0;EUTF-8;1;1;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Ftp3-base%2FDriver.h;0;4
-FILE_NAME_3=5805;C;0;EUTF-8;1;1;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp0%2Ftplabo%2FPlanificadorRR.h;0;4
-FILE_NAME_4=467;C;0;EUTF-8;1;1;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Ftp3-base%2FBaseDatos.h;0;4
-FILE_NAME_5=337;C;0;EUTF-8;1;1;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Ftp3-base%2FTipos.h;0;4
-FILE_NAME_6=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Ftp3-base%2FDriver.cpp;0;4
-FILE_NAME_7=66;C;0;EUTF-8;1;1;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Ftp3-base%2FAuxiliares.h;0;4
-FILE_NAME_8=0;C++;0;EUTF-8;1;1;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Ftp3-base%2FDiccString.cpp;0;4
-FILE_NAME_9=293;C;0;EUTF-8;1;1;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Ftp3-base%2FDiccLog.h;0;4
-FILE_NAME_10=160;Make;0;EUTF-8;1;1;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Ftp3-base%2FMakefile;0;4
-FILE_NAME_11=25;C++;0;EUTF-8;1;1;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Ftp3-base%2FAuxiliares.cpp;0;4
+current_page=0
+FILE_NAME_0=2029;C++;0;EUTF-8;1;0;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Faed2TP3%2FRegistro.cpp;0;4
+FILE_NAME_1=735;C;0;EUTF-8;1;0;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Faed2TP3%2FRegistro.h;0;4
+FILE_NAME_2=246;C;0;EUTF-8;1;0;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Faed2TP3%2FDato.h;0;4
+FILE_NAME_3=1574;C++;0;EUTF-8;1;0;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Faed2TP3%2FDato.cpp;0;4
+FILE_NAME_4=0;C;0;EUTF-8;1;0;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Faed2TP3%2FTabla.h;0;4
+FILE_NAME_5=0;None;0;EUTF-8;1;0;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Faed2TP3%2F.geanyprj;0;4
+FILE_NAME_6=0;C++;0;EUTF-8;1;0;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Faed2TP3%2FTabla.cpp;0;4
+FILE_NAME_7=0;C++;0;EUTF-8;1;0;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Faed2TP3%2FDiccLog.cpp;0;4
+FILE_NAME_8=290;C;0;EUTF-8;1;0;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Faed2TP3%2FBaseDatos.h;0;4
+FILE_NAME_9=803;C;0;EUTF-8;1;0;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Faed2TP3%2Faed2%2FDicc.h;0;4
+FILE_NAME_10=0;C;0;EUTF-8;1;0;0;%2Fhome%2Ffacu%2FDocumentos%2Ffacultad%2Fmaterias%2FAlgo2%2FTps%2Ftp3%2Faed2TP3%2Faed2%2FConj.h;0;4
 
 [VTE]
-last_dir=/home/facu/Dropbox/tp3/tp3-base
+last_dir=/home/facu/Escritorio/tp3-base
 
 [build-menu]
 EX_00_LB=_Ejecutar

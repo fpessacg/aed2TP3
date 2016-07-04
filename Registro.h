@@ -22,29 +22,29 @@ class Registro
 		// Borro los datos del registro para los cuales coinciden los campos con criterio
 		bool puedoBorrar(const Registro& criterio) const;
 		
-		// Agrego campos al registro rAgr
-		aed2::Dicc<NombreCampo, Dato>& agregarCampos(const Registro& rAgr);
+		// Agrego campos del registro que me pasan al registro
+		Registro& agregarCampos(const Registro& rCrit);
 		
 		// copio los campos que estan en el conjunto al registro r2
-		Registro& copiarCampos(const aed2::Conj<NombreCampo>& cc, const Registro& rAgr);
+		Registro& copiarCampos(const aed2::Conj<NombreCampo>& cc, const Registro& rCrit);
 		
 		// Devuelve True si conincide alguno 
-		bool coincideAlguno( aed2::Conj<NombreCampo>& cc, Registro& rRef) const;
+		bool coincideAlguno(const aed2::Conj<NombreCampo>& cc, const Registro& rRef) const;
 		
 		//Devuelve True si conincide Todos 
-		bool coincideTodos( aed2::Conj<NombreCampo>& cc, Registro& rRef) const;
+		bool coincideTodos(const aed2::Conj<NombreCampo>& cc, const Registro& rRef) const;
 		
 		//Devuelve True si el campo esta en todos los registros 
-		static bool enTodos( NombreCampo c, const aed2::Conj<Registro>& cr);
+		static bool enTodos(const NombreCampo& c, const aed2::Conj<Registro>& cr);
 		
 		//Devuelve un conjunto del cr, de forma que el valor de el campo c en r vale lo mismo para todos los reg
-		aed2::Conj<Registro> combinarTodos(NombreCampo& c,const aed2::Conj<Registro> cr); 
+		aed2::Conj<Registro> combinarTodos(const NombreCampo& c,const aed2::Conj<Registro> cr); 
 		
 		// Devuelvo el significado del campo 
-		Dato Significado(const NombreCampo c) const;
+		Dato Significado(const NombreCampo& c) const;
 		
 		// Devuelvo True si esta definido el campo
-		bool estaDefinido(const NombreCampo c);
+		bool estaDefinido(const NombreCampo& c) const;
 
 	private:
 		aed2::Dicc<NombreCampo, Dato> reg;
