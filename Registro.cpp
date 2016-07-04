@@ -3,17 +3,30 @@
 
 // Devuelve el conjunto de campos del registro
 aed2::Conj<NombreCampo> Registro::campos() const{
-
+	aed2::Dicc<NombreCampo, Dato>::const_Iterador itReg = reg.CrearIt();
+	aed2::Conj<NombreCampo> conj;
+	while(itReg.HaySiguiente()){
+		conj.AgregarRapido(itReg.SiguienteClave());
+		itReg.Avanzar();
+	}
+	return conj;
 }
 
 // Borro los datos del registro para los cuales coinciden los campos con criterio
 bool Registro::puedoBorrar(const Registro& criterio) const{
-
+	aed2::Dicc<NombreCampo, Dato>::const_Iterador itReg  = reg.CrearIt();
+	// la cantidad de campos de Criterio es 1
+	aed2::Conj<NombreCampo>::Iterador itCamCrit = criterio.campos().CrearIt();
+	while(itReg.HaySiguiente()){
+		if(itReg.SiguienteClave() == itCamCrit.Siguiente())return true;
+		itReg.Avanzar();
+	}
+	return false;
 }
 
 // Agrego campos al registro rAgr
 aed2::Dicc<NombreCampo, Dato>& Registro::agregarCampos(const Registro& rAgr){
-
+	
 }
 
 // copio los campos que estan en el conjunto al registro r2
@@ -42,12 +55,12 @@ aed2::Conj<Registro> Registro::combinarTodos(NombreCampo& c,const aed2::Conj<Reg
 }
 
 // Devuelvo el significado del campo 
-Dato& Registro::Significado(const NombreCampo c) const{
-
+Dato Registro::Significado(const NombreCampo c) const{
+	return reg.Significado(c);
 }
 
 // Devuelvo True si esta definido el campo
 bool Registro::estaDefinido(const NombreCampo c){
-
+	return reg.Definido(c);
 }
 

@@ -41,7 +41,7 @@ class Registro
 		aed2::Conj<Registro> combinarTodos(NombreCampo& c,const aed2::Conj<Registro> cr); 
 		
 		// Devuelvo el significado del campo 
-		Dato& Significado(const NombreCampo c) const;
+		Dato Significado(const NombreCampo c) const;
 		
 		// Devuelvo True si esta definido el campo
 		bool estaDefinido(const NombreCampo c);
