@@ -16,9 +16,11 @@ class Tabla {
 		typedef aed2::Lista < Registro >::Iterador ItLista;
 		typedef aed2::Lista < Registro >::const_Iterador const_ItLista;
 		
+		 			
+		
+		
 		Tabla(const aed2::NombreTabla & nombre, const aed2::Conj < aed2::NombreCampo > &claves, const Registro & columnas)
-		:nombre(nombre), cantAccesos(0) {
-		} 
+		:nombre(nombre), cantAccesos(0) {} 
 		
 			// Agrego un registor a la tabla
 		void AgregarRegistro(const Registro& r);
@@ -64,23 +66,23 @@ class Tabla {
 		static bool HayCoincidencia(const Registro& r, const aed2::Conj<NombreCampo>& cc, const aed2::Conj<Registro>& cr);
 
 		// Devuelve un iterador al conj de iteradores de Lista de Registros que coinciden 
-		static  aed2::Conj<ItLista>::Iterador Coincidencias(const Registro& r, ItLista itLisReg);
+		aed2::Conj<ItLista>::Iterador Coincidencias(const Registro& r, ItLista itLisReg);
 
 		// Devuelve la comlumna de c en cr
-		static aed2::Conj<Dato> DameColumna(const NombreCampo& c, const aed2::Lista<Registro>& cr);
+		static aed2::Conj<Dato> DameColumna(const NombreCampo& c, const aed2::Lista<Registro>& lr);
 
 		// Devuelve true si los campos del registros son los mismos que de la tabla
-		static bool MismosTipos(const Registro& r, const Tabla& t);
+		bool MismosTipos(const Registro& r);
 		
 	private:
 		struct IndicesString {
-			aed2::Dicc < aed2::String, aed2::Conj < const_ItLista > >indiceString;
+			aed2::Dicc<aed2::String, aed2::Conj<ItLista> >indiceString;
 			NombreCampo campo;
 			Dato* maxString;		//Uso un puntero a dato porq no tengo constructor sin parametros
 			Dato* minString;		// Cuando no tengo dato apunta a NULL y si no al dato correspondiente
 		};
 		struct IndicesNat {
-			aed2::Dicc<aed2::Nat, aed2::Conj<const_ItLista> > indiceNat;
+			aed2::Dicc<aed2::Nat, aed2::Conj<ItLista> > indiceNat;
 			NombreCampo campo;
 			Dato* maxNat;
 			Dato* minNat;
@@ -89,7 +91,7 @@ class Tabla {
 		aed2::Nat cantAccesos;
 		Dupla < IndicesString, IndicesNat > indices;
 		aed2::Conj < NombreCampo > campos;
-		aed2::Lista < Registro > registros;
+		aed2::Lista< Registro > registros;
 		aed2::Conj < NombreCampo > claves;
 };
 

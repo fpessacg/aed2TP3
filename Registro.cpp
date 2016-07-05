@@ -64,7 +64,7 @@ bool Registro::coincideAlguno(const aed2::Conj<NombreCampo>& cc, const Registro&
 }
 
 //Devuelve True si conincide Todos 
-bool Registro::coincideTodos(const aed2::Conj<NombreCampo>& cc, const Registro& rRef) const{
+bool Registro::coincidenTodos(const aed2::Conj<NombreCampo>& cc, const Registro& rRef) const{
 	aed2::Conj<NombreCampo>::const_Iterador itConj = cc.CrearIt();
 	bool res = true;
 	if(itConj.HaySiguiente()){

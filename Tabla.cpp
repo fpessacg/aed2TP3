@@ -3,9 +3,11 @@
 typedef aed2::Lista < Registro >::Iterador ItLista;
 
 //Cosas q faltan:
+// ----------------------------------------------------------------------------------------------
 	// constructor de tabla con parametros
 	// agregar
 	//BorrarRegistro falta ver un error y hacer las funciones q actualicen los max y min de los dicc
+	// Coincidencias tengo un errror con const
 	
 
 // Agrego un registor a la tabla
@@ -65,7 +67,7 @@ void Tabla::BorrarRegistro(const Registro& crit){
 
 // Creo un Indice en el campo c de la tabla
 void Tabla::Indexar(const aed2::NombreCampo& c){
-	aed2::Lista<Registro>::const_Iterador itReg = Registros();
+	aed2::Lista<Registro>::Iterador itReg = Registros();
 	Dato max = 0; Dato min = 0;
 	// Si el campo es Nat creo un dicLog
 	if(TipoDelCampo(c)){
@@ -74,12 +76,12 @@ void Tabla::Indexar(const aed2::NombreCampo& c){
 			Dato valor = ((itReg.Siguiente()).Significado(c));
 			//Si el valor ya esta en el dicc agrego el iterador al conjunto
 			if(indices.y.indiceNat.Definido(valor.dameNat())){
-				aed2::Conj<const_ItLista> conjReg = indices.y.indiceNat.Significado(valor.dameNat());
+				aed2::Conj<ItLista> conjReg = indices.y.indiceNat.Significado(valor.dameNat());
 				conjReg.AgregarRapido(itReg);
 			}
 			// Si no esta lo defino en el dicc con significado un conj con el iterador
 			else{
-				aed2::Conj<const_ItLista> conjNuevo;
+				aed2::Conj<ItLista> conjNuevo;
 				indices.y.indiceNat.Definir(valor.dameNat(), conjNuevo);
 			}
 			if(max < valor) max=valor;
@@ -96,12 +98,12 @@ void Tabla::Indexar(const aed2::NombreCampo& c){
 			Dato valor = ((itReg.Siguiente()).Significado(c));
 			//Si el valor ya esta en el dicc agrego el iterador al conjunto
 			if(indices.x.indiceString.Definido(valor.dameString() )){
-				aed2::Conj<aed2::Lista<Registro>::const_Iterador> conjReg = indices.x.indiceString.Significado(valor.dameString());
+				aed2::Conj<aed2::Lista<Registro>::Iterador> conjReg = indices.x.indiceString.Significado(valor.dameString());
 				conjReg.AgregarRapido(itReg);
 			}
 			// Si no esta lo defino en el dicc con significado un conj con el iterador
 			else{
-				aed2::Conj<aed2::Lista<Registro>::const_Iterador> conjNuevo;
+				aed2::Conj<ItLista> conjNuevo;
 				indices.x.indiceString.Definir(valor.dameString(), conjNuevo);
 			}
 			if(max < valor) max=valor;
@@ -209,13 +211,54 @@ bool Tabla::HayCoincidencia(const Registro& r, const aed2::Conj<NombreCampo>& cc
 
 // Devuelve un iterador al conj de iteradores de Lista de Registros que coinciden 
 aed2::Conj<ItLista>::Iterador Tabla::Coincidencias(const Registro& r, ItLista itLisReg){
-	
+	aed2::Conj<ItLista> conjItLista;
+	aed2::Conj<ItLista>::Iterador itConjItLista = conjItLista.CrearIt();
+	if(itLisReg.HaySiguiente()){
+		// Si tengo indice String busco por este indice
+		if( r.campos().Pertenece(indices.x.campo) ){
+			Dato d = r.Significado(indices.x.campo);
+			itConjItLista = indices.x.indiceString.Significado( d.dameString() ).CrearIt(); 
+		}
+		else if(r.campos().Pertenece(indices.y.campo) ){
+			Dato d = r.Significado(indices.y.campo);
+			itConjItLista = indices.y.indiceNat.Significado( d.dameNat() ).CrearIt(); 
+		}
+		while(itConjItLista.HaySiguiente()){
+			//~ if(!(itConjItLista.Siguiente().Siguiente().CoincidenTodos(r.campos(), r))){
+				itConjItLista.EliminarSiguiente();
+			//~ }
+			//~ else itConjItLista.Avanzar();
+		}
+	}
+	else return itConjItLista; 
 }
 
 // Devuelve la comlumna de c en cr
-aed2::Conj<Dato> Tabla::DameColumna(const NombreCampo& c, const aed2::Lista<Registro>& cr){
+aed2::Conj<Dato> Tabla::DameColumna(const NombreCampo& c, const aed2::Lista<Registro>& lr){
+	aed2::Conj<Dato> res;
+	const_ItLista itLista = lr.CrearIt();
+	// Si es vacio devuelvo un conj vacio
+	if(!itLista.HaySiguiente()) return res;
+	while(itLista.HaySiguiente()){
+		if(itLista.Siguiente().campos().Pertenece(c) ){
+			res.AgregarRapido(itLista.Siguiente().Significado(c));
+		}
+		itLista.Avanzar();
+	}
+	return res;
 }
 
 // Devuelve true si los campos del registros son los mismos que de la tabla
-bool Tabla::MismosTipos(const Registro& r, const Tabla& t){
+bool Tabla::MismosTipos(const Registro& r){
+	bool res = true;
+	aed2::Conj<NombreCampo>::const_Iterador itCamposTabla = campos.CrearIt();
+	aed2::Conj<NombreCampo>::Iterador itCamposR = r.campos().CrearIt();
+	if(!itCamposR.HaySiguiente()) return res;
+	while(itCamposR.HaySiguiente()){
+		if(campos.Pertenece( itCamposR.Siguiente() ) ){
+			res = (TipoDelCampo(itCamposR.Siguiente()) == r.Significado(itCamposR.Siguiente()).tipo() );
+		}
+		itCamposR.Avanzar();
+	}
+	return res;
 }

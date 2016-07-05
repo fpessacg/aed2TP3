@@ -32,7 +32,7 @@ class Registro
 		bool coincideAlguno(const aed2::Conj<NombreCampo>& cc, const Registro& rRef) const;
 		
 		//Devuelve True si conincide Todos 
-		bool coincideTodos(const aed2::Conj<NombreCampo>& cc, const Registro& rRef) const;
+		bool coincidenTodos(const aed2::Conj<NombreCampo>& cc, const Registro& rRef) const;
 		
 		//Devuelve True si el campo esta en todos los registros 
 		static bool enTodos(const NombreCampo& c, const aed2::Conj<Registro>& cr);
