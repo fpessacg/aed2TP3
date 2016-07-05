@@ -77,6 +77,7 @@ Dato Dato::max(const aed2::Conj<Dato> cd){
 		}
 		itConj.Avanzar();
 	}
+	return dMax;
 }
 
 Dato Dato::min(const aed2::Conj<Dato> cd){
@@ -89,5 +90,6 @@ Dato Dato::min(const aed2::Conj<Dato> cd){
 		}
 		itConj.Avanzar();
 	}
+	return dMin;
 }
 
