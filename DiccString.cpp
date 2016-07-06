@@ -12,10 +12,9 @@
 template<class T>
 tp3::DiccString<T>::DiccString(){
 	this->raiz->estaDef = false;
-	this->raiz->hijos = new char[256];
 	this->raiz->significado = 0;
-	for(int i = 0; i < this->raiz->hijos; ++i){
-		this->raiz->hijos = 0;
+	for(int i = 0; i < 256; ++i){
+		this->raiz->hijos[i] = new Nodo;
 	}
 	aed2::Conj<aed2::String> clavesTemp;
 	this->claves = clavesTemp;
@@ -84,7 +83,7 @@ aed2::String tp3::DiccString<T>::maxString() const{
 		}
 		++i;
 	}
-	res[j] = std::to_string(maxIndice);
+	//res[j] = std::to_string(maxIndice);
 	j++;
 
 	bool termino = false;
@@ -102,7 +101,7 @@ aed2::String tp3::DiccString<T>::maxString() const{
 		if(!maximoNodo){
 			termino = true;
 		} else {
-			res[j] = std::to_string(maxIndice);
+			//res[j] = std::to_string(maxIndice);
 			j++;
 		}
 	}

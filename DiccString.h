@@ -22,6 +22,7 @@ namespace tp3
 				bool estaDef;
 				Nodo* hijos[];
 				T* significado; 
+				char c;
 			};
 
 			Nodo* raiz;
