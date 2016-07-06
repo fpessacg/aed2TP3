@@ -16,11 +16,10 @@ class Tabla {
 		typedef aed2::Lista < Registro >::Iterador ItLista;
 		typedef aed2::Lista < Registro >::const_Iterador const_ItLista;
 		
-		 			
 		
 		
-		Tabla(const aed2::NombreTabla & nombre, const aed2::Conj < aed2::NombreCampo > &claves, const Registro & columnas)
-		:nombre(nombre), cantAccesos(0) {} 
+		Tabla(const aed2::NombreTabla & nombre, const aed2::Conj <NombreCampo >& claves, const Registro & columnas)
+		:nombre(nombre), claves(claves), cantAccesos(0), campos(columnas.campos()) {} 
 		
 			// Agrego un registor a la tabla
 		void AgregarRegistro(const Registro& r);
@@ -89,10 +88,10 @@ class Tabla {
 		};
 		NombreTabla nombre;
 		aed2::Nat cantAccesos;
-		Dupla < IndicesString, IndicesNat > indices;
-		aed2::Conj < NombreCampo > campos;
-		aed2::Lista< Registro > registros;
-		aed2::Conj < NombreCampo > claves;
+		Dupla<IndicesString, IndicesNat> indices;
+		aed2::Conj<NombreCampo> campos;
+		aed2::Lista<Registro> registros;
+		aed2::Conj<NombreCampo> claves;
 };
 
 

@@ -5,36 +5,51 @@ typedef aed2::Lista < Registro >::Iterador ItLista;
 //Cosas q faltan:
 // ----------------------------------------------------------------------------------------------
 	// constructor de tabla con parametros
-	// agregar
 	//BorrarRegistro falta ver un error y hacer las funciones q actualicen los max y min de los dicc
 	// Coincidencias tengo un errror con const
-	
+	// agregar la funcion puedeInsertar no se porq no esta
+	// chequear que estan todas las funciones que exportan los modulos
 
 // Agrego un registor a la tabla
 void Tabla::AgregarRegistro(const Registro& r){
 	registros.AgregarAtras(r);
+	ItLista itRegAgr = registros.CrearItUlt();
 	cantAccesos++; 
-	//~ Lista<Registro>::Iterador itReg = registros.CrearItUlt();
-	//~ // Creo un it a DiccLog p var si es vacio 
-	//~ Dicc<Nat,Conj<ItLista> >::Iterador ItDiccLog = indices.y.indiceNat.CrearIt();
-	//~ if(!ItDiccLog.HaySiguiente()){
-		//~ 
-	//~ }
-	
 	// Me fijo si tengo algun indice
 	aed2::Conj<aed2::NombreCampo>::Iterador  itIndice = Indices().CrearIt();
 	while(itIndice.HaySiguiente()){
 		aed2::NombreCampo campoIndice = itIndice.Siguiente();
+		Dato datoIndice = r.Significado(campoIndice);
+		
 		// Veo si ese indice es nat 
 		if(campoIndice == indices.y.campo){
-			
-			
+			// Veo si esta definida la clave en el dicc
+			if(indices.y.indiceNat.Definido(datoIndice.dameNat())){
+				indices.y.indiceNat.Significado(datoIndice.dameNat()).AgregarRapido(itRegAgr);
+			}
+			else{ //si no esta definida tengo que agregarla
+				aed2::Conj<ItLista>  conjAgr;
+				conjAgr.AgregarRapido(itRegAgr);
+				indices.y.indiceNat.Definir(datoIndice.dameNat(), conjAgr);
+			}
+			// Actualizo los max y minimos
+			if( datoIndice > *(indices.y.maxNat)) indices.y.maxNat = &datoIndice;
+			if( datoIndice < *(indices.y.minNat)) indices.y.minNat = &datoIndice;
 		}
-
 		// Veo si ese indice es String 
 		if(campoIndice == indices.x.campo){
-			
-			
+			// Veo si esta definida la clave en el dicc
+			if(indices.x.indiceString.Definido(datoIndice.dameString())){
+				indices.x.indiceString.Significado(datoIndice.dameString()).AgregarRapido(itRegAgr);
+			}
+			else{ //si no esta definida tengo que agregarla
+				aed2::Conj<ItLista>  conjAgr;
+				conjAgr.AgregarRapido(itRegAgr);
+				indices.x.indiceString.Definir(datoIndice.dameString(), conjAgr);
+			}
+			// Actualizo los max y minimos
+			if( datoIndice > *(indices.x.maxString)) indices.x.maxString = &datoIndice;
+			if( datoIndice < *(indices.x.minString)) indices.x.minString = &datoIndice;
 		}
 		itIndice.Avanzar();
 	}

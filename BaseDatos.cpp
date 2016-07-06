@@ -6,7 +6,7 @@ using namespace aed2;
 //------------------
 	// AgregarTabla
 	// vistaJoin tengo problemas con const_
-	// generarVistaJoin  falta terminar 
+	// generarVistaJoin  ver constructor de registro 
 
 
 //~ BaseDatos::BaseDatos(){
@@ -195,15 +195,34 @@ aed2::Lista<Registro>::Iterador BaseDatos::Registros(const NombreTabla& t){
 
 // Genera el Join entre dos tablas
 void BaseDatos::GenerarVistaJoin(const NombreTabla& t1, const NombreTabla& t2, const NombreCampo& ca){
-	//~ struct InfoTabla infoT1 = tablasBD.Significado(t1);
-	//~ aed2::Lista<Registro>::const_Iterador itRegT1 = infoT1.tablaData.Registros();
-	//~ aed2::Lista<Registro>::const_Iterador itRegT2 = tablasBD.Significado(t2).tablaData.Registros();
-	//~ Tabla tablaJoin = Tabla()
-	//~ while(itRegT1.HaySiguiente()){
-		//~ 
-	//~ 
-	//~ }
-//~ 
+	struct InfoTabla infoT1 = tablasBD.Significado(t1);
+	aed2::Lista<Registro>::Iterador itRegT1 = infoT1.tablaData.Registros();
+	aed2::Lista<Registro>::Iterador itRegT2 = tablasBD.Significado(t2).tablaData.Registros();
+	
+	//~ struct InfoJoin infoJoinT;
+	//~ infoT1.joins.Definir(t2, infoJoinT);
+	//Como declaro la tabla donde voy a guardar los join si las tablas que me pasan son vacias
+	//
+	if(!itRegT1.HaySiguiente()) return;
+	if(!itRegT2.HaySiguiente()) return;
+	NombreTabla nomTablaJoin;
+	aed2::Conj<NombreCampo> camposClaveTabla;
+	Registro reg = itRegT1.Siguiente().agregarCampos(itRegT2.Siguiente());
+	//Tabla tablaJoin = Tabla::Tabla(nomTablaJoin, camposClaveTabla, reg);
+	while(itRegT2.HaySiguiente()){
+		aed2::Conj<NombreCampo> conjCamp;  conjCamp.AgregarRapido(ca);
+		aed2::Conj<Dato> conjDato;  conjDato.AgregarRapido(itRegT2.Siguiente().Significado(ca));
+		//~ Registro regCrit = Registro(conjCamp, conjDato);
+		Registro regCrit;    // DESPUES REEMPLAZAR POR LA LINEA DE ARRIBA
+		Registro regAux = itRegT2.Siguiente();
+		//~ aed2::Conj<ItLista>::Iterador itConinciden = Buscar(regAux , infoT1.tablaData);// DESPUES REEMPLAZAR POR LA LINEA DE ARRIBA
+		aed2::Conj<ItLista>::Iterador itConinciden;
+		if(itConinciden.HaySiguiente()){
+			//~ tablaJoin.AgregarRegistro(itRegT2.Siguiente().agregarCampos(itConinciden.Siguiente()));
+		}
+		itRegT2.Avanzar();
+	}
+
 
 }
 
