@@ -59,6 +59,10 @@ namespace tp3
 			// del conjunto de claves del diccionario.
 			aed2::Conj<aed2::String>::Iterador Claves() const;
 
+
+			char nth_letter(int n) const;
+
+			int letter_tonum(char ch) const;
 			/*class Iterador{
 				public:
 					// Dado un diccionarioLog, crea un iterador que al significado pasado
@@ -73,9 +77,12 @@ namespace tp3
 			//		friend Nodo* iterator; 
 
 			};*/
-
 	};
 
 
+	//char intToAlphabet( int i )
+	//{
+   	//	return static_cast<char>('A' - 1 + i);
+	//}
 }
 #endif // AED2_DICCSTRING_H_INCLUDED
