@@ -52,7 +52,7 @@ class BaseDatos
 		void GenerarVistaJoin(const NombreTabla& t1, const NombreTabla& t2, const NombreCampo& ca) ;
 
 		// Visualiza el Join entre dos tablas 
-		aed2::Lista<Registro>::const_Iterador VistaJoin(const NombreTabla& t1, const NombreTabla& t2) const;
+		aed2::Lista<Registro>::const_Iterador VistaJoin(const NombreTabla& t1, const NombreTabla& t2);
 
 		// Busca los registro que conincidan con r en la tabla de la base de datos
 		aed2::Conj<ItLista>::Iterador Buscar(const Registro& r, const NombreTabla& t);

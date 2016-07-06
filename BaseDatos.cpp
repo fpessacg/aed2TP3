@@ -5,7 +5,8 @@ using namespace aed2;
 //Cosas que faltan:
 //------------------
 	// AgregarTabla
-	// vistaJoin tengo problemas con const_
+	// vistaJoin tengo problemas con const_ 
+	// -> Basicamente el problema con vistaJoin es que no tiene que ser const, lo saque
 	// generarVistaJoin  falta terminar 
 
 
@@ -25,9 +26,9 @@ using namespace aed2;
 // Agrego una nueva tabla a la BD
 void BaseDatos::AgregarTabla(const Tabla& t){
 	tablaLista.AgregarAtras(t.Nombre());
-	//~ InfoTabla nueva;
-	//~ nueva.tablaData = t; 
-	//~ tablasBD.Definir(t.Nombre(), nueva);
+	//struct InfoTabla nueva;
+	//nueva.tablaData = t; 
+	//this->tablasBD.Definir(t.Nombre(), nueva);
 }
 
 // Devuelvo un iterador a los nombres de las tablas de la BD
@@ -48,7 +49,7 @@ bool BaseDatos::HayJoin(const NombreTabla& t1, const NombreTabla& t2) const{
 
 // Devuelve el campo para los cuales dos tablas estan vinculadas
 const NombreCampo& BaseDatos::CampoJoin(const NombreTabla& t1, const NombreTabla& t2) const{
-	InfoTabla t1Info = tablasBD.Significado(t1);
+	struct InfoTabla t1Info = tablasBD.Significado(t1);
 	return t1Info.joins.Significado(t2).campo;
 }
 
@@ -134,7 +135,7 @@ aed2::Conj<ItLista>::Iterador BaseDatos::Buscar(const Registro& r, const NombreT
 
 
 // Visualiza el Join entre dos tablas
-aed2::Lista<Registro>::const_Iterador BaseDatos::VistaJoin( const  NombreTabla& t1, const NombreTabla& t2) const{
+aed2::Lista<Registro>::const_Iterador BaseDatos::VistaJoin( const  NombreTabla& t1, const NombreTabla& t2){
 	struct InfoTabla t1Info = tablasBD.Significado(t1);
 	struct InfoJoin joinsT1T2 = t1Info.joins.Significado(t2);
 	aed2::Lista<Dupla<Registro, bool> >::Iterador itRegAct = joinsT1T2.regActualizar.CrearIt();
@@ -204,7 +205,6 @@ void BaseDatos::GenerarVistaJoin(const NombreTabla& t1, const NombreTabla& t2, c
 	//~ 
 	//~ }
 //~ 
-
 }
 
 // devuelve la cantidad de acsesos de una tabla

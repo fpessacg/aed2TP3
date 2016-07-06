@@ -1,24 +1,34 @@
 #include "DiccString.h"
+#include "Tipos.h"
+#include "aed2/Conj.h"
+#include "aed2/Lista.h"
+#include "aed2/Dicc.h"
+#include "aed2/Dupla.h"
+#include "Dato.h"
+#include "aed2/TiposBasicos.h"
+#include <string>
+
 
 template<class T>
-DiccString<T>::DiccString(){
+tp3::DiccString<T>::DiccString(){
 	this->raiz->estaDef = false;
 	this->raiz->hijos = new char[256];
 	this->raiz->significado = 0;
 	for(int i = 0; i < this->raiz->hijos; ++i){
 		this->raiz->hijos = 0;
 	}
-	this->claves = Conj();
+	aed2::Conj<aed2::String> clavesTemp;
+	this->claves = clavesTemp;
 }
 
 template<class T>
-void DiccString<T>::Definir(String& c, T& s, DiccString& d){
+void tp3::DiccString<T>::Definir(aed2::String& c, T& s){
 	this->claves.AgregarRapido(c);
 
-	Nodo* nodoRecorrer = d->raiz;
-	for(int i = 0; i < c.length; i++){
+	struct Nodo* nodoRecorrer = this->raiz;
+	for(int i = 0; i < c.length(); i++){
 		if(!(nodoRecorrer->hijos[c[i]])){
-			Nodo* nuevo;
+			struct Nodo* nuevo;
 			nuevo->estaDef = false;
 			nuevo->hijos = new char[256];
 			nuevo->significado = 0;
@@ -30,7 +40,7 @@ void DiccString<T>::Definir(String& c, T& s, DiccString& d){
 			nodoRecorrer = nodoRecorrer->hijos[c[i]];
 		}
 
-		if (i == c.length - 1){
+		if (i == c.length() - 1){
 			nodoRecorrer->hijos[c[i]]->estaDef = true;
 			nodoRecorrer->hijos[c[i]]->significado = s;
 		}
@@ -38,12 +48,12 @@ void DiccString<T>::Definir(String& c, T& s, DiccString& d){
 }
 
 template<class T>
-void DiccString<T>::Borrar(String& c, DiccString& d){
-	d.claves.Eliminar(c);
-	Nodo* nodoRecorrer = d->raiz;
-	for(int i = 0; i < c.length; ++i){
+void tp3::DiccString<T>::Borrar(aed2::String& c){
+	this->claves.Eliminar(c);
+	Nodo* nodoRecorrer = this->raiz;
+	for(int i = 0; i < c.length(); ++i){
 		nodoRecorrer = nodoRecorrer->hijos[c[i]];
-		if(i == c.length-1){
+		if(i == c.length() - 1){
 			nodoRecorrer->significado = 0;
 			nodoRecorrer->estaDef = false;
 		}
@@ -51,20 +61,20 @@ void DiccString<T>::Borrar(String& c, DiccString& d){
 }
 
 template<class T>
-T DiccString<T>::Obtener(String& c, const DiccString& d){
-	Nodo* nodoRecorrer = d->raiz;
-	for(int i = 0; i < c.length; ++i){
+T tp3::DiccString<T>::Obtener(aed2::String& c) const{
+	struct Nodo* nodoRecorrer = this->raiz;
+	for(int i = 0; i < c.length(); ++i){
 		nodoRecorrer = nodoRecorrer->hijos[c[i]];
-		if(i == c.length - 1) return (nodoRecorrer->significado);
+		if(i == c.length() - 1) return (nodoRecorrer->significado);
 	}
 }
 
 template<class T>
-aed2::String maxString(const DiccString& d){
+aed2::String tp3::DiccString<T>::maxString() const{
 	int i = 0; int j = 0;
-	String res;
-	Nodo* nodoRecorrer = d->raiz;
-	Nodo* maximoNodo = nodoRecorrer->hijos[i];
+	aed2::String res;
+	struct Nodo* nodoRecorrer = this->raiz;
+	struct Nodo* maximoNodo = nodoRecorrer->hijos[i];
 
 	int maxIndice = 0;
 	while(i < 256){
@@ -74,14 +84,14 @@ aed2::String maxString(const DiccString& d){
 		}
 		++i;
 	}
-	res[j] = std::stoi(maxIndice);
+	res[j] = std::to_string(maxIndice);
 	j++;
 
-	bool termino = false
-	while (!termino){
+	bool termino = false;
+	while (!(termino)){
 		int i = 0;
 		nodoRecorrer = maximoNodo;
-		maximoNodo = 0;
+		maximoNodo = NULL;
 		while(i < 256){
 			if(nodoRecorrer->hijos){
 				maximoNodo = nodoRecorrer->hijos[i];
@@ -92,13 +102,13 @@ aed2::String maxString(const DiccString& d){
 		if(!maximoNodo){
 			termino = true;
 		} else {
-			res[j] = std::stoi(maxIndice);
+			res[j] = std::to_string(maxIndice);
 			j++;
 		}
 	}
 }
 
 template<class T>
-aed2::Conj<aed2::String>::Iterador DiccString<T>::Claves(const DiccString& d){
-	return d->claves.CrearIt();
+aed2::Conj<aed2::String>::Iterador tp3::DiccString<T>::Claves() const{
+	return this->claves.CrearIt();
 }

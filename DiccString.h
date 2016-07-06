@@ -11,7 +11,7 @@
 #include "aed2/TiposBasicos.h"
 #include <string>
 
-namespace aed2
+namespace tp3
 {
 	template<typename T>
 	class DiccString
@@ -25,7 +25,7 @@ namespace aed2
 			};
 
 			Nodo* raiz;
-			Conj<String> claves;
+			aed2::Conj<aed2::String> claves;
 
 		public:
 			// Constructor
@@ -36,28 +36,28 @@ namespace aed2
 
 			// Toma un dicString, un dato y un string. Define una nueva clave
 			// con dicha cadena de caracteres, cuyo significado asignado es el dato.
-			void Definir(String& c, T& s, DiccString& d);
+			void Definir(aed2::String& c, T& s);
 
 			// Toma un string y un dicString. Borra la clave con su significado en el
 			// diccionario otorgado.
-			void Borrar(String& c, DiccString& d);
+			void Borrar(aed2::String& c);
 
 			// Toma un dicString y devuelve el mayor caracter.
-			String maxString(const DiccString& d);
+			aed2::String maxString() const;
 
 			// Dado un string y un diccionario, determina si la clave c se encuentra
 			// en el diccionario d.
-			bool Def(String& c, const DiccString& d);
+			bool Def(aed2::String& c) const;
 
 			// Dado un string y un diccionario, devuelve el significado asociado a la 
 			// clave c en el diccionario otorgado.
-			T Obtener(String& c, const DiccString& d);
+			T Obtener(aed2::String& c) const;
 
 			// Dado un diccionario, retorna un iterador apuntando al primer elemento
 			// del conjunto de claves del diccionario.
-			Conj<String>::Iterador Claves(const DiccString& d);
+			aed2::Conj<aed2::String>::Iterador Claves() const;
 
-			class Iterador{
+			/*class Iterador{
 				public:
 					// Dado un diccionarioLog, crea un iterador que al significado pasado
 					// por parametro
@@ -70,7 +70,7 @@ namespace aed2
 				private:
 			//		friend Nodo* iterator; 
 
-			};
+			};*/
 
 	};
 
