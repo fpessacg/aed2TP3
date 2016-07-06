@@ -53,20 +53,26 @@ void tp3::DiccString<T>::Definir(aed2::String& c, T& s){
 				nuevo.hijos[i] = &nodoCopy;
 			}
 			//nodoRecorrer->hijos[c[i]] = 0;
-			nodoRecorrer = &nuevo;
+			nodoRecorrer->hijos[letter_tonum(c[i])] = &nuevo;
+			nodoRecorrer = nodoRecorrer->hijos[letter_tonum(c[i])];
 		} else {
-			nodoRecorrer = nodoRecorrer->hijos[c[i]];
+			std::cout << "Entro aca!" << std::endl;
+			nodoRecorrer = nodoRecorrer->hijos[letter_tonum(c[i])];
 		}
 
 		if (i == c.length() - 1){
-			Nodo nodoCopy(true, c[i]);
-			for(int j = 0; j < 26; j++) {
-				Nodo nodoCopy2(false, nth_letter(i));
-				nodoCopy2.hijos[i] = &nodoCopy2;
+			char nuevoChar = (char) c[i];
+			std::cout << nuevoChar << std::endl;
+			Nodo nodoCopy(true, nuevoChar);
+			for(int j = 0; j < 26; j++){
+				Nodo nodoCopy2(false, nth_letter(j));
+				nodoCopy2.hijos[j] = &nodoCopy2;
 			}
-			std::cout << "LLEGAS PAPA, c[i] es: " << c[i] << std::endl;
-			nodoCopy.hijos[letter_tonum(c[i])]->significado = &s;
+			//std::cout << "LLEGAS PAPA, c[i] es: " << c[i] << std::endl;
+			//nodoCopy.hijos[letter_tonum(c[i])]->significado = &s;
+			nodoCopy.significado = &s;
 			nodoRecorrer->hijos[c[i]] = &nodoCopy;
+			//std::cout << *(nodoRecorrer->hijos[c[i]]) << std::endl;
 
 		}
 	}
@@ -90,8 +96,8 @@ bool tp3::DiccString<T>::Def(aed2::String& c) const{
 	bool res = false;
 	Nodo* nodoRecorrer = this->raiz;
 	int i = 0;
-	while(i < c.length() && nodoRecorrer->hijos[c[i]] != NULL){
-		nodoRecorrer = nodoRecorrer->hijos[c[i]];
+	while(i < c.length() && nodoRecorrer->hijos[letter_tonum(c[i])] != NULL){
+		nodoRecorrer = nodoRecorrer->hijos[letter_tonum(c[i])];
 		if (i == c.length() - 1){
 			res = nodoRecorrer->estaDef;
 		}
@@ -104,9 +110,9 @@ template<class T>
 T tp3::DiccString<T>::Obtener(aed2::String& c) const{
 	struct Nodo* nodoRecorrer = this->raiz;
 	for(int i = 0; i < c.length(); ++i){
-		std::cout << "Como va? " << c[i] << " y soy el num: " << letter_tonum(c[i]) << std::endl;
+		//std::cout << "Como va? " << c[i] << " y soy el num: " << letter_tonum(c[i]) << std::endl;
 		nodoRecorrer = nodoRecorrer->hijos[letter_tonum(c[i])];
-		std::cout << "AHI VA EL CAPITAN SEGMENTO" << std::endl;
+		//std::cout << "AHI VA EL CAPITAN SEGMENTO" << std::endl;
 		if(i == c.length() - 1) {
 			return *(nodoRecorrer->significado);
 		}
