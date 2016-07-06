@@ -8,14 +8,20 @@
 #include "aed2/TiposBasicos.h"
 #include <string>
 
+char intToAlphabet( int i )
+{
+   return static_cast<char>('A' - 1 + i);
+}
 
 template<class T>
 tp3::DiccString<T>::DiccString(){
-	this->raiz->estaDef = false;
-	this->raiz->significado = 0;
-	for(int i = 0; i < 256; ++i){
-		this->raiz->hijos[i] = new Nodo;
-	}
+	Nodo raizCopy(false,'l');
+	this->raiz = &raizCopy;
+	//this->raiz->hijos = new Nodo[256];
+	//for(int i = 0; i < 0; ++i){
+	//	std::cout << "Segmento" << std::endl;
+	//	this->raiz->hijos[i] = new Nodo(false, intToAlphabet(i));
+	//}
 	aed2::Conj<aed2::String> clavesTemp;
 	this->claves = clavesTemp;
 }
@@ -29,10 +35,9 @@ void tp3::DiccString<T>::Definir(aed2::String& c, T& s){
 		if(!(nodoRecorrer->hijos[c[i]])){
 			struct Nodo* nuevo;
 			nuevo->estaDef = false;
-			nuevo->hijos = new char[256];
+			
 			nuevo->significado = 0;
-			for(int j = 0; j < 256; j++) nuevo->hijos = 0;
-
+			for(int j = 0; j < 256; j++) nuevo->hijos[i] = new Nodo(false,intToAlphabet(i));
 			nodoRecorrer->hijos[c[i]] = 0;
 			nodoRecorrer = nuevo;
 		} else {
@@ -41,7 +46,7 @@ void tp3::DiccString<T>::Definir(aed2::String& c, T& s){
 
 		if (i == c.length() - 1){
 			nodoRecorrer->hijos[c[i]]->estaDef = true;
-			nodoRecorrer->hijos[c[i]]->significado = s;
+			nodoRecorrer->hijos[c[i]]->significado = &s;
 		}
 	}
 }
@@ -57,6 +62,21 @@ void tp3::DiccString<T>::Borrar(aed2::String& c){
 			nodoRecorrer->estaDef = false;
 		}
 	}	
+}
+
+template<class T>
+bool tp3::DiccString<T>::Def(aed2::String& c) const{
+	bool res = false;
+	Nodo* nodoRecorrer = this->raiz;
+	int i = 0;
+	while(i < c.length() && nodoRecorrer->hijos[c[i]] != NULL){
+		nodoRecorrer = nodoRecorrer->hijos[c[i]];
+		if (i == c.length() - 1){
+			res = nodoRecorrer->estaDef;
+		}
+		i++;
+	}
+	return res;
 }
 
 template<class T>

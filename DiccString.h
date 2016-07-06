@@ -19,8 +19,9 @@ namespace tp3
 		private:
 			struct Nodo
 			{
+				Nodo(bool b, char ca) : estaDef(b), c(ca){}
 				bool estaDef;
-				Nodo* hijos[];
+				Nodo* hijos[256];
 				T* significado; 
 				char c;
 			};
