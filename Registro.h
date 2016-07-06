@@ -14,7 +14,8 @@ class Registro
 {
 	public:
 		//Constructor
-		Registro();
+		Registro(){}
+		Registro(NombreCampo, Dato){}
 		//Registro();
 		// Devuelve el conjunto de campos del registro
 		aed2::Conj<NombreCampo> campos() const;
