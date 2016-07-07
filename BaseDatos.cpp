@@ -5,8 +5,9 @@ using namespace aed2;
 //Cosas que faltan:
 //------------------
 	// AgregarTabla
-	// vistaJoin tengo problemas con const_
-	// generarVistaJoin  ver constructor de registro 
+	// vistaJoin tengo problemas con const_ 
+	// -> Basicamente el problema con vistaJoin es que no tiene que ser const, lo saque
+	// generarVistaJoin  falta terminar 
 
 
 //~ BaseDatos::BaseDatos(){
@@ -22,9 +23,9 @@ using namespace aed2;
 // Agrego una nueva tabla a la BD
 void BaseDatos::AgregarTabla(const Tabla& t){
 	tablaLista.AgregarAtras(t.Nombre());
-	//~ InfoTabla nueva;
-	//~ nueva.tablaData = t; 
-	//~ tablasBD.Definir(t.Nombre(), nueva);
+	//struct InfoTabla nueva;
+	//nueva.tablaData = t; 
+	//this->tablasBD.Definir(t.Nombre(), nueva);
 }
 
 // Devuelvo un iterador a los nombres de las tablas de la BD
@@ -44,7 +45,7 @@ bool BaseDatos::HayJoin(const NombreTabla& t1, const NombreTabla& t2) const{
 
 // Devuelve el campo para los cuales dos tablas estan vinculadas
 const NombreCampo& BaseDatos::CampoJoin(const NombreTabla& t1, const NombreTabla& t2) const{
-	InfoTabla t1Info = tablasBD.Significado(t1);
+	struct InfoTabla t1Info = tablasBD.Significado(t1);
 	return t1Info.joins.Significado(t2).campo;
 }
 
@@ -130,7 +131,7 @@ aed2::Lista<ItLista>::Iterador BaseDatos::Buscar(const Registro& r, const Nombre
 
 
 // Visualiza el Join entre dos tablas
-aed2::Lista<Registro>::const_Iterador BaseDatos::VistaJoin( const  NombreTabla& t1, const NombreTabla& t2) const{
+aed2::Lista<Registro>::const_Iterador BaseDatos::VistaJoin( const  NombreTabla& t1, const NombreTabla& t2){
 	struct InfoTabla t1Info = tablasBD.Significado(t1);
 	struct InfoJoin joinsT1T2 = t1Info.joins.Significado(t2);
 	aed2::Lista<Dupla<Registro, bool> >::Iterador itRegAct = joinsT1T2.regActualizar.CrearIt();
@@ -200,6 +201,7 @@ aed2::Conj<aed2::NombreCampo> unionConjuntos(aed2::Conj<aed2::NombreCampo> c1, a
 
 // Genera el Join entre dos tablas
 void BaseDatos::GenerarVistaJoin(const NombreTabla& t1, const NombreTabla& t2, const NombreCampo& ca){
+<<<<<<< HEAD
 	struct InfoTabla infoT1 = tablasBD.Significado(t1);
 	aed2::Lista<Registro>::Iterador itRegT1 = infoT1.tablaData.Registros();
 	aed2::Lista<Registro>::Iterador itRegT2 = tablasBD.Significado(t2).tablaData.Registros();
@@ -236,6 +238,17 @@ void BaseDatos::GenerarVistaJoin(const NombreTabla& t1, const NombreTabla& t2, c
 		}
 		itRegT2.Avanzar();
 	}
+=======
+	//~ struct InfoTabla infoT1 = tablasBD.Significado(t1);
+	//~ aed2::Lista<Registro>::const_Iterador itRegT1 = infoT1.tablaData.Registros();
+	//~ aed2::Lista<Registro>::const_Iterador itRegT2 = tablasBD.Significado(t2).tablaData.Registros();
+	//~ Tabla tablaJoin = Tabla()
+	//~ while(itRegT1.HaySiguiente()){
+		//~ 
+	//~ 
+	//~ }
+//~ 
+>>>>>>> 99aabb1537d6ad2098898c43e8c708367fd9b7d5
 }
 
 
