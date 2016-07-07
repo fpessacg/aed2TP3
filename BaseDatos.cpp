@@ -18,9 +18,6 @@ using namespace aed2;
 	//~ this->nombreAccesoMax = "";
 //~ }
 
-		//~ typedef struct InfoJoin{NombreCampo;aed2::Lista<Dupla<Registro, bool> >;Tabla;} InfoJoin;
-		//~ typedef struct InfoTabla{aed2::Dicc<NombreTabla, InfoJoin> ;Tabla;} InfoTabla;
-		 
 
 // Agrego una nueva tabla a la BD
 void BaseDatos::AgregarTabla(const Tabla& t){
@@ -31,9 +28,8 @@ void BaseDatos::AgregarTabla(const Tabla& t){
 }
 
 // Devuelvo un iterador a los nombres de las tablas de la BD
-aed2::Lista<NombreTabla>::const_Iterador BaseDatos::Tablas() const{
-	Lista<NombreTabla>::const_Iterador itRes = tablaLista.CrearIt();
-	return  itRes;
+aed2::Lista<NombreTabla> BaseDatos::Tablas() const{
+	return  tablaLista;
 }
 
 // Devuelvo la tabla que me piden
@@ -125,7 +121,7 @@ void BaseDatos::BorrarJoin(const NombreTabla& t1, const NombreTabla& t2){
 }
 
 // Busca los registro que conincidan con r en la tabla de la base de datos
-aed2::Conj<ItLista>::Iterador BaseDatos::Buscar(const Registro& r, const NombreTabla& t){
+aed2::Lista<ItLista>::Iterador BaseDatos::Buscar(const Registro& r, const NombreTabla& t) const{
 	struct InfoTabla t1Info = tablasBD.Significado(t);
 	return t1Info.tablaData.Coincidencias(r, t1Info.tablaData.Registros());
 }
@@ -149,12 +145,12 @@ aed2::Lista<Registro>::const_Iterador BaseDatos::VistaJoin( const  NombreTabla& 
 				joinsT1T2.registroJoin.BorrarRegistro(regCrit);
 			} 
 			else { // Si el registro fue agregado Reviso si esta en las dos tablas, si esta lo agrego a la lista de join
-				//~ aed2::Conj<ItLista>::Iterador itConj1 = Buscar(regCrit, t1);
-				//~ aed2::Conj<ItLista>::Iterador itConj2 = Buscar(regCrit, t2);
-				//~ if(itConj1.HaySiguiente() && itConj2.HaySiguiente())
-					//~ 
-					//~ Registro regAgr = itConj1.Siguiente().Siguiente().agregarCampos(itConj2.Siguiente().Siguiente());
-					//~ joinsT1T2.registroJoin.AgregarRegistro(regAgr);
+				aed2::Lista<ItLista>::Iterador itLista1 = Buscar(regCrit, t1);
+				aed2::Lista<ItLista>::Iterador itLista2 = Buscar(regCrit, t2);
+				if(itLista1.HaySiguiente() && itLista2.HaySiguiente()){
+					Registro regAgr = itLista1.Siguiente().Siguiente().agregarCampos(itLista2.Siguiente().Siguiente());
+					joinsT1T2.registroJoin.AgregarRegistro(regAgr);
+				}
 			}
 			itRegAct.EliminarSiguiente();
 		}
@@ -176,7 +172,7 @@ const NombreTabla& BaseDatos::EncontrarMaximo( NombreTabla& t, const aed2::Conj<
 
 	while(itConjCT.HaySiguiente()){
 		InfoTabla tInfo = tablasBD.Significado(itConjCT.Siguiente());
-		Nat accesoT = tInfo.tablaData.CantidadDeAccesos();
+		aed2::Nat accesoT = tInfo.tablaData.CantidadDeAccesos();
 		if(accesoT > maxAcceso){
 			maxAcceso = accesoT;
 			stringMaxAcceso = itConjCT.Siguiente();
@@ -193,42 +189,60 @@ aed2::Lista<Registro>::Iterador BaseDatos::Registros(const NombreTabla& t){
 	return tablasBD.Significado(t).tablaData.Registros();
 }
 
+aed2::Conj<aed2::NombreCampo> unionConjuntos(aed2::Conj<aed2::NombreCampo> c1, aed2::Conj<aed2::NombreCampo> c2){
+	aed2::Conj<aed2::NombreCampo>::Iterador it1 = c1.CrearIt(); 
+	while(it1.HaySiguiente()){
+		c2.Agregar(it1.Siguiente());
+		it1.Avanzar();
+	}
+	return c2;
+}
+
 // Genera el Join entre dos tablas
 void BaseDatos::GenerarVistaJoin(const NombreTabla& t1, const NombreTabla& t2, const NombreCampo& ca){
 	struct InfoTabla infoT1 = tablasBD.Significado(t1);
 	aed2::Lista<Registro>::Iterador itRegT1 = infoT1.tablaData.Registros();
 	aed2::Lista<Registro>::Iterador itRegT2 = tablasBD.Significado(t2).tablaData.Registros();
 	
-	//~ struct InfoJoin infoJoinT;
-	//~ infoT1.joins.Definir(t2, infoJoinT);
-	//Como declaro la tabla donde voy a guardar los join si las tablas que me pasan son vacias
-	//
+	// Se crea InfoJoin 
+	aed2::Conj<aed2::NombreCampo> camposT1 = tablasBD.Significado(t1).tablaData.CamposTabla();
+	aed2::Conj<aed2::NombreCampo> camposT2 = tablasBD.Significado(t2).tablaData.CamposTabla();
+	
+	
+	aed2::Conj<aed2::NombreCampo> camposUnidos = unionConjuntos(camposT1, camposT2);
+	aed2::Conj<aed2::NombreCampo> claves;
+	aed2::NombreTabla nombreTablaJoin = "lala";
+	aed2::Conj<Dato> datosCamposUnidos;
+	Registro registroCamposUnidos(camposUnidos, datosCamposUnidos); 
+	Tabla tablaJoin( nombreTablaJoin, claves, registroCamposUnidos);
+	struct InfoJoin infoJoinT = InfoJoin(tablaJoin, ca);
+	infoT1.joins.Definir(t2, infoJoinT);
+	
+	
+	//Verifico que ninguna tabla sea vacia
 	if(!itRegT1.HaySiguiente()) return;
 	if(!itRegT2.HaySiguiente()) return;
-	NombreTabla nomTablaJoin;
-	aed2::Conj<NombreCampo> camposClaveTabla;
-	Registro reg = itRegT1.Siguiente().agregarCampos(itRegT2.Siguiente());
-	//Tabla tablaJoin = Tabla::Tabla(nomTablaJoin, camposClaveTabla, reg);
+
 	while(itRegT2.HaySiguiente()){
-		aed2::Conj<NombreCampo> conjCamp;  conjCamp.AgregarRapido(ca);
-		aed2::Conj<Dato> conjDato;  conjDato.AgregarRapido(itRegT2.Siguiente().Significado(ca));
-		//~ Registro regCrit = Registro(conjCamp, conjDato);
-		Registro regCrit;    // DESPUES REEMPLAZAR POR LA LINEA DE ARRIBA
+		aed2::Conj<aed2::NombreCampo> conjCamp;
+		conjCamp.AgregarRapido(ca);
+		aed2::Conj<Dato> conjDato;
+		conjDato.AgregarRapido(itRegT2.Siguiente().Significado(ca));
+		Registro regCrit = Registro(conjCamp, conjDato);
 		Registro regAux = itRegT2.Siguiente();
-		//~ aed2::Conj<ItLista>::Iterador itConinciden = Buscar(regAux , infoT1.tablaData);// DESPUES REEMPLAZAR POR LA LINEA DE ARRIBA
-		aed2::Conj<ItLista>::Iterador itConinciden;
+		aed2::Lista<ItLista>::Iterador itConinciden = Buscar(regAux , t1);
 		if(itConinciden.HaySiguiente()){
-			//~ tablaJoin.AgregarRegistro(itRegT2.Siguiente().agregarCampos(itConinciden.Siguiente()));
+			tablaJoin.AgregarRegistro(itRegT2.Siguiente().agregarCampos(itConinciden.Siguiente().Siguiente() ) );
 		}
 		itRegT2.Avanzar();
 	}
-
-
 }
+
+
 
 // devuelve la cantidad de acsesos de una tabla
 aed2::Nat BaseDatos::CantidadDeAccesos(const NombreTabla& t) const{
 	return tablasBD.Significado(t).tablaData.CantidadDeAccesos();
 }
 
-
+BaseDatos::InfoJoin::InfoJoin(const Tabla& tabla, const aed2::NombreCampo& campo): registroJoin(tabla), campo(campo){}

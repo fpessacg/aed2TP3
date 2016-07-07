@@ -65,8 +65,9 @@ bool Dato::operator != (const Dato& otro) const
 
 Driver::Driver()
 {
+	BaseDatos();
   // TODO ...
-  assert(false);
+  //~ assert(false);
 }
 
 Driver::~Driver()
@@ -79,8 +80,8 @@ Driver::~Driver()
 
 void Driver::crearTabla(const NombreTabla& nombre, const aed2::Conj<Columna>& columnas, const aed2::Conj<NombreCampo>& claves)
 {
-  // TODO ...
-  assert(false);
+	Tabla nuevaTabla = Tabla(nombre,claves,columnas);
+	
 }
 
 void Driver::insertarRegistro(const NombreTabla& tabla, const Registro& registro)

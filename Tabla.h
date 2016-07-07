@@ -18,8 +18,8 @@ class Tabla {
 		
 		
 		
-		Tabla(const aed2::NombreTabla & nombre, const aed2::Conj <NombreCampo >& claves, const Registro & columnas)
-		:nombre(nombre), claves(claves), cantAccesos(0), campos(columnas.campos()) {} 
+		Tabla(const aed2::NombreTabla& nombre, const aed2::Conj <aed2::NombreCampo>& claves, const Registro & columnas);
+		//~ :nombre(nombre), claves(claves), cantAccesos(0), campos(columnas.campos());
 		
 			// Agrego un registor a la tabla
 		void AgregarRegistro(const Registro& r);
@@ -28,22 +28,22 @@ class Tabla {
 		void BorrarRegistro(const Registro& crit);
 
 		// Creo un Indice en el campo c de la tabla
-		void Indexar(const NombreCampo& c);
+		void Indexar(const aed2::NombreCampo& c);
 
 		//Devuelvo el nombre de la tabla
-		const NombreTabla& Nombre() const;
+		const aed2::NombreTabla& Nombre() const;
 
 		//Devuelvo un conjunto de las claves de la tabla
-		aed2::Conj<NombreCampo>::const_Iterador Claves() const;  
+		aed2::Conj<aed2::NombreCampo>::const_Iterador Claves() const;  
 
 		// Devuelvo el conjunto de indices de la tabla
-		aed2::Conj<NombreCampo> Indices() const;
+		aed2::Conj<aed2::NombreCampo> Indices() const;
 
 		// Devuelvo un iterador al conjunto de campos de la tabla
-		aed2::Conj<NombreCampo>::const_Iterador CamposTabla() const;
+		aed2::Conj<aed2::NombreCampo> CamposTabla() const;
 
 		// Devuelvo el tipo del campo c de la tabla
-		TipoCampo TipoDelCampo(const NombreCampo& c) const;
+		aed2::TipoCampo TipoDelCampo(const aed2::NombreCampo& c) const;
 
 		// Devuelvo un iterador a la lista de registros de la tabla
 		aed2::Lista<Registro>::const_Iterador Registros() const;
@@ -53,45 +53,46 @@ class Tabla {
 		aed2::Nat CantidadDeAccesos() const;
 
 		// Devuelvo el minimo dato de todos los registros para la tabla
-		const Dato Minimo(const NombreCampo& c) const;
+		const Dato Minimo(const aed2::NombreCampo& c) const;
 
 		// Devuelvo el Maximo dato de todos los registros para la tabla
-		const Dato Maximo(const NombreCampo& c) const;
+		const Dato Maximo(const aed2::NombreCampo& c) const;
 
 		// Devuelvo un bool que es true si se puede crear un indice en ese campo
-		bool PuedeIndexar(const NombreCampo& c) const;
+		bool PuedeIndexar(const aed2::NombreCampo& c) const;
 
 		// Da true si cr es no vacio, hay alguna coincidencia entre r y alguno de los cr
-		static bool HayCoincidencia(const Registro& r, const aed2::Conj<NombreCampo>& cc, const aed2::Conj<Registro>& cr);
+		static bool HayCoincidencia(const Registro& r, const aed2::Conj<aed2::NombreCampo>& cc, const aed2::Conj<Registro>& cr);
 
 		// Devuelve un iterador al conj de iteradores de Lista de Registros que coinciden 
-		aed2::Conj<ItLista>::Iterador Coincidencias(const Registro& r, ItLista itLisReg);
+		aed2::Lista<ItLista>::Iterador Coincidencias(const Registro& r, ItLista itLisReg);
 
 		// Devuelve la comlumna de c en cr
-		static aed2::Conj<Dato> DameColumna(const NombreCampo& c, const aed2::Lista<Registro>& lr);
+		static aed2::Conj<Dato> DameColumna(const aed2::NombreCampo& c, const aed2::Lista<Registro>& lr);
 
 		// Devuelve true si los campos del registros son los mismos que de la tabla
 		bool MismosTipos(const Registro& r);
 		
 	private:
 		struct IndicesString {
-			aed2::Dicc<aed2::String, aed2::Conj<ItLista> >indiceString;
-			NombreCampo campo;
+			aed2::Dicc<aed2::String, aed2::Lista<ItLista> >indiceString;
+			aed2::NombreCampo campo;
 			Dato* maxString;		//Uso un puntero a dato porq no tengo constructor sin parametros
 			Dato* minString;		// Cuando no tengo dato apunta a NULL y si no al dato correspondiente
 		};
 		struct IndicesNat {
-			aed2::Dicc<aed2::Nat, aed2::Conj<ItLista> > indiceNat;
-			NombreCampo campo;
+			aed2::Dicc<aed2::Nat, aed2::Lista<ItLista> > indiceNat;
+			aed2::NombreCampo campo;
 			Dato* maxNat;
 			Dato* minNat;
 		};
-		NombreTabla nombre;
+		aed2::NombreTabla nombre;
 		aed2::Nat cantAccesos;
 		Dupla<IndicesString, IndicesNat> indices;
-		aed2::Conj<NombreCampo> campos;
+		aed2::Conj<aed2::NombreCampo> campos;
+		aed2::Dicc<aed2::NombreCampo, aed2::TipoCampo> tipoDeLosCampos; 
 		aed2::Lista<Registro> registros;
-		aed2::Conj<NombreCampo> claves;
+		aed2::Conj<aed2::NombreCampo> claves;
 };
 
 
@@ -99,7 +100,7 @@ class Tabla {
 			/**
 			 * inicializa una tabla vacía.
 			 */
-			//~ void aed2::Tabla( const NombreTabla& nombre, const aed2::Conj<NombreCampo>& claves, const Registro& columnas){}
+			//~ void aed2::Tabla( const aed2::NombreTabla& nombre, const aed2::Conj<aed2::NombreCampo>& claves, const Registro& columnas){}
 			//~ :nombre(nombre), cantAccesos(0){}
 			/**
 			 * destruye el contenido de la tabla, liberando la memoria dinámica alocada.

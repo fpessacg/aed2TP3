@@ -4,24 +4,24 @@
 
 
 Dato::Dato(const aed2::Nat& x)
-  : tipo_( NAT ), nat_( x )
+  : tipo_( aed2::NAT ), nat_( x )
 {}
 
 Dato::Dato(const aed2::String& x)
-  : tipo_( STR ), str_( x )
+  : tipo_( aed2::STR ), str_( x )
 {}
 
 bool Dato::esNat() const
 {
-  return tipo_ == NAT;
+  return tipo_ == aed2::NAT;
 }
 
 bool Dato::esString() const
 {
-  return tipo_ == STR;
+  return tipo_ == aed2::STR;
 }
 
-TipoCampo Dato::tipo() const
+aed2::TipoCampo Dato::tipo() const
 {
   return tipo_;
 }
@@ -41,24 +41,24 @@ const aed2::String& Dato::dameString() const
 bool Dato::operator == (const Dato& otro) const
 {
   return tipo_ == otro.tipo_ and (
-    ( tipo_ == NAT and nat_ == otro.nat_ ) or
-    ( tipo_ == STR and str_ == otro.str_ )
+    ( tipo_ == aed2::NAT and nat_ == otro.nat_ ) or
+    ( tipo_ == aed2::STR and str_ == otro.str_ )
   );
 }
 
 bool Dato::operator < (const Dato& otro) const
 {
   return tipo_ == otro.tipo_ and (
-    ( tipo_ == NAT and nat_ < otro.nat_ ) or
-    ( tipo_ == STR and str_ < otro.str_ )
+    ( tipo_ == aed2::NAT and nat_ < otro.nat_ ) or
+    ( tipo_ == aed2::STR and str_ < otro.str_ )
   );
 }
 
 bool Dato::operator > (const Dato& otro) const
 {
   return tipo_ > otro.tipo_ and (
-    ( tipo_ == NAT and nat_ > otro.nat_ ) or
-    ( tipo_ == STR and str_ > otro.str_ )
+    ( tipo_ == aed2::NAT and nat_ > otro.nat_ ) or
+    ( tipo_ == aed2::STR and str_ > otro.str_ )
   );
 }
 

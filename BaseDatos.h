@@ -25,67 +25,68 @@ class BaseDatos
 		void AgregarTabla(const Tabla& t);
 
 		// Agrego un Registro a una Tabla
-		void InsertarEntrada(const Registro& r,const NombreTabla& t);
+		void InsertarEntrada(const Registro& r,const aed2::NombreTabla& t);
 
 		//borrar un registro de una tabla
-		void Borrar(const Registro& r, const NombreTabla& t);
+		void Borrar(const Registro& r, const aed2::NombreTabla& t);
 
 		// Devuelvo un iterador a los nombres de las tablas de la BD
-		aed2::Lista<NombreTabla>::const_Iterador Tablas() const;
+		aed2::Lista<aed2::NombreTabla>Tablas() const;
 
 		// Devuelvo la tabla que me piden
-		Tabla& DameTabla(const NombreTabla&);
+		Tabla& DameTabla(const aed2::NombreTabla&);
 
 		// Devuelve la tabla con mayor cantidad de accesos en BD
-		const NombreTabla& TablaMaxima() const;
+		const aed2::NombreTabla& TablaMaxima() const;
 
 		// Devuelve el campo para los cuales dos tablas estan vinculadas
-		const NombreCampo& CampoJoin(const NombreTabla& t1, const NombreTabla& t2) const;
+		const aed2::NombreCampo& CampoJoin(const aed2::NombreTabla& t1, const aed2::NombreTabla& t2) const;
 
 		// Devuelve true si hay joint entra las dos tablas 
-		bool HayJoin(const NombreTabla& t1, const NombreTabla& t2) const;
+		bool HayJoin(const aed2::NombreTabla& t1, const aed2::NombreTabla& t2) const;
 
 		// Elimina el Joint entre tablas
-		void BorrarJoin(const NombreTabla& t1, const NombreTabla& t2);
+		void BorrarJoin(const aed2::NombreTabla& t1, const aed2::NombreTabla& t2);
 
 		// Genera el Join entre dos tablas 
-		void GenerarVistaJoin(const NombreTabla& t1, const NombreTabla& t2, const NombreCampo& ca) ;
+		void GenerarVistaJoin(const aed2::NombreTabla& t1, const aed2::NombreTabla& t2, const aed2::NombreCampo& ca) ;
 
 		// Visualiza el Join entre dos tablas 
-		aed2::Lista<Registro>::const_Iterador VistaJoin(const NombreTabla& t1, const NombreTabla& t2) const;
+		aed2::Lista<Registro>::const_Iterador VistaJoin(const aed2::NombreTabla& t1, const aed2::NombreTabla& t2) const;
 
 		// Busca los registro que conincidan con r en la tabla de la base de datos
-		aed2::Conj<ItLista>::Iterador Buscar(const Registro& r, const NombreTabla& t);
+		aed2::Lista<ItLista>::Iterador Buscar(const Registro& r, const aed2::NombreTabla& t) const;
 
 		// Devuelve el nombre de la tabla que tuvo mayor cant de Accesos
-		const NombreTabla& EncontrarMaximo( NombreTabla& t, const aed2::Conj<NombreTabla>&  conjTab);
+		const aed2::NombreTabla& EncontrarMaximo( aed2::NombreTabla& t, const aed2::Conj<aed2::NombreTabla>&  conjTab);
 		 
 		// devuelve la cantidad de acsesos de una tabla
-		aed2::Nat  CantidadDeAccesos(const NombreTabla& t) const;
+		aed2::Nat  CantidadDeAccesos(const aed2::NombreTabla& t) const;
 
 		// devuelve los registros de una tabla
-		aed2::Lista<Registro>::Iterador Registros(const NombreTabla& t) ;
+		aed2::Lista<Registro>::Iterador Registros(const aed2::NombreTabla& t) ;
 
 	
 	private:
 		
 		struct InfoJoin
 		{
-		  NombreCampo campo;
-		  aed2::Lista<Dupla<Registro, bool> > regActualizar;   
-		  Tabla registroJoin;
+			InfoJoin(const Tabla& tabla, const aed2::NombreCampo& campo);
+			aed2::NombreCampo campo;
+			aed2::Lista<Dupla<Registro, bool> > regActualizar;   
+			Tabla registroJoin;
 		};
 		
 		struct InfoTabla
 		{
-		  aed2::Dicc<NombreTabla, InfoJoin>  joins;
-		  Tabla tablaData;
+			aed2::Dicc<aed2::NombreTabla, InfoJoin>  joins;
+			Tabla tablaData;
 		};
 		
-		aed2::Dicc<NombreTabla, InfoTabla> tablasBD;
+		aed2::Dicc<aed2::NombreTabla, InfoTabla> tablasBD;
 		aed2::Nat cantAccesoMax;
-		NombreTabla nombreAccesoMax;
-		aed2::Lista<NombreTabla> tablaLista;
+		aed2::NombreTabla nombreAccesoMax;
+		aed2::Lista<aed2::NombreTabla> tablaLista;
 };
 
 

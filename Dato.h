@@ -9,10 +9,10 @@
 #include "aed2/TiposBasicos.h"
 
 
-typedef aed2::String NombreTabla;
-typedef aed2::String NombreCampo;
+//~ typedef aed2::String NombreTabla;
+//~ typedef aed2::String NombreCampo;
 
-enum TipoCampo { NAT, STR };
+//~ enum TipoCampo { Nat, Str };
 
 
 /**
@@ -27,7 +27,7 @@ class Dato
 
 		bool esNat() const;
 		bool esString() const;
-		TipoCampo tipo() const;
+		aed2::TipoCampo tipo() const;
 
 		const aed2::Nat& dameNat() const;
 		const aed2::String& dameString() const;
@@ -42,7 +42,7 @@ class Dato
 
 	private:
 
-		TipoCampo tipo_;
+		aed2::TipoCampo tipo_;
 
 		aed2::Nat nat_;
 		aed2::String str_;
