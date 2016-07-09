@@ -11,13 +11,14 @@ typedef aed2::Lista < Registro >::Iterador ItLista;
 	// chequear que estan todas las funciones que exportan los modulos
 
 // Constructor Tabla
-Tabla::Tabla(const aed2::NombreTabla& nombre, const aed2::Conj <aed2::NombreCampo>& claves, const Registro & columnas):
-nombre(nombre), claves(claves), cantAccesos(0), campos(columnas.campos()){
-	aed2::Conj<aed2::NombreCampo>::Iterador itCampos = columnas.campos().CrearIt();
-	while(itCampos.HaySiguiente()){
-		tipoDeLosCampos.Definir(itCampos.Siguiente(), columnas.Significado(itCampos.Siguiente()).tipo() );
-		itCampos.Avanzar();
+Tabla::Tabla(const aed2::NombreTabla& nombre, const aed2::Conj <aed2::NombreCampo>& claves, const aed2::Conj<aed2::Columna>& columnas):
+nombre(nombre), claves(claves), cantAccesos(0), columnas(columnas){
+	aed2::Conj<aed2::Columna>::const_Iterador itColumnas = columnas.CrearIt();
+	while(itColumnas.HaySiguiente()){
+		campos.AgregarRapido(itColumnas.Siguiente().nombre);
+		itColumnas.Avanzar();
 	}
+	
 }
 
 
@@ -287,4 +288,9 @@ bool Tabla::MismosTipos(const Registro& r){
 		itCamposR.Avanzar();
 	}
 	return res;
+}
+
+// Devuelvo el conjunto de Columnas de la tabla
+aed2::Conj<aed2::Columna> Tabla::dameColumnas() const{
+	return columnas;
 }

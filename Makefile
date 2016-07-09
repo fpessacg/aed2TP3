@@ -3,7 +3,7 @@ OBJECTS={*.o}
 
 
 build: *.cpp *.h
-	g++ -o tests -g testPropio.cpp  Tabla.cpp Dato.cpp BaseDatos.cpp Registro.cpp 
+	g++ -o tests -g tests.cpp -std=c++11 Tabla.cpp Dato.cpp BaseDatos.cpp Registro.cpp Driver.cpp
 
 
 clean: 

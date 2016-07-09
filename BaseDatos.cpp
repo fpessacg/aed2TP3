@@ -20,12 +20,12 @@ using namespace aed2;
 //~ }
 
 
+
 // Agrego una nueva tabla a la BD
 void BaseDatos::AgregarTabla(const Tabla& t){
 	tablaLista.AgregarAtras(t.Nombre());
-	//struct InfoTabla nueva;
-	//nueva.tablaData = t; 
-	//this->tablasBD.Definir(t.Nombre(), nueva);
+	struct InfoTabla infoTab = InfoTabla(t);
+	tablasBD.Definir(t.Nombre(), infoTab);
 }
 
 // Devuelvo un iterador a los nombres de las tablas de la BD
@@ -190,8 +190,9 @@ aed2::Lista<Registro>::Iterador BaseDatos::Registros(const NombreTabla& t){
 	return tablasBD.Significado(t).tablaData.Registros();
 }
 
-aed2::Conj<aed2::NombreCampo> unionConjuntos(aed2::Conj<aed2::NombreCampo> c1, aed2::Conj<aed2::NombreCampo> c2){
-	aed2::Conj<aed2::NombreCampo>::Iterador it1 = c1.CrearIt(); 
+
+aed2::Conj<aed2::Columna> unionConjuntos(aed2::Conj<aed2::Columna> c1, aed2::Conj<aed2::Columna> c2){
+	aed2::Conj<aed2::Columna>::Iterador it1 = c1.CrearIt(); 
 	while(it1.HaySiguiente()){
 		c2.Agregar(it1.Siguiente());
 		it1.Avanzar();
@@ -201,22 +202,21 @@ aed2::Conj<aed2::NombreCampo> unionConjuntos(aed2::Conj<aed2::NombreCampo> c1, a
 
 // Genera el Join entre dos tablas
 void BaseDatos::GenerarVistaJoin(const NombreTabla& t1, const NombreTabla& t2, const NombreCampo& ca){
-<<<<<<< HEAD
 	struct InfoTabla infoT1 = tablasBD.Significado(t1);
 	aed2::Lista<Registro>::Iterador itRegT1 = infoT1.tablaData.Registros();
 	aed2::Lista<Registro>::Iterador itRegT2 = tablasBD.Significado(t2).tablaData.Registros();
 	
 	// Se crea InfoJoin 
-	aed2::Conj<aed2::NombreCampo> camposT1 = tablasBD.Significado(t1).tablaData.CamposTabla();
-	aed2::Conj<aed2::NombreCampo> camposT2 = tablasBD.Significado(t2).tablaData.CamposTabla();
+	aed2::Conj<aed2::Columna> columnasT1 = tablasBD.Significado(t1).tablaData.dameColumnas();
+	aed2::Conj<aed2::Columna> columnasT2 = tablasBD.Significado(t2).tablaData.dameColumnas();
 	
 	
-	aed2::Conj<aed2::NombreCampo> camposUnidos = unionConjuntos(camposT1, camposT2);
+	aed2::Conj<aed2::Columna> columnasUnidas = unionConjuntos(columnasT1, columnasT2);
 	aed2::Conj<aed2::NombreCampo> claves;
-	aed2::NombreTabla nombreTablaJoin = "lala";
-	aed2::Conj<Dato> datosCamposUnidos;
-	Registro registroCamposUnidos(camposUnidos, datosCamposUnidos); 
-	Tabla tablaJoin( nombreTablaJoin, claves, registroCamposUnidos);
+	aed2::NombreTabla nombreTablaJoin = "TablaJoin";
+	//~ aed2::Conj<Dato> datosCamposUnidos;
+	//~ Registro registroCamposUnidos(camposUnidos, datosCamposUnidos); 
+	Tabla tablaJoin( nombreTablaJoin, claves, columnasUnidas);
 	struct InfoJoin infoJoinT = InfoJoin(tablaJoin, ca);
 	infoT1.joins.Definir(t2, infoJoinT);
 	
@@ -238,17 +238,6 @@ void BaseDatos::GenerarVistaJoin(const NombreTabla& t1, const NombreTabla& t2, c
 		}
 		itRegT2.Avanzar();
 	}
-=======
-	//~ struct InfoTabla infoT1 = tablasBD.Significado(t1);
-	//~ aed2::Lista<Registro>::const_Iterador itRegT1 = infoT1.tablaData.Registros();
-	//~ aed2::Lista<Registro>::const_Iterador itRegT2 = tablasBD.Significado(t2).tablaData.Registros();
-	//~ Tabla tablaJoin = Tabla()
-	//~ while(itRegT1.HaySiguiente()){
-		//~ 
-	//~ 
-	//~ }
-//~ 
->>>>>>> 99aabb1537d6ad2098898c43e8c708367fd9b7d5
 }
 
 
@@ -259,3 +248,6 @@ aed2::Nat BaseDatos::CantidadDeAccesos(const NombreTabla& t) const{
 }
 
 BaseDatos::InfoJoin::InfoJoin(const Tabla& tabla, const aed2::NombreCampo& campo): registroJoin(tabla), campo(campo){}
+
+BaseDatos::InfoTabla::InfoTabla(const Tabla& tablaData): tablaData(tablaData){}
+

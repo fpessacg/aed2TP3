@@ -18,7 +18,7 @@ class Tabla {
 		
 		
 		
-		Tabla(const aed2::NombreTabla& nombre, const aed2::Conj <aed2::NombreCampo>& claves, const Registro & columnas);
+		Tabla(const aed2::NombreTabla& nombre, const aed2::Conj <aed2::NombreCampo>& claves, const aed2::Conj<aed2::Columna>& columnas);
 		//~ :nombre(nombre), claves(claves), cantAccesos(0), campos(columnas.campos());
 		
 			// Agrego un registor a la tabla
@@ -39,7 +39,7 @@ class Tabla {
 		// Devuelvo el conjunto de indices de la tabla
 		aed2::Conj<aed2::NombreCampo> Indices() const;
 
-		// Devuelvo un iterador al conjunto de campos de la tabla
+		// Devuelvo el conjunto de campos de la tabla
 		aed2::Conj<aed2::NombreCampo> CamposTabla() const;
 
 		// Devuelvo el tipo del campo c de la tabla
@@ -72,6 +72,9 @@ class Tabla {
 
 		// Devuelve true si los campos del registros son los mismos que de la tabla
 		bool MismosTipos(const Registro& r);
+
+		// Devuelvo el conjunto de Columnas de la tabla
+		aed2::Conj<aed2::Columna> dameColumnas() const;
 		
 	private:
 		struct IndicesString {
@@ -90,7 +93,7 @@ class Tabla {
 		aed2::Nat cantAccesos;
 		Dupla<IndicesString, IndicesNat> indices;
 		aed2::Conj<aed2::NombreCampo> campos;
-		aed2::Dicc<aed2::NombreCampo, aed2::TipoCampo> tipoDeLosCampos; 
+		aed2::Conj<aed2::Columna> columnas; 
 		aed2::Lista<Registro> registros;
 		aed2::Conj<aed2::NombreCampo> claves;
 };

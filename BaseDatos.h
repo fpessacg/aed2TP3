@@ -53,7 +53,7 @@ class BaseDatos
 
 		// Visualiza el Join entre dos tablas 
 
-		aed2::Lista<Registro>::const_Iterador VistaJoin(const aed2::NombreTabla& t1, const aed2::NombreTabla& t2) const;
+		aed2::Lista<Registro>::const_Iterador VistaJoin(const aed2::NombreTabla& t1, const aed2::NombreTabla& t2);
 
 
 		// Busca los registro que conincidan con r en la tabla de la base de datos
@@ -81,6 +81,7 @@ class BaseDatos
 		
 		struct InfoTabla
 		{
+			InfoTabla(const Tabla& tablaData);
 			aed2::Dicc<aed2::NombreTabla, InfoJoin>  joins;
 			Tabla tablaData;
 		};

@@ -4,14 +4,10 @@
 #include "Tipos.h"
 #include "aed2/Conj.h"
 #include "aed2/TiposBasicos.h"
-#include "aed2/Dupla.h"
-#include "aed2/Dicc.h"
 #include "Dato.h"
 #include "Registro.h"
 #include "Tabla.h"
-#include "DiccLog.h"
-#include "DiccString.h"
-#include "aed2/TiposBasicos.h"
+#include "BaseDatos.h"
 
 namespace aed2
 {
@@ -32,7 +28,7 @@ class Driver
 
         bool esNat() const;
         bool esString() const;
-        aed2::TipoCampo tipo() const;
+        TipoCampo tipo() const;
 
         const aed2::Nat& dameNat() const;
         const aed2::String& dameString() const;
