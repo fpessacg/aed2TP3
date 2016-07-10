@@ -14,9 +14,9 @@ class Registro
 {
 	public:
 		//Constructor
-		Registro(){}
-		Registro(const aed2::NombreCampo&, const Dato&){}
-		Registro(const aed2::Conj<aed2::NombreCampo>&, const aed2::Conj<Dato>&){}
+		Registro();
+		Registro(const aed2::NombreCampo& nombre, const Dato& dato);
+		Registro(const aed2::Conj<aed2::NombreCampo>& conjNombres, const aed2::Conj<Dato>& conjDatos);
 		//Registro();
 		// Devuelve el conjunto de campos del registro
 		aed2::Conj<aed2::NombreCampo> campos() const;

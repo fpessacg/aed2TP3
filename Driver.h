@@ -76,7 +76,7 @@ class Driver
      * 
      * PRE: idem especificación TAD Driver :: insertarEntrada
      */
-    void insertarRegistro(const NombreTabla& tabla, const Registro& registro);
+    void insertarRegistro(const NombreTabla& tabla, const Registro& reg);
 
     /**
      * Borra una serie de registros de una tabla de la base de datos.
@@ -107,7 +107,7 @@ class Driver
      * 
      * PRE: 'tabla' pertenece a las tablas de la base de datos.
      */
-    aed2::Conj<Registro> registrosDeTabla(const NombreTabla& tabla) const;
+    aed2::Conj<Registro> registrosDeTabla(const NombreTabla& tabla)const;
 
     /**
      * Devuelve la cantidad de accesos que se hicieron a la tabla.
@@ -240,7 +240,7 @@ class Driver
      * 
      * PRE: existe un Join entre las tablas 'tabla1' y 'tabla2'.
      */
-    aed2::Conj<Registro> vistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla2) const;
+    aed2::Conj<Registro> vistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla2);
 
   private:
 
@@ -249,7 +249,7 @@ class Driver
      * con el cuál interactuar. Además, pueden declarar todas las           *
      * funciones auxiliares que les hagan falta.                            *
      ************************************************************************/
-
+		BaseDatos BD;
 }; // class Driver
 
 }; // namespace aed2

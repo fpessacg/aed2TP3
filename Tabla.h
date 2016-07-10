@@ -34,7 +34,7 @@ class Tabla {
 		const aed2::NombreTabla& Nombre() const;
 
 		//Devuelvo un conjunto de las claves de la tabla
-		aed2::Conj<aed2::NombreCampo>::const_Iterador Claves() const;  
+		aed2::Conj<aed2::NombreCampo> Claves() const;  
 
 		// Devuelvo el conjunto de indices de la tabla
 		aed2::Conj<aed2::NombreCampo> Indices() const;
@@ -46,8 +46,8 @@ class Tabla {
 		aed2::TipoCampo TipoDelCampo(const aed2::NombreCampo& c) const;
 
 		// Devuelvo un iterador a la lista de registros de la tabla
-		aed2::Lista<Registro>::const_Iterador Registros() const;
-		aed2::Lista<Registro>::Iterador Registros();
+		aed2::Lista<Registro> Registros() const;
+		aed2::Lista<Registro> Registros();
 		
 		//Devuelvo la cantidad de accesos de la tabla 
 		aed2::Nat CantidadDeAccesos() const;
@@ -65,7 +65,7 @@ class Tabla {
 		static bool HayCoincidencia(const Registro& r, const aed2::Conj<aed2::NombreCampo>& cc, const aed2::Conj<Registro>& cr);
 
 		// Devuelve un iterador al conj de iteradores de Lista de Registros que coinciden 
-		aed2::Lista<ItLista>::Iterador Coincidencias(const Registro& r, ItLista itLisReg);
+		aed2::Lista<ItLista> Coincidencias(const Registro& r, aed2::Lista<Registro> lisReg);
 
 		// Devuelve la comlumna de c en cr
 		static aed2::Conj<Dato> DameColumna(const aed2::NombreCampo& c, const aed2::Lista<Registro>& lr);

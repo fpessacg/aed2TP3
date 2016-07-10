@@ -6,9 +6,10 @@
 
 #include <string>
 #include <iostream>
-#include <cassert>
 
 
+
+void declaracionDatos(){
 // Algunos datos de prueba que voy a usar reiteradamente.
 
 #define NOMBRE_TABLA_PERSONAS "personas"
@@ -27,9 +28,31 @@ aed2::Conj<aed2::NombreCampo> columnas_clave_trabajos;
 
 aed2::Driver::Registro trabajo_1;
 aed2::Driver::Registro trabajo_3;
+}
 
 void inicializarDatos()
 {
+#define NOMBRE_TABLA_PERSONAS "personas"
+
+aed2::Conj<aed2::Columna> 		columnas_personas;
+aed2::Conj<aed2::NombreCampo> columnas_clave_personas;
+
+aed2::Driver::Registro persona_1;
+aed2::Driver::Registro persona_2;
+aed2::Driver::Registro persona_3;
+
+#define NOMBRE_TABLA_TRABAJOS "trabajos"
+
+aed2::Conj<aed2::Columna> columnas_trabajos;
+aed2::Conj<aed2::NombreCampo> columnas_clave_trabajos;
+
+aed2::Driver::Registro trabajo_1;
+aed2::Driver::Registro trabajo_3;
+
+#define CREAR_TABLA_PERSONAS( bd ) (bd).crearTabla(NOMBRE_TABLA_PERSONAS, columnas_personas, columnas_clave_personas)
+#define CREAR_TABLA_TRABAJOS( bd ) (bd).crearTabla(NOMBRE_TABLA_TRABAJOS, columnas_trabajos, columnas_clave_trabajos)
+
+
   // tabla personas
 
   columnas_personas.Agregar({"DNI", aed2::NAT});
@@ -64,8 +87,8 @@ void inicializarDatos()
   trabajo_3.Definir("tipo", aed2::Driver::Dato("Piloto"));
 }
 
-#define CREAR_TABLA_PERSONAS( bd ) (bd).crearTabla(NOMBRE_TABLA_PERSONAS, columnas_personas, columnas_clave_personas)
-#define CREAR_TABLA_TRABAJOS( bd ) (bd).crearTabla(NOMBRE_TABLA_TRABAJOS, columnas_trabajos, columnas_clave_trabajos)
+//~ #define CREAR_TABLA_PERSONAS( bd ) (bd).crearTabla(NOMBRE_TABLA_PERSONAS, columnas_personas, columnas_clave_personas)
+//~ #define CREAR_TABLA_TRABAJOS( bd ) (bd).crearTabla(NOMBRE_TABLA_TRABAJOS, columnas_trabajos, columnas_clave_trabajos)
 
 ////////////////////////////////////////////////////////////////////////////////
 // funciones auxiliares
@@ -138,11 +161,11 @@ void insertar_una_tabla_vacia()
 void insertar_registros_en_una_tabla()
 {
   aed2::Driver bd;
-	std::cout << "Hola" << std::endl;
+
   CREAR_TABLA_PERSONAS( bd );
   bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_1);
   bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_2);
-	std::cout << "Hola" << std::endl;
+
   {
     aed2::Conj<aed2::Driver::Registro> registros;
     registros.Agregar( persona_1 );
@@ -558,6 +581,26 @@ void joins_no_son_simetricos()
 
 int main(int argc, char **argv)
 {
+	//~ // Algunos datos de prueba que voy a usar reiteradamente.
+//~ 
+	//~ #define NOMBRE_TABLA_PERSONAS "personas"
+//~ 
+	//~ aed2::Conj<aed2::Columna> columnas_personas;
+	//~ aed2::Conj<aed2::NombreCampo> columnas_clave_personas;
+//~ 
+	//~ aed2::Driver::Registro persona_1;
+	//~ aed2::Driver::Registro persona_2;
+	//~ aed2::Driver::Registro persona_3;
+//~ 
+	//~ #define NOMBRE_TABLA_TRABAJOS "trabajos"
+//~ 
+	//~ aed2::Conj<aed2::Columna> columnas_trabajos;
+	//~ aed2::Conj<aed2::NombreCampo> columnas_clave_trabajos;
+//~ 
+	//~ aed2::Driver::Registro trabajo_1;
+	//~ aed2::Driver::Registro trabajo_3;
+
+	declaracionDatos();
   inicializarDatos();
 
   //////////////////////////////////////////////////////////////////////////////

@@ -31,11 +31,10 @@ class BaseDatos
 		void Borrar(const Registro& r, const aed2::NombreTabla& t);
 
 		// Devuelvo un iterador a los nombres de las tablas de la BD
-		aed2::Lista<aed2::NombreTabla> Tablas() const;
+		aed2::Lista<aed2::NombreTabla>Tablas() const;
 
 		// Devuelvo la tabla que me piden
-		const Tabla& DameTabla(const aed2::NombreTabla&) const;
-		const Tabla& DameTabla(const aed2::NombreTabla&);
+		Tabla& DameTabla(const aed2::NombreTabla&);
 
 		// Devuelve la tabla con mayor cantidad de accesos en BD
 		const aed2::NombreTabla& TablaMaxima() const;
@@ -54,11 +53,11 @@ class BaseDatos
 
 		// Visualiza el Join entre dos tablas 
 
-		aed2::Lista<Registro> VistaJoin(const aed2::NombreTabla& t1, const aed2::NombreTabla& t2);
+		aed2::Lista<Registro>::const_Iterador VistaJoin(const aed2::NombreTabla& t1, const aed2::NombreTabla& t2) const;
 
 
 		// Busca los registro que conincidan con r en la tabla de la base de datos
-		aed2::Lista<ItLista> Buscar(const Registro& r, const aed2::NombreTabla& t) const;
+		aed2::Lista<ItLista>::Iterador Buscar(const Registro& r, const aed2::NombreTabla& t) const;
 
 		// Devuelve el nombre de la tabla que tuvo mayor cant de Accesos
 		const aed2::NombreTabla& EncontrarMaximo( aed2::NombreTabla& t, const aed2::Conj<aed2::NombreTabla>&  conjTab);
@@ -67,7 +66,7 @@ class BaseDatos
 		aed2::Nat  CantidadDeAccesos(const aed2::NombreTabla& t) const;
 
 		// devuelve los registros de una tabla
-		aed2::Lista<Registro> Registros(const aed2::NombreTabla& t) const;
+		aed2::Lista<Registro>::Iterador Registros(const aed2::NombreTabla& t) ;
 
 	
 	private:
@@ -82,7 +81,6 @@ class BaseDatos
 		
 		struct InfoTabla
 		{
-			InfoTabla(const Tabla& tablaData);
 			aed2::Dicc<aed2::NombreTabla, InfoJoin>  joins;
 			Tabla tablaData;
 		};

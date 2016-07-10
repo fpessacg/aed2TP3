@@ -8,6 +8,57 @@ bool aed2::operator == (const aed2::Columna& c1, const aed2::Columna& c2)
 using namespace aed2;
 
 ////////////////////////////////////////////////////////////////////////////////
+// Funciones Auxiliares
+////////////////////////////////////////////////////////////////////////////////
+
+
+template <typename T>
+aed2::Conj<T> deListaAConj(aed2::Lista<T>& lista){
+	typename aed2::Conj<T> conj;
+	typename aed2::Lista<T>::Iterador itLista = lista.CrearIt();
+	while(itLista.HaySiguiente()){
+		conj.Agregar(itLista.Siguiente());
+		itLista.Avanzar();
+	}
+	return conj;
+}
+
+
+Driver::Dato pasarDatoADDato(const Dato& dato){
+	if (dato.esNat()) return Driver::Dato(dato.dameNat());
+	else return Driver::Dato(dato.dameString());
+}
+
+
+Driver::Registro pasarRegADReg(const Registro& reg){
+	Driver::Registro dReg;
+	aed2::Conj<aed2::NombreCampo>::Iterador itCamposReg = reg.campos().CrearIt();
+	while(itCamposReg.HaySiguiente()){
+		Dato dato = reg.Significado(itCamposReg.Siguiente());
+		aed2::NombreCampo nombreCamp = itCamposReg.Siguiente();
+		dReg.DefinirRapido(nombreCamp, pasarDatoADDato(dato));
+		itCamposReg.Avanzar();
+	}
+	return dReg;
+}
+
+Dato pasarDDatoADato(const Driver::Dato dDato){
+	if (dDato.esNat()) return Dato(dDato.dameNat());
+	else return Dato(dDato.dameString());
+}
+
+Registro pasarDRegAReg(const Driver::Registro& dReg){
+	Registro reg;
+	Driver::Registro::const_Iterador itDReg = dReg.CrearIt();
+	while(itDReg.HaySiguiente()){
+		Registro nuevoReg = Registro(itDReg.SiguienteClave(), pasarDDatoADato(itDReg.SiguienteSignificado()));
+		reg.agregarCampos(nuevoReg);
+		itDReg.Avanzar();
+	}
+	return reg;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Dato
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -70,163 +121,150 @@ Driver::Driver(){
 Driver::~Driver(){}
 
 // Tablas
-void Driver::crearTabla(const NombreTabla& nombre, const aed2::Conj<Columna>& columnas, const aed2::Conj<NombreCampo>& claves)
-{
-	const Tabla nuevaTabla(nombre,claves,columnas);
-	BD.BaseDatos::AgregarTabla(nuevaTabla);
+void Driver::crearTabla(const NombreTabla& nombre, const aed2::Conj<Columna>& columnas, const aed2::Conj<NombreCampo>& claves){
+	Tabla nuevaTabla(nombre,claves,columnas);
+	BD.AgregarTabla(nuevaTabla);
 }
 
-void Driver::insertarRegistro(const NombreTabla& tabla, const Registro& registro)
-{
-		//~ BaseDatos::InsertarEntrada(registro, tabla);
-  // TODO ...
-  assert(false);
+void Driver::insertarRegistro(const NombreTabla& tabla, const Registro& reg){
+	BD.InsertarEntrada(pasarDRegAReg(reg), tabla);
 }
 
-void Driver::borrarRegistro(const NombreTabla& tabla, const NombreCampo& columna, const Dato& valor)
-{
-		//~ Registro regBorrar(columna, valor);
-	//~ BaseDatos::Borrar(regBorrar, tabla)
-  // TODO ...
-  assert(false);
+void Driver::borrarRegistro(const NombreTabla& tabla, const NombreCampo& columna, const Dato& valor){
+	//~ Dato datoAux = valor;
+	//~ Dato val = pasarDDatoADato(datoAux);
+	//~ Registro regBorrar =  Registro(columna, pasarDDatoADato(valor));
+	//~ BD.Borrar(regBorrar, tabla);
 }
 
-aed2::Conj<Columna> Driver::columnasDeTabla(const NombreTabla& tabla) const
-{
-		// TEngo q buscar la tabla en la bd y despues ver los campos
-	//~ aed2::Conj<aed2::NombreCampo>::Iterador itCamposTabla = tabla.CamposTabla().CrearIt(); 
-	//~ aed2::Conj<Columna> conjCol;
-	//~ while(itCamposTabla.HaySiguiente()){
-		//~ Columna colum;
-		//~ colum.nombre = itCamposTabla.Siguiente();
-		//~ colum.tipo   = Tabla::TipoDelCampo(Columna.nombre);
-		//~ conjCol.Agregar(Columna);
-	//~ }
-	//~ return colum;
-  // TODO ...
-  assert(false);
+aed2::Conj<Columna> Driver::columnasDeTabla(const NombreTabla& tabla) const{
+	return BD.DameTabla(tabla).dameColumnas();
 }
 
-aed2::Conj<NombreCampo> Driver::columnasClaveDeTabla(const NombreTabla& tabla) const
-{
-  // TODO ...
-  assert(false);
+aed2::Conj<NombreCampo> Driver::columnasClaveDeTabla(const NombreTabla& tabla) const{
+	Tabla tablaCompleta = BD.DameTabla(tabla);
+	return tablaCompleta.Claves();
 }
 
-aed2::Conj<Driver::Registro> Driver::registrosDeTabla(const NombreTabla& tabla) const
-{
-  // TODO ...
-  assert(false);
+
+aed2::Conj<Driver::Registro> Driver::registrosDeTabla(const NombreTabla& tabla)const{
+	//~ Tabla tablaCompl = BD.DameTabla(tabla);
+	//~ aed2::Lista<Registro> listaReg = tablaCompl.Registros();
+	//~ return deListaAConj(listaReg);
 }
 
-aed2::Nat Driver::cantidadDeAccesosDeTabla(const NombreTabla& tabla) const
-{
-  // TODO ...
-  assert(false);
+aed2::Nat Driver::cantidadDeAccesosDeTabla(const NombreTabla& tabla) const{
+	return BD.CantidadDeAccesos(tabla);
 }
 
-Driver::Dato Driver::minimo(const NombreTabla& tabla, const NombreCampo& columna) const
-{
-  // TODO ...
-  assert(false);
+Driver::Dato Driver::minimo(const NombreTabla& tabla, const NombreCampo& columna) const{
+	return pasarDatoADDato(BD.DameTabla(tabla).Minimo(columna));
 }
 
-Driver::Dato Driver::maximo(const NombreTabla& tabla, const NombreCampo& columna) const
-{
-  // TODO ...
-  assert(false);
+Driver::Dato Driver::maximo(const NombreTabla& tabla, const NombreCampo& columna) const{
+	return pasarDatoADDato(BD.DameTabla(tabla).Maximo(columna));
 }
 
-aed2::Conj<Driver::Registro> Driver::buscar(const NombreTabla& tabla, const Registro& criterio) const
-{
-  // TODO ...
-  assert(false);
+aed2::Conj<Driver::Registro> Driver::buscar(const NombreTabla& tabla, const Registro& criterio) const{
+	aed2::Lista<ItLista> listaItLista = BD.Buscar(pasarDRegAReg(criterio), tabla);
+	aed2::Lista<ItLista>::Iterador itListaItLista = listaItLista.CrearIt();
+	aed2::Conj<Driver::Registro> conjDReg;
+	while(itListaItLista.HaySiguiente()){
+		//~ Driver::Registro regAgregar = itListaItLista.Siguiente().Siguiente();
+		//~ conjDReg.Agregar( pasarRegADReg(regAgregar));
+		//~ itListaItLista.Avanzar();
+	}
+	return conjDReg;
 }
 
-aed2::Conj<NombreTabla> Driver::tablas() const
-{
-  // TODO ...
-  assert(false);
+
+
+
+aed2::Conj<NombreTabla> Driver::tablas() const{
+	aed2::Lista<aed2::NombreTabla> tablas = BD.Tablas();
+	return deListaAConj(tablas);
 }
 
-const NombreTabla Driver::tablaMaxima() const
-{
-  // TODO ...
-  assert(false);
+const NombreTabla Driver::tablaMaxima() const{
+	return BD.TablaMaxima();
 }
 
 // Indices
 
-bool Driver::tieneIndiceNat(const NombreTabla& tabla) const
-{
-  // TODO ...
-  assert(false);
+bool Driver::tieneIndiceNat(const NombreTabla& tabla) const{
+	aed2::Conj<aed2::NombreCampo>::Iterador itIndices = BD.DameTabla(tabla).Indices().CrearIt();
+	while(itIndices.HaySiguiente()){
+		if(BD.DameTabla(tabla).TipoDelCampo(itIndices.Siguiente()) == NAT) return true;
+		itIndices.Avanzar();
+	}
+	return false;
 }
 
-bool Driver::tieneIndiceString(const NombreTabla& tabla) const
-{
-  // TODO ...
-  assert(false);
+bool Driver::tieneIndiceString(const NombreTabla& tabla) const{
+	aed2::Conj<aed2::NombreCampo>::Iterador itIndices = BD.DameTabla(tabla).Indices().CrearIt();
+	while(itIndices.HaySiguiente()){
+		if(BD.DameTabla(tabla).TipoDelCampo(itIndices.Siguiente()) == STR) return true;
+		itIndices.Avanzar();
+	}
+	return false;
 }
 
-const NombreCampo& Driver::campoIndiceNat(const NombreTabla& tabla) const
-{
-  // TODO ...
-  assert(false);
+const NombreCampo& Driver::campoIndiceNat(const NombreTabla& tabla) const{
+	aed2::Conj<aed2::NombreCampo>::Iterador itIndices = BD.DameTabla(tabla).Indices().CrearIt();
+	while(itIndices.HaySiguiente()){
+		if(BD.DameTabla(tabla).TipoDelCampo(itIndices.Siguiente()) == NAT) return itIndices.Siguiente();
+		itIndices.Avanzar();
+	}
 }
 
-const NombreCampo& Driver::campoIndiceString(const NombreTabla& tabla) const
-{
-  // TODO ...
-  assert(false);
+const NombreCampo& Driver::campoIndiceString(const NombreTabla& tabla) const{
+	aed2::Conj<aed2::NombreCampo>::Iterador itIndices = BD.DameTabla(tabla).Indices().CrearIt();
+	while(itIndices.HaySiguiente()){
+		if(BD.DameTabla(tabla).TipoDelCampo(itIndices.Siguiente()) == STR) return itIndices.Siguiente();
+		itIndices.Avanzar();
+	}
 }
 
-void Driver::crearIndiceNat(const NombreTabla& tabla, const NombreCampo& campo)
-{
-  // TODO ...
-  assert(false);
+void Driver::crearIndiceNat(const NombreTabla& tabla, const NombreCampo& campo){
+	Tabla tablaCompl = BD.DameTabla(tabla);
+	tablaCompl.Indexar(campo);
 }
 
-void Driver::crearIndiceString(const NombreTabla& tabla, const NombreCampo& campo)
-{
-  // TODO ...
-  assert(false);
+void Driver::crearIndiceString(const NombreTabla& tabla, const NombreCampo& campo){
+	Tabla tablaCompl = BD.DameTabla(tabla);
+	tablaCompl.Indexar(campo);
 }
 
 // Joins
 
-bool Driver::hayJoin(const NombreTabla& tabla1, const NombreTabla& tabla2) const
-{
-  // TODO ...
+bool Driver::hayJoin(const NombreTabla& tabla1, const NombreTabla& tabla2) const{
+	return BD.HayJoin(tabla1, tabla2);
+}
+
+const NombreCampo& Driver::campoJoin(const NombreTabla& tabla1, const NombreTabla& tabla2) const{
+	return BD.CampoJoin(tabla1, tabla2);
+}
+
+void Driver::generarVistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla2, const NombreCampo& campo){
+	BD.GenerarVistaJoin(tabla1, tabla2, campo);
+}
+
+void Driver::borrarVistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla2){
+	BD.BorrarJoin(tabla1,tabla2);
+}
+
+Driver::Registro unir(const Driver::Registro& reg1, const Driver::Registro& reg2, const NombreCampo& clave){
+// TODO ...
   assert(false);
 }
 
-const NombreCampo& Driver::campoJoin(const NombreTabla& tabla1, const NombreTabla& tabla2) const
-{
-  // TODO ...
-  assert(false);
-}
-
-void Driver::generarVistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla2, const NombreCampo& campo)
-{
-  // TODO ...
-  assert(false);
-}
-
-void Driver::borrarVistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla2)
-{
-  // TODO ...
-  assert(false);
-}
-
-Driver::Registro unir(const Driver::Registro& reg1, const Driver::Registro& reg2, const NombreCampo& clave)
-{
-  // TODO ...
-  assert(false);
-}
-
-aed2::Conj<Driver::Registro> Driver::vistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla2) const
-{
-  // TODO ...
-  assert(false);
+aed2::Conj<Driver::Registro> Driver::vistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla2){
+	//~ aed2::Lista<Registro> listaReg = BD.VistaJoin(tabla1, tabla2);
+	//~ aed2::Lista<Registro>::Iterador itListaReg =  listaReg.CrearIt();
+	//~ aed2::Conj<Driver::Registro> conjDReg;
+	//~ while(itListaReg.HaySiguiente()){
+		//~ conjDReg.Agregar(pasarRegADReg(itListaReg.Siguiente()));
+		//~ itListaReg.Avanzar();
+	//~ }
+	//~ return  conjDReg; 
 }

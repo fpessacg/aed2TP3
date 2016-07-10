@@ -69,7 +69,8 @@ void Tabla::AgregarRegistro(const Registro& r){
 
 // Borro un registro de la tabla
 void Tabla::BorrarRegistro(const Registro& crit){
-	aed2::Lista<ItLista>::Iterador itConjItLis = Coincidencias(crit, Registros() );
+	aed2::Lista<ItLista> conjItLis = Coincidencias(crit, Registros() );
+	aed2::Lista<ItLista>::Iterador itConjItLis = conjItLis.CrearIt();
 	while(itConjItLis.HaySiguiente()){
 		// Si tengo indice Nat Borro la clave del diccionario
 		if(indices.y.indiceNat.CantClaves() != 0){
@@ -94,7 +95,7 @@ void Tabla::BorrarRegistro(const Registro& crit){
 
 // Creo un Indice en el campo c de la tabla
 void Tabla::Indexar(const aed2::NombreCampo& c){
-	aed2::Lista<Registro>::Iterador itReg = Registros();
+	aed2::Lista<Registro>::Iterador itReg = Registros().CrearIt();
 	Dato max = 0; Dato min = 0;
 	// Si el campo es Nat creo un dicLog
 	if(TipoDelCampo(c)){
@@ -149,8 +150,8 @@ const aed2::NombreTabla& Tabla::Nombre()const{
 }
 
 //Devuelvo un conjunto de las claves de la tabla
-aed2::Conj<aed2::NombreCampo>::const_Iterador Tabla::Claves() const{
-	return claves.CrearIt();
+aed2::Conj<aed2::NombreCampo> Tabla::Claves() const{
+	return claves;
 }
 
 // Devuelvo el conjunto de indices de la tabla
@@ -176,11 +177,11 @@ aed2::TipoCampo Tabla::TipoDelCampo(const aed2::NombreCampo& c) const{
 }
 
 // Devuelvo un iterador a la lista de registros de la tabla
-aed2::Lista<Registro>::const_Iterador Tabla::Registros() const{
-	return registros.CrearIt();
+aed2::Lista<Registro> Tabla::Registros() const{
+	return registros;
 }
-aed2::Lista<Registro>::Iterador Tabla::Registros(){
-	return registros.CrearIt();
+aed2::Lista<Registro> Tabla::Registros(){
+	return registros;
 }
 
 //Devuelvo la cantidad de accesos de la tabla 
@@ -237,27 +238,31 @@ bool Tabla::HayCoincidencia(const Registro& r, const aed2::Conj<aed2::NombreCamp
 }
 
 // Devuelve un iterador al conj de iteradores de Lista de Registros que coinciden 
-aed2::Lista<ItLista>::Iterador Tabla::Coincidencias(const Registro& r, ItLista itLisReg){
+aed2::Lista<ItLista> Tabla::Coincidencias(const Registro& r, aed2::Lista<Registro> lisReg){
+	ItLista itLisReg = lisReg.CrearIt();
 	aed2::Lista<ItLista> listaItLista;
 	aed2::Lista<ItLista>::Iterador itListaItLista = listaItLista.CrearIt();
+	// Reviso que no sea vacia la tabla
 	if(itLisReg.HaySiguiente()){
 		// Si tengo indice String busco por este indice
 		if( r.campos().Pertenece(indices.x.campo) ){
 			Dato d = r.Significado(indices.x.campo);
-			itListaItLista = indices.x.indiceString.Significado( d.dameString() ).CrearIt(); 
+			listaItLista = indices.x.indiceString.Significado( d.dameString() ); 
 		}
 		else if(r.campos().Pertenece(indices.y.campo) ){
 			Dato d = r.Significado(indices.y.campo);
-			itListaItLista = indices.y.indiceNat.Significado( d.dameNat() ).CrearIt(); 
+			listaItLista = indices.y.indiceNat.Significado( d.dameNat() ); 
 		}
-		while(itListaItLista.HaySiguiente()){
-			if(!(itListaItLista.Siguiente().Siguiente().coincidenTodos(r.campos(), r))){
-				itListaItLista.EliminarSiguiente();
+		else{
+			while(itListaItLista.HaySiguiente()){
+				if(!(itListaItLista.Siguiente().Siguiente().coincidenTodos(r.campos(), r))){
+					itListaItLista.EliminarSiguiente();
+				}
+				else itListaItLista.Avanzar();
 			}
-			else itListaItLista.Avanzar();
 		}
 	}
-	else return itListaItLista; 
+	return listaItLista; 
 }
 
 // Devuelve la comlumna de c en cr

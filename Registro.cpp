@@ -1,6 +1,19 @@
 
 #include "Registro.h"
 
+//Constructor
+	Registro::Registro(){}
+	Registro::Registro(const aed2::NombreCampo& nombre, const Dato& dato){reg.Definir(nombre,dato);}
+	Registro::Registro(const aed2::Conj<aed2::NombreCampo>& conjNombres, const aed2::Conj<Dato>& conjDatos){
+		aed2::Conj<aed2::NombreCampo>::const_Iterador itConjNombres = conjNombres.CrearIt();
+		aed2::Conj<Dato>::const_Iterador itConjDatos = conjDatos.CrearIt();
+		while(itConjNombres.HaySiguiente()){
+			reg.Definir(itConjNombres.Siguiente(), itConjDatos.Siguiente() );
+			itConjNombres.Avanzar();
+			itConjDatos.Avanzar();
+		}
+	}
+
 // Devuelve el conjunto de campos del registro
 aed2::Conj<aed2::NombreCampo> Registro::campos() const{
 	aed2::Dicc<aed2::NombreCampo, Dato>::const_Iterador itReg = reg.CrearIt();
