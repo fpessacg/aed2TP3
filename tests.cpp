@@ -140,10 +140,12 @@ void insertar_registros_en_una_tabla()
   aed2::Driver bd;
   CREAR_TABLA_PERSONAS( bd );
   bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_1);
-	std::cout << "Hola" << std::endl;
+	//~ std::cout << "Hola" << std::endl;
   bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_2);
-	std::cout << "Hola" << std::endl;
-  {
+	//~ std::cout << "Hola" << std::endl;
+	aed2::Conj<aed2::Dicc<aed2::NombreCampo, aed2::Driver::Dato> > regAux = bd.registrosDeTabla(NOMBRE_TABLA_PERSONAS);
+	std::cout << regAux.Cardinal() << std::endl;
+	{
     aed2::Conj<aed2::Driver::Registro> registros;
     registros.Agregar( persona_1 );
     registros.Agregar( persona_2 );

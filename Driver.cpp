@@ -52,7 +52,9 @@ tp3::Registro pasarDRegAReg(const Driver::Registro& dReg){
 	Driver::Registro::const_Iterador itDReg = dReg.CrearIt();
 	while(itDReg.HaySiguiente()){
 		tp3::Registro nuevoReg = tp3::Registro(itDReg.SiguienteClave(), pasarDDatoADato(itDReg.SiguienteSignificado()));
+		//~ std::cout << "pasarDRegAReg" << std::endl;
 		reg.agregarCampos(nuevoReg);
+		//~ std::cout << "pasarDRegAReg" << std::endl;
 		itDReg.Avanzar();
 	}
 	return reg;
@@ -127,11 +129,8 @@ void Driver::crearTabla(const NombreTabla& nombre, const aed2::Conj<Columna>& co
 }
 
 void Driver::insertarRegistro(const NombreTabla& tabla, const Driver::Registro& reg){
-	std::cout << "insertarRegistroDriver" << std::endl;
-	Driver::Registro regAux1 = reg;
-	Registro regAux2 = reg;
-	tp3::Registro regAux = pasarDRegAReg(reg);
-	BD.InsertarEntrada(pasarDRegAReg(reg), tabla);	
+	//~ std::cout << "insertarRegistroDriver" << std::endl;
+	BD.InsertarEntrada(pasarDRegAReg(reg), tabla);
 	//~ std::cout << "insertarRegistroDriverFin" << std::endl;
 }
 

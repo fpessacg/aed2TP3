@@ -1,6 +1,6 @@
 #include "Tabla.h"
 
-using namespace tp3;
+//~ using namespace tp3;
 
 typedef aed2::Lista < tp3::Registro >::Iterador ItLista;
 

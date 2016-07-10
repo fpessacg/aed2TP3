@@ -41,12 +41,24 @@ bool Registro::puedoBorrar(const Registro& criterio) const{
 
 // Agrego campos del registro que me pasan al registro
 Registro& Registro::agregarCampos(const Registro& rCrit){
-	aed2::Conj<aed2::NombreCampo>::Iterador itrCrit = rCrit.campos().CrearIt();
-	while(itrCrit.HaySiguiente()){
-		if(!reg.Definido(itrCrit.Siguiente()) ){
-			reg.DefinirRapido( itrCrit.Siguiente(), rCrit.Significado(itrCrit.Siguiente()));
+	aed2::Conj<aed2::NombreCampo> camposrCrit = rCrit.campos();
+	aed2::Conj<aed2::NombreCampo>::Iterador itCamposrCrit = camposrCrit.CrearIt();
+			//~ std::cout << camposrCrit << std::endl;
+			//~ std::cout << itrCrit.Siguiente() << std::endl;
+	while(itCamposrCrit.HaySiguiente()){
+		if(!reg.Definido(itCamposrCrit.Siguiente()) ){
+			//~ std::cout << "AgregarCampos" << std::endl;
+			
+			//~ std::cout << itCamposrCrit.Siguiente() << std::endl;
+			//~ std::cout << rCrit.Significado(rCrit.campos()) << std::endl;
+			aed2::NombreCampo clave = itCamposrCrit.Siguiente();
+			//~ std::cout << clave << std::endl;
+			
+			Dato dato =  rCrit.Significado(clave);
+			//~ std::cout << "AgregarCampos" << std::endl;
+			reg.Definir( clave, dato);
 		}
-	itrCrit.Avanzar();
+		itCamposrCrit.Avanzar();
 	}
 	return *this;
 }
@@ -124,7 +136,9 @@ aed2::Conj<Registro> Registro::combinarTodos(const aed2::NombreCampo& c,const ae
 }
 
 // Devuelvo el significado del campo 
-const Dato& Registro::Significado(const aed2::NombreCampo& c) const{
+const tp3::Dato& Registro::Significado(const aed2::NombreCampo& c) const{
+	//~ std::cout << "Significado" << std::endl;
+	//~ std::cout << c << std::endl;
 	return reg.Significado(c);
 }
 

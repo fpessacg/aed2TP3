@@ -230,12 +230,18 @@ const S& Dicc<K,S>::Significado(const K& clave)const
   assert( Definido(clave) );
   #endif
 
-  return Buscar(clave).SiguienteSignificado();
+    const_Iterador it = Buscar(clave); 
+	//~ std::cout << "SignificadoDicc" << std::endl;
+	
+	bool lala = it.HaySiguiente(); 
+	//~ std::cout << lala << std::endl;
+
+	return it.SiguienteSignificado();
+
 }
 
 template<class K, class S>
-S& Dicc<K,S>::Significado(const K& clave)
-{
+S& Dicc<K,S>::Significado(const K& clave){
   #ifdef DEBUG
   assert( Definido(clave) );
   #endif
@@ -314,12 +320,11 @@ const K& Dicc<K,S>::Iterador::SiguienteClave() const
 }
 
 template<class K, class S>
-S& Dicc<K,S>::Iterador::SiguienteSignificado()
-{
+S& Dicc<K,S>::Iterador::SiguienteSignificado(){
+	//~ std::cout << "SiguienteSignificado" << std::endl;
   #ifdef DEBUG
   assert( HaySiguiente() );
   #endif
-
   return it_significados_.Siguiente();
 }
 
@@ -551,8 +556,8 @@ bool Dicc<K,S>::Iterador::operator == (const typename Dicc<K,S>::Iterador& otro)
   ///Funciones auxiliares
 
 template<class K, class S>
-typename Dicc<K,S>::Iterador Dicc<K,S>::Buscar(const K& clave)
-{
+typename Dicc<K,S>::Iterador Dicc<K,S>::Buscar(const K& clave){
+	//~ std::cout << "BuscarDicc" << std::endl;
   typename Dicc<K,S>::Iterador it = CrearIt();
   while(it.HaySiguiente() && !(it.SiguienteClave() == clave)){
     it.Avanzar();

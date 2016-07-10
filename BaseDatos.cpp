@@ -55,7 +55,7 @@ const NombreCampo& BaseDatos::CampoJoin(const NombreTabla& t1, const NombreTabla
 
 // Agrego un Registro a una Tabla
 void BaseDatos::InsertarEntrada(const tp3::Registro& r, const NombreTabla& t){
-	std::cout << "InsertarRegistroBD" << std::endl;
+	//~ std::cout << "InsertarEntradaSBD" << std::endl;
 	struct InfoTabla infoT = tablasBD.Significado(t);
 	infoT.tablaData.AgregarRegistro(r);
 	if(infoT.tablaData.CantidadDeAccesos() > cantAccesoMax){
