@@ -24,17 +24,17 @@ aed2::Conj<T> deListaAConj(aed2::Lista<T>& lista){
 }
 
 
-Driver::Dato pasarDatoADDato(const Dato& dato){
+Driver::Dato pasarDatoADDato(const tp3::Dato& dato){
 	if (dato.esNat()) return Driver::Dato(dato.dameNat());
 	else return Driver::Dato(dato.dameString());
 }
 
 
-Driver::Registro pasarRegADReg(const Registro& reg){
+Driver::Registro pasarRegADReg(const tp3::Registro& reg){
 	Driver::Registro dReg;
 	aed2::Conj<aed2::NombreCampo>::Iterador itCamposReg = reg.campos().CrearIt();
 	while(itCamposReg.HaySiguiente()){
-		Dato dato = reg.Significado(itCamposReg.Siguiente());
+		tp3::Dato dato = reg.Significado(itCamposReg.Siguiente());
 		aed2::NombreCampo nombreCamp = itCamposReg.Siguiente();
 		dReg.DefinirRapido(nombreCamp, pasarDatoADDato(dato));
 		itCamposReg.Avanzar();
@@ -42,16 +42,16 @@ Driver::Registro pasarRegADReg(const Registro& reg){
 	return dReg;
 }
 
-Dato pasarDDatoADato(const Driver::Dato dDato){
-	if (dDato.esNat()) return Dato(dDato.dameNat());
-	else return Dato(dDato.dameString());
+tp3::Dato pasarDDatoADato(const Driver::Dato dDato){
+	if (dDato.esNat()) return tp3::Dato(dDato.dameNat());
+	else return tp3::Dato(dDato.dameString());
 }
 
-Registro pasarDRegAReg(const Driver::Registro& dReg){
-	Registro reg;
+tp3::Registro pasarDRegAReg(const Driver::Registro& dReg){
+	tp3::Registro reg;
 	Driver::Registro::const_Iterador itDReg = dReg.CrearIt();
 	while(itDReg.HaySiguiente()){
-		Registro nuevoReg = Registro(itDReg.SiguienteClave(), pasarDDatoADato(itDReg.SiguienteSignificado()));
+		tp3::Registro nuevoReg = tp3::Registro(itDReg.SiguienteClave(), pasarDDatoADato(itDReg.SiguienteSignificado()));
 		reg.agregarCampos(nuevoReg);
 		itDReg.Avanzar();
 	}
@@ -126,8 +126,13 @@ void Driver::crearTabla(const NombreTabla& nombre, const aed2::Conj<Columna>& co
 	BD.AgregarTabla(nuevaTabla);
 }
 
-void Driver::insertarRegistro(const NombreTabla& tabla, const Registro& reg){
-	BD.InsertarEntrada(pasarDRegAReg(reg), tabla);
+void Driver::insertarRegistro(const NombreTabla& tabla, const Driver::Registro& reg){
+	std::cout << "insertarRegistroDriver" << std::endl;
+	Driver::Registro regAux1 = reg;
+	Registro regAux2 = reg;
+	tp3::Registro regAux = pasarDRegAReg(reg);
+	BD.InsertarEntrada(pasarDRegAReg(reg), tabla);	
+	//~ std::cout << "insertarRegistroDriverFin" << std::endl;
 }
 
 void Driver::borrarRegistro(const NombreTabla& tabla, const NombreCampo& columna, const Dato& valor){

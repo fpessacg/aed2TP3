@@ -76,7 +76,7 @@ class Driver
      * 
      * PRE: idem especificación TAD Driver :: insertarEntrada
      */
-    void insertarRegistro(const NombreTabla& tabla, const Registro& reg);
+    void insertarRegistro(const NombreTabla& tabla, const Driver::Registro& reg);
 
     /**
      * Borra una serie de registros de una tabla de la base de datos.

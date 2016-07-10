@@ -13,8 +13,8 @@
 #include "DiccString.h"
 #include "aed2/TiposBasicos.h"
 
-		typedef aed2::Lista < Registro >::Iterador ItLista;
-		typedef aed2::Lista < Registro >::const_Iterador const_ItLista;
+		typedef aed2::Lista < tp3::Registro >::Iterador ItLista;
+		typedef aed2::Lista < tp3::Registro >::const_Iterador const_ItLista;
 
 class BaseDatos
 {
@@ -25,10 +25,10 @@ class BaseDatos
 		void AgregarTabla(const Tabla& t);
 
 		// Agrego un Registro a una Tabla
-		void InsertarEntrada(const Registro& r,const aed2::NombreTabla& t);
+		void InsertarEntrada(const tp3::Registro& r,const aed2::NombreTabla& t);
 
 		//borrar un registro de una tabla
-		void Borrar(const Registro& r, const aed2::NombreTabla& t);
+		void Borrar(const tp3::Registro& r, const aed2::NombreTabla& t);
 
 		// Devuelvo un iterador a los nombres de las tablas de la BD
 		aed2::Lista<aed2::NombreTabla> Tablas() const;
@@ -54,11 +54,11 @@ class BaseDatos
 
 		// Visualiza el Join entre dos tablas 
 
-		aed2::Lista<Registro> VistaJoin(const aed2::NombreTabla& t1, const aed2::NombreTabla& t2);
+		aed2::Lista<tp3::Registro> VistaJoin(const aed2::NombreTabla& t1, const aed2::NombreTabla& t2);
 
 
 		// Busca los registro que conincidan con r en la tabla de la base de datos
-		aed2::Lista<ItLista> Buscar(const Registro& r, const aed2::NombreTabla& t) const;
+		aed2::Lista<ItLista> Buscar(const tp3::Registro& r, const aed2::NombreTabla& t) const;
 
 		// Devuelve el nombre de la tabla que tuvo mayor cant de Accesos
 		const aed2::NombreTabla& EncontrarMaximo( aed2::NombreTabla& t, const aed2::Conj<aed2::NombreTabla>&  conjTab);
@@ -67,7 +67,7 @@ class BaseDatos
 		aed2::Nat  CantidadDeAccesos(const aed2::NombreTabla& t) const;
 
 		// devuelve los registros de una tabla
-		aed2::Lista<Registro> Registros(const aed2::NombreTabla& t) const;
+		aed2::Lista<tp3::Registro> Registros(const aed2::NombreTabla& t) const;
 
 	
 	private:
@@ -76,7 +76,7 @@ class BaseDatos
 		{
 			InfoJoin(const Tabla& tabla, const aed2::NombreCampo& campo);
 			aed2::NombreCampo campo;
-			aed2::Lista<Dupla<Registro, bool> > regActualizar;   
+			aed2::Lista<Dupla<tp3::Registro, bool> > regActualizar;   
 			Tabla registroJoin;
 		};
 		

@@ -54,7 +54,8 @@ const NombreCampo& BaseDatos::CampoJoin(const NombreTabla& t1, const NombreTabla
 }
 
 // Agrego un Registro a una Tabla
-void BaseDatos::InsertarEntrada(const Registro& r, const NombreTabla& t){
+void BaseDatos::InsertarEntrada(const tp3::Registro& r, const NombreTabla& t){
+	std::cout << "InsertarRegistroBD" << std::endl;
 	struct InfoTabla infoT = tablasBD.Significado(t);
 	infoT.tablaData.AgregarRegistro(r);
 	if(infoT.tablaData.CantidadDeAccesos() > cantAccesoMax){
@@ -67,14 +68,14 @@ void BaseDatos::InsertarEntrada(const Registro& r, const NombreTabla& t){
 		// Pregunto si hay alguna tabla que tenga join con la tabla que modifique t
 		if(infoTabRev.joins.Definido(t)){
 			struct InfoJoin infoJoinRev = infoTabRev.joins.Significado(t);
-			Dupla<Registro, bool> dup;
+			Dupla<tp3::Registro, bool> dup;
 			dup.x = r; dup.y = false;
 			infoJoinRev.regActualizar.AgregarAtras(dup);
 		}
 		// Pregunto si la tabla t tiene join con alguna tabla 
 		if(infoT.joins.Definido(itTablas.Siguiente())){
 			struct InfoJoin infoJoinT = infoT.joins.Significado(itTablas.Siguiente());
-			Dupla<Registro, bool> dup;
+			Dupla<tp3::Registro, bool> dup;
 			dup.x = r; dup.y = false;
 			infoJoinT.regActualizar.AgregarAtras(dup);
 		}
@@ -83,7 +84,7 @@ void BaseDatos::InsertarEntrada(const Registro& r, const NombreTabla& t){
 }
 
 //borrar un registro de una tabla
-void BaseDatos::Borrar(const Registro& r, const NombreTabla& t){
+void BaseDatos::Borrar(const tp3::Registro& r, const NombreTabla& t){
 	struct InfoTabla infoT = tablasBD.Significado(t);
 	if(infoT.tablaData.CantidadDeAccesos() > cantAccesoMax){
 		cantAccesoMax = infoT.tablaData.CantidadDeAccesos();
@@ -95,14 +96,14 @@ void BaseDatos::Borrar(const Registro& r, const NombreTabla& t){
 		// Pregunto si hay alguna tabla que tenga join con la tabla que modifique t
 		if(infoTabRev.joins.Definido(t)){
 			struct InfoJoin infoJoinRev = infoTabRev.joins.Significado(t);
-			Dupla<Registro, bool> dup;
+			Dupla<tp3::Registro, bool> dup;
 			dup.x = r; dup.y = true;
 			infoJoinRev.regActualizar.AgregarAtras(dup);
 		}
 		// Pregunto si la tabla t tiene join con alguna tabla 
 		if(infoT.joins.Definido(itTablas.Siguiente())){
 			struct InfoJoin infoJoinT = infoT.joins.Significado(itTablas.Siguiente());
-			Dupla<Registro, bool> dup;
+			Dupla<tp3::Registro, bool> dup;
 			dup.x = r; dup.y = true;
 			infoJoinT.regActualizar.AgregarAtras(dup);
 		}
@@ -126,7 +127,7 @@ void BaseDatos::BorrarJoin(const NombreTabla& t1, const NombreTabla& t2){
 }
 
 // Busca los registro que conincidan con r en la tabla de la base de datos
-aed2::Lista<ItLista> BaseDatos::Buscar(const Registro& r, const NombreTabla& t) const{
+aed2::Lista<ItLista> BaseDatos::Buscar(const tp3::Registro& r, const NombreTabla& t) const{
 	struct InfoTabla t1Info = tablasBD.Significado(t);
 	return t1Info.tablaData.Coincidencias(r, t1Info.tablaData.Registros());
 }
@@ -135,16 +136,16 @@ aed2::Lista<ItLista> BaseDatos::Buscar(const Registro& r, const NombreTabla& t) 
 
 
 // Visualiza el Join entre dos tablas
-aed2::Lista<Registro> BaseDatos::VistaJoin( const  NombreTabla& t1, const NombreTabla& t2){
+aed2::Lista<tp3::Registro> BaseDatos::VistaJoin( const  NombreTabla& t1, const NombreTabla& t2){
 	struct InfoTabla t1Info = tablasBD.Significado(t1);
 	struct InfoJoin joinsT1T2 = t1Info.joins.Significado(t2);
-	aed2::Lista<Dupla<Registro, bool> >::Iterador itRegAct = joinsT1T2.regActualizar.CrearIt();
+	aed2::Lista<Dupla<tp3::Registro, bool> >::Iterador itRegAct = joinsT1T2.regActualizar.CrearIt();
 	// Si no hay registro p actualizar devuelvo un it a la lista de reg del join
 	if(!(itRegAct.HaySiguiente() ) ){
 		return joinsT1T2.registroJoin.Registros();
 	} else {  // en caso contrario voy revisando cada uno si fueron agregados o borrados
 		while(itRegAct.HaySiguiente()){
-			Registro regCrit = Registro(joinsT1T2.campo, itRegAct.Siguiente().x.Significado(joinsT1T2.campo));
+			tp3::Registro regCrit = tp3::Registro(joinsT1T2.campo, itRegAct.Siguiente().x.Significado(joinsT1T2.campo));
 			// Si el registro fue borrado 
 			if( itRegAct.Siguiente().y ){ 
 				joinsT1T2.registroJoin.BorrarRegistro(regCrit);
@@ -153,7 +154,7 @@ aed2::Lista<Registro> BaseDatos::VistaJoin( const  NombreTabla& t1, const Nombre
 				aed2::Lista<ItLista>::Iterador itLista1 = Buscar(regCrit, t1).CrearIt();
 				aed2::Lista<ItLista>::Iterador itLista2 = Buscar(regCrit, t2).CrearIt();
 				if(itLista1.HaySiguiente() && itLista2.HaySiguiente()){
-					Registro regAgr = itLista1.Siguiente().Siguiente().agregarCampos(itLista2.Siguiente().Siguiente());
+					tp3::Registro regAgr = itLista1.Siguiente().Siguiente().agregarCampos(itLista2.Siguiente().Siguiente());
 					joinsT1T2.registroJoin.AgregarRegistro(regAgr);
 				}
 			}
@@ -191,7 +192,7 @@ const NombreTabla& BaseDatos::EncontrarMaximo( NombreTabla& t, const aed2::Conj<
 }
 
 // devuelve los registros de una tabla
-aed2::Lista<Registro> BaseDatos::Registros(const NombreTabla& t) const{
+aed2::Lista<tp3::Registro> BaseDatos::Registros(const NombreTabla& t) const{
 	return tablasBD.Significado(t).tablaData.Registros();
 }
 
@@ -208,8 +209,8 @@ aed2::Conj<aed2::Columna> unionConjuntos(aed2::Conj<aed2::Columna> c1, aed2::Con
 // Genera el Join entre dos tablas
 void BaseDatos::GenerarVistaJoin(const NombreTabla& t1, const NombreTabla& t2, const NombreCampo& ca){
 	struct InfoTabla infoT1 = tablasBD.Significado(t1);
-	aed2::Lista<Registro>::Iterador itRegT1 = infoT1.tablaData.Registros().CrearIt();
-	aed2::Lista<Registro>::Iterador itRegT2 = tablasBD.Significado(t2).tablaData.Registros().CrearIt();
+	aed2::Lista<tp3::Registro>::Iterador itRegT1 = infoT1.tablaData.Registros().CrearIt();
+	aed2::Lista<tp3::Registro>::Iterador itRegT2 = tablasBD.Significado(t2).tablaData.Registros().CrearIt();
 	
 	// Se crea InfoJoin 
 	aed2::Conj<aed2::Columna> columnasT1 = tablasBD.Significado(t1).tablaData.dameColumnas();
@@ -220,7 +221,7 @@ void BaseDatos::GenerarVistaJoin(const NombreTabla& t1, const NombreTabla& t2, c
 	aed2::Conj<aed2::NombreCampo> claves;
 	aed2::NombreTabla nombreTablaJoin = "TablaJoin";
 	//~ aed2::Conj<Dato> datosCamposUnidos;
-	//~ Registro registroCamposUnidos(camposUnidos, datosCamposUnidos); 
+	//~ tp3::Registro registroCamposUnidos(camposUnidos, datosCamposUnidos); 
 	Tabla tablaJoin( nombreTablaJoin, claves, columnasUnidas);
 	struct InfoJoin infoJoinT = InfoJoin(tablaJoin, ca);
 	infoT1.joins.Definir(t2, infoJoinT);
@@ -233,10 +234,10 @@ void BaseDatos::GenerarVistaJoin(const NombreTabla& t1, const NombreTabla& t2, c
 	while(itRegT2.HaySiguiente()){
 		aed2::Conj<aed2::NombreCampo> conjCamp;
 		conjCamp.AgregarRapido(ca);
-		aed2::Conj<Dato> conjDato;
+		aed2::Conj<tp3::Dato> conjDato;
 		conjDato.AgregarRapido(itRegT2.Siguiente().Significado(ca));
-		Registro regCrit = Registro(conjCamp, conjDato);
-		Registro regAux = itRegT2.Siguiente();
+		tp3::Registro regCrit = tp3::Registro(conjCamp, conjDato);
+		tp3::Registro regAux = itRegT2.Siguiente();
 		aed2::Lista<ItLista>::Iterador itConinciden = Buscar(regAux , t1).CrearIt();
 		if(itConinciden.HaySiguiente()){
 			tablaJoin.AgregarRegistro(itRegT2.Siguiente().agregarCampos(itConinciden.Siguiente().Siguiente() ) );

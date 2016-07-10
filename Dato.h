@@ -14,6 +14,8 @@
 
 //~ enum TipoCampo { Nat, Str };
 
+namespace tp3
+{
 
 /**
  * Esta clase representa un dato, que puede tomar valores de String o de Nat.
@@ -47,5 +49,7 @@ class Dato
 		aed2::Nat nat_;
 		aed2::String str_;
 };
+
+}; // namespace tp3
 
 #endif // DATO_H_

@@ -138,9 +138,9 @@ void insertar_una_tabla_vacia()
 void insertar_registros_en_una_tabla()
 {
   aed2::Driver bd;
-	std::cout << "Hola" << std::endl;
   CREAR_TABLA_PERSONAS( bd );
   bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_1);
+	std::cout << "Hola" << std::endl;
   bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_2);
 	std::cout << "Hola" << std::endl;
   {

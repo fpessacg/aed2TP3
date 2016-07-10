@@ -10,6 +10,8 @@
 #include "aed2/TiposBasicos.h"
 
 
+namespace tp3
+{
 class Registro
 {
 	public:
@@ -50,7 +52,7 @@ class Registro
 
 	private:
 		aed2::Dicc<aed2::NombreCampo, Dato> reg;
-};
+}; // class Driver
 
 /**
  * Esta clase representa un registro, es decir, un mapeo de nombres de columna a valores.
@@ -59,5 +61,6 @@ class Registro
 
 
 
+}; // namespace tp3
 
 #endif // REGISTRO_H_

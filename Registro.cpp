@@ -1,6 +1,8 @@
 
 #include "Registro.h"
 
+using namespace tp3;
+
 //Constructor
 	Registro::Registro(){}
 	Registro::Registro(const aed2::NombreCampo& nombre, const Dato& dato){reg.Definir(nombre,dato);}

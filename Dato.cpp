@@ -1,7 +1,7 @@
 
 #include "Dato.h"
 
-
+using namespace tp3;
 
 Dato::Dato(const aed2::Nat& x)
   : tipo_( aed2::NAT ), nat_( x )
