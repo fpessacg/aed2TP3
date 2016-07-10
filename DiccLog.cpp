@@ -1,113 +1,85 @@
 #include "DiccLog.h"
 
 template<class T>
-bool DiccLog<T>::Def(aed2::Nat n){
+bool tp3::DiccLog<T>::Def(const aed2::Nat n) const{
 	bool definido = false;
-	Nodo* nodoRecorrer = this->raiz;
+	Nodo* nodoRecorrera = this->raiz;
 
-	while(nodoRecorrer && definido == false){
-		if(nodoRecorrer->significado > n){
-			nodoRecorrer = nodoRecorrer->izq;
-		} else if(nodoRecorrer->significado < n){
-			nodoRecorrer = nodoRecorrer->der;
-		} else {
-			definido = true;
+	while(nodoRecorrera != NULL && nodoRecorrera->key != n){
+		if(nodoRecorrera->key > n){
+			cout << "Aca " << nodoRecorrera->key << endl;
+			nodoRecorrera = nodoRecorrera->izq;
+		} else if(nodoRecorrera->key < n){
+			nodoRecorrera = nodoRecorrera->der;
+			cout << "Aca seg" << endl;
 		}
 	}
-	return definido;
+	return (nodoRecorrera != NULL);
 }
 
 template<class T>
-T DiccLog<T>::Obtener(aed2::Nat n){
-	Nodo* nodoRecorrer = this->raiz;
+T tp3::DiccLog<T>::Obtener(const aed2::Nat n) const {
+	Nodo* nodoRecorrera = this->raiz;
+	T res = *(nodoRecorrera->significado);
 
-	while(true){
-		if(nodoRecorrer->key == n){
-			//~ return nodo->significado;
-		} else {
-			if(nodoRecorrer->key > n){
-				nodoRecorrer->izq;
-			} else {
-				nodoRecorrer->der;
-			}
+	while(nodoRecorrera != NULL && nodoRecorrera->key != n){
+			//cout << "ACA NO" << endl;
+		if(nodoRecorrera->key > n){
+			nodoRecorrera = nodoRecorrera->izq;
+			res = *(nodoRecorrera->significado);
+		} else if(nodoRecorrera->key < n){
+			nodoRecorrera = nodoRecorrera->der;
+			res = *(nodoRecorrera->significado);
 		}
 	}
+	return (res);
 }
 
 template<class T>
-void DiccLog<T>::Definir(aed2::Nat n, T sig){
-	if (!(this->raiz)) {
-		Nodo* nuevoNodo;
-		nuevoNodo->significado = sig;
-		nuevoNodo->izq = 0;
-		nuevoNodo->der = 0;
-		nuevoNodo->padre = 0;
-		nuevoNodo->key = n;
-		nuevoNodo->altura = 1;
+void tp3::DiccLog<T>::Definir(const aed2::Nat n, T sig){
 
-		this->raiz = nuevoNodo;		
-	} 
-	else {
-		Nodo* nodoRecorrer = this->raiz;
-		Nodo* elPadre = 0;
-		
-		while(true){
-			if(n == nodoRecorrer->key) break;
-
+		Nodo* nodoRecorrer = (this->raiz);
+		Nodo* elPadre = NULL;
+		while(nodoRecorrer != NULL && nodoRecorrer->key != n){
 			elPadre = nodoRecorrer;
-			porIzq = ((nodoRecorrer->key) > num);
-			if(porIzq){
-				nodoRecorrer = nodoRecorrer->izq;
-			} else {
-				nodoRecorrer = nodoRecorrer->der;
-			}
-
-			if (nodoRecorrer == 0){
-				if(porIzq){
-					elPadre->izq->significado = sig;
-					elPadre->izq->izq = 0;
-					elPadre->izq->der = 0;
-					elPadre->izq->padre = elPadre;
-					elPadre->izq->key = n;
-					elPadre->izq->altura = 1;
-					break;
-				} else {
-					elPadre->der->significado = sig;
-					elPadre->der->izq = 0;
-					elPadre->der->der = 0;
-					elPadre->der->padre = elPadre;
-					elPadre->der->key = n;
-					elPadre->der->altura = 1;
-					break;
-				}
-			}
+			if(n < nodoRecorrer->key) nodoRecorrer = nodoRecorrer->izq;
+			else nodoRecorrer = nodoRecorrer->der;
 		}
+
+		if(nodoRecorrer == NULL){
+			Nodo * z = new Nodo(n, sig);
+			if(elPadre == NULL)
+				this->raiz = z;
+			else if(n < elPadre->key) elPadre->izq = z;
+			else elPadre->der = z;
+		}	
 	}
-}
+
+	
 
 template<class T>
-void DiccLog<T>::Borrar(aed2::Nat n){
+void tp3::DiccLog<T>::Borrar(aed2::Nat n){
 	Nodo* nodoRecorrer = this->raiz;
 	Nodo* elPadre = this->raiz;
 
 	while(nodoRecorrer){
-		if(nodoRecorrer->significado > num){
+		if(nodoRecorrer->significado > n){
 			nodoRecorrer = nodoRecorrer->izq;
 			elPadre = nodoRecorrer;
-		} else if(nodoRecorrer->significado < num){
+		} else if(nodoRecorrer->significado < n){
 			nodoRecorrer = nodoRecorrer->der;
 			elPadre = nodoRecorrer;
 		}
-
+		Nodo * hijoTemp = 0;
 		if(cantHijos(nodoRecorrer) == 0) delete(nodoRecorrer);
 		else{
 			if(cantHijos(nodoRecorrer) == 1){
 				if (!(nodoRecorrer->izq)){
-					Nodo* hijoTemp = nodoRecorrer->der;
+					hijoTemp = nodoRecorrer->der;
 				} else {
-					Nodo* hijoTemp = nodoRecorrer->izq;
+					hijoTemp = nodoRecorrer->izq;
 				}
-				delete(nodoRecorrer);
+				delete (nodoRecorrer);
 			}
 		}
 
@@ -125,14 +97,14 @@ void DiccLog<T>::Borrar(aed2::Nat n){
     // nodoRecorrer->significado = maxValor;
 }
 
-template<class T>
-aed2::Nat DiccLog<T>::calcularArbolMax(Nodo* n){
-	nodoRecorrer = this->raiz;
-	while(!(nodoRecorrer->der)){
-		nodoRecorrer = nodoRecorrer->der;
-	}
-	return nodoRecorrer->significado;
-}
+// template<class T>
+// aed2::Nat DiccLog<T>::CalcularArbolMax(const Nodo* n){
+// 	nodoRecorrer = this->raiz;
+// 	while(!(nodoRecorrer->der)){
+// 		nodoRecorrer = nodoRecorrer->der;
+// 	}
+// 	return nodoRecorrer->significado;
+// }
 
 
 

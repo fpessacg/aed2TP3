@@ -19,14 +19,15 @@ namespace tp3
 		private:
 			struct Nodo
 			{
-				Nodo(bool b, char ca) : estaDef(b), c(ca){}
+				Nodo(bool b, int v) : estaDef(b), fueUsado(v){}
 				bool estaDef;
+				int fueUsado;
 				Nodo* hijos[256];
 				T* significado; 
-				char c;
+		
 			};
 
-			Nodo* raiz;
+			struct Nodo* raiz;
 			aed2::Conj<aed2::String> claves;
 
 		public:
