@@ -26,7 +26,7 @@ nombre(nombre), claves(claves), cantAccesos(0), columnas(columnas){
 
 // Agrego un registor a la tabla
 void Tabla::AgregarRegistro(const tp3::Registro& r){
-	registros.AgregarAtras(r);
+	this->registros.AgregarAtras(r);
 	ItLista itRegAgr = registros.CrearItUlt();
 	cantAccesos++; 
 	// Me fijo si tengo algun indice

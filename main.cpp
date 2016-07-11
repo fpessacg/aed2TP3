@@ -8,17 +8,21 @@ using namespace std;
 
 
 int main(){
-	//	tp3::DiccLog<aed2::Nat> prueba;
-		// aed2::Nat clave(3);
-		// aed2::Nat clave2(5);
-		// aed2::Nat clave3(2);
-		// aed2::Nat sig(4);
-		// aed2::Nat sig2(6);
-		// aed2::Nat sig3(3);
-		// prueba.Definir(clave,sig);
-		// prueba.Definir(clave2,sig2);
-		// prueba.Definir(clave3,sig3);
-		// cout << prueba.Obtener(clave2) << endl;
+    tp3::DiccLog<aed2::Nat> prueba;
+    aed2::Nat clave(3);
+    aed2::Nat clave2(5);
+    aed2::Nat clave3(2);
+    aed2::Nat clave4(1);
+    aed2::Nat sig(4);
+    aed2::Nat sig2(6);
+    aed2::Nat sig3(3);
+    aed2::Nat sig4(8);
+    prueba.Definir(clave,sig);
+    prueba.Definir(clave2,sig2);
+    prueba.Definir(clave3,sig3);
+    prueba.Definir(clave4, sig4);
+    prueba.Borrar(clave);
+    cout << prueba.Def(clave4) << endl;
 
  //    tp3::DiccString<aed2::Nat> prueba;
 	// aed2::Nat sig(3);
