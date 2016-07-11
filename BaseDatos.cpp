@@ -59,10 +59,6 @@ void BaseDatos::InsertarEntrada(const tp3::Registro& r, const NombreTabla& t){
 	struct InfoTabla& infoT = tablasBD.Significado(t);
 	infoT.tablaData.AgregarRegistro(r);
 	//~ std::cout << "Long InsertarBD"<<DameTabla(t).Registros().Longitud() << std::endl;
-	if(infoT.tablaData.CantidadDeAccesos() > cantAccesoMax){
-		cantAccesoMax = infoT.tablaData.CantidadDeAccesos();
-		nombreAccesoMax = t;
-	}
 	Lista<NombreTabla>::Iterador itTablas = tablaLista.CrearIt();
 	while(itTablas.HaySiguiente()){
 		struct InfoTabla infoTabRev = tablasBD.Significado(itTablas.Siguiente());
@@ -82,6 +78,10 @@ void BaseDatos::InsertarEntrada(const tp3::Registro& r, const NombreTabla& t){
 		}
 		itTablas.Avanzar();
 	}
+	if(infoT.tablaData.CantidadDeAccesos() > cantAccesoMax){
+		cantAccesoMax = infoT.tablaData.CantidadDeAccesos();
+		nombreAccesoMax = t;
+	}
 }
 
 //borrar un registro de una tabla
@@ -89,11 +89,6 @@ void BaseDatos::Borrar(const tp3::Registro& r, const NombreTabla& t){
 	int Debug = 0;
 	struct InfoTabla& infoT = tablasBD.Significado(t);
 	if (Debug==1) std::cout << "Nombre Tabla: "  << infoT.tablaData.Nombre() << std::endl;
-	// Actualizo la cantidad de Accesos 
-	if(infoT.tablaData.CantidadDeAccesos() > cantAccesoMax){
-		cantAccesoMax = infoT.tablaData.CantidadDeAccesos();
-		nombreAccesoMax = t;
-	}
 	Lista<NombreTabla>::Iterador itTablas = tablaLista.CrearIt();
 	while(itTablas.HaySiguiente()){
 		struct InfoTabla infoTabRev = tablasBD.Significado(itTablas.Siguiente());
@@ -117,6 +112,14 @@ void BaseDatos::Borrar(const tp3::Registro& r, const NombreTabla& t){
 	}
 
 	infoT.tablaData.BorrarRegistro(r);
+
+	// Actualizo la cantidad de Accesos 
+	if(infoT.tablaData.CantidadDeAccesos() > cantAccesoMax){
+		if (Debug==1) std::cout << "Actualizo Max Tabla: "  << infoT.tablaData.CantidadDeAccesos() << std::endl;
+		cantAccesoMax = infoT.tablaData.CantidadDeAccesos();
+		nombreAccesoMax = t;
+	}
+
 }
 
 // Devuelve la tabla con mayor cantidad de accesos en BD

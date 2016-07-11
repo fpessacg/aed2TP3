@@ -249,7 +249,6 @@ void tabla_maxima()
   assert(bd.tablaMaxima() ==NOMBRE_TABLA_PERSONAS);
 
   CREAR_TABLA_TRABAJOS( bd );
-
   bd.insertarRegistro(NOMBRE_TABLA_TRABAJOS, trabajo_1);
   bd.insertarRegistro(NOMBRE_TABLA_TRABAJOS, trabajo_3);
   ASSERT_EQ(bd.cantidadDeAccesosDeTabla(NOMBRE_TABLA_TRABAJOS), 2);
@@ -261,7 +260,9 @@ void tabla_maxima()
   bd.borrarRegistro(NOMBRE_TABLA_PERSONAS, "DNI", aed2::Driver::Dato(1));
 
   ASSERT_EQ(bd.cantidadDeAccesosDeTabla(NOMBRE_TABLA_PERSONAS), 3);
-  assert(bd.tablaMaxima() ==NOMBRE_TABLA_PERSONAS);
+  ASSERT_EQ(bd.cantidadDeAccesosDeTabla(NOMBRE_TABLA_TRABAJOS), 2);
+
+  assert(bd.tablaMaxima() == NOMBRE_TABLA_PERSONAS);
  
 }
 
