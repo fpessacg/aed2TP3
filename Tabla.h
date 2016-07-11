@@ -21,6 +21,7 @@ class Tabla {
 		Tabla(const aed2::NombreTabla& nombre, const aed2::Conj <aed2::NombreCampo>& claves, const aed2::Conj<aed2::Columna>& columnas);
 		//~ :nombre(nombre), claves(claves), cantAccesos(0), campos(columnas.campos());
 		
+		~Tabla();
 			// Agrego un registor a la tabla
 		void AgregarRegistro(const tp3::Registro& r);
 

@@ -230,9 +230,12 @@ const NombreTabla Driver::tablaMaxima() const{
 // Indices
 
 bool Driver::tieneIndiceNat(const NombreTabla& tabla) const{
-	aed2::Conj<aed2::NombreCampo>::Iterador itIndices = BD.DameTabla(tabla).Indices().CrearIt();
+	aed2::Conj<aed2::NombreCampo> conjIndices = BD.DameTabla(tabla).Indices();
+	aed2::Conj<aed2::NombreCampo>::Iterador itIndices = conjIndices.CrearIt();
+		//~ std::cout << "Tengo indices" << conjIndices << std::endl;
 	while(itIndices.HaySiguiente()){
-		if(BD.DameTabla(tabla).TipoDelCampo(itIndices.Siguiente()) == NAT) return true;
+		//~ std::cout << "Tengo indices222" << itIndices.Siguiente() << std::endl;
+		if(BD.DameTabla(tabla).TipoDelCampo(itIndices.Siguiente()) == aed2::NAT) return true;
 		itIndices.Avanzar();
 	}
 	return false;
@@ -241,31 +244,39 @@ bool Driver::tieneIndiceNat(const NombreTabla& tabla) const{
 bool Driver::tieneIndiceString(const NombreTabla& tabla) const{
 	aed2::Conj<aed2::NombreCampo>::Iterador itIndices = BD.DameTabla(tabla).Indices().CrearIt();
 	while(itIndices.HaySiguiente()){
-		if(BD.DameTabla(tabla).TipoDelCampo(itIndices.Siguiente()) == STR) return true;
+		if(BD.DameTabla(tabla).TipoDelCampo(itIndices.Siguiente()) == aed2::STR) return true;
 		itIndices.Avanzar();
 	}
 	return false;
 }
 
 const NombreCampo& Driver::campoIndiceNat(const NombreTabla& tabla) const{
-	aed2::Conj<aed2::NombreCampo>::Iterador itIndices = BD.DameTabla(tabla).Indices().CrearIt();
+	//~ aed2::Conj<aed2::NombreCampo>::Iterador itIndices = BD.DameTabla(tabla).Indices().CrearIt();
+	aed2::Conj<aed2::NombreCampo> indices = BD.DameTabla(tabla).Indices();
+	aed2::Conj<aed2::NombreCampo>::const_Iterador itIndices = indices.CrearIt();
 	while(itIndices.HaySiguiente()){
-		if(BD.DameTabla(tabla).TipoDelCampo(itIndices.Siguiente()) == NAT) return itIndices.Siguiente();
+	//~ std::cout << "campoIndiceNat" << itIndices.Siguiente() <<std::endl;
+		if(BD.DameTabla(tabla).TipoDelCampo(itIndices.Siguiente()) == aed2::NAT){ 
+			std::cout << "TengoIndiceNat en el campo: " << itIndices.Siguiente() <<std::endl;
+			return itIndices.Siguiente();
+		}
 		itIndices.Avanzar();
 	}
 }
 
 const NombreCampo& Driver::campoIndiceString(const NombreTabla& tabla) const{
 	aed2::Conj<aed2::NombreCampo>::Iterador itIndices = BD.DameTabla(tabla).Indices().CrearIt();
+		std::cout << "campoIndiceString" << std::endl;
 	while(itIndices.HaySiguiente()){
-		if(BD.DameTabla(tabla).TipoDelCampo(itIndices.Siguiente()) == STR) return itIndices.Siguiente();
+		if(BD.DameTabla(tabla).TipoDelCampo(itIndices.Siguiente()) == aed2::STR) return itIndices.Siguiente();
 		itIndices.Avanzar();
 	}
 }
 
 void Driver::crearIndiceNat(const NombreTabla& tabla, const NombreCampo& campo){
-	Tabla tablaCompl = BD.DameTabla(tabla);
-	tablaCompl.Indexar(campo);
+	//~ Tabla tablaCompl = BD.DameTabla(tabla);
+	//~ tablaCompl.Indexar(campo);
+	BD.DameTabla(tabla).Indexar(campo);
 }
 
 void Driver::crearIndiceString(const NombreTabla& tabla, const NombreCampo& campo){

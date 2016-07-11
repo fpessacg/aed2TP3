@@ -277,6 +277,7 @@ void indice_sobre_campo_clave_nat()
 
   bd.crearIndiceNat(NOMBRE_TABLA_PERSONAS,"DNI");
   assert( bd.tieneIndiceNat(NOMBRE_TABLA_PERSONAS));
+	std::cout << "Pruebaaaaa: " << bd.campoIndiceNat(NOMBRE_TABLA_PERSONAS) << std::endl;
   assert( bd.campoIndiceNat(NOMBRE_TABLA_PERSONAS)=="DNI");
 }
 

@@ -37,7 +37,7 @@ aed2::Lista<NombreTabla> BaseDatos::Tablas() const{
 const Tabla& BaseDatos::DameTabla(const NombreTabla& t)const{
 	return tablasBD.Significado(t).tablaData;
 }
-const Tabla& BaseDatos::DameTabla(const NombreTabla& t){
+Tabla& BaseDatos::DameTabla(const NombreTabla& t){
 	return tablasBD.Significado(t).tablaData;
 }
 

@@ -23,6 +23,16 @@ nombre(nombre), claves(claves), cantAccesos(0), columnas(columnas){
 	
 }
 
+Tabla::~Tabla(){
+	if(indices.x.campo != ""){
+		delete indices.x.minString;
+		delete indices.x.maxString;
+	}
+	if(indices.y.campo != ""){
+		delete indices.y.minNat;
+		delete indices.y.maxNat;
+	}
+}
 
 // Agrego un registor a la tabla
 void Tabla::AgregarRegistro(const tp3::Registro& r){
@@ -117,7 +127,8 @@ void Tabla::BorrarRegistro(const tp3::Registro& crit){
 
 // Creo un Indice en el campo c de la tabla
 void Tabla::Indexar(const aed2::NombreCampo& c){
-	aed2::Lista<tp3::Registro>::Iterador itReg = Registros().CrearIt();
+	aed2::Lista<tp3::Registro> reg = Registros();
+	aed2::Lista<tp3::Registro>::Iterador itReg = reg.CrearIt();
 	tp3::Dato max = 0; tp3::Dato min = 0;
 	// Si el campo es Nat creo un dicLog
 	if(!TipoDelCampo(c)){
@@ -139,6 +150,8 @@ void Tabla::Indexar(const aed2::NombreCampo& c){
 			itReg.Avanzar();
 		}
 		indices.y.campo = c;
+		tp3::Dato datoMax(max);
+		//~ indices.y.maxNat = datoMax;
 		indices.y.maxNat = new tp3::Dato(max);
 		indices.y.minNat = new tp3::Dato(min);
 	}
@@ -164,7 +177,7 @@ void Tabla::Indexar(const aed2::NombreCampo& c){
 		indices.y.maxNat = new tp3::Dato(max);
 		indices.y.minNat = new tp3::Dato(min);
 	}
-	std::cout << Indices() << std::endl;
+	//~ std::cout << Indices() << std::endl;
 }
 
 //Devuelvo el nombre de la tabla

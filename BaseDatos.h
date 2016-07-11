@@ -35,7 +35,7 @@ class BaseDatos
 
 		// Devuelvo la tabla que me piden
 		const Tabla& DameTabla(const aed2::NombreTabla&) const;
-		const Tabla& DameTabla(const aed2::NombreTabla&);
+		Tabla& DameTabla(const aed2::NombreTabla&);
 
 		// Devuelve la tabla con mayor cantidad de accesos en BD
 		const aed2::NombreTabla& TablaMaxima() const;
