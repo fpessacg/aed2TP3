@@ -23,6 +23,18 @@ aed2::Conj<T> deListaAConj(aed2::Lista<T>& lista){
 	return conj;
 }
 
+aed2::Conj<tp3::Registro> deListaAConjReg(aed2::Lista<tp3::Registro>& lista){
+	aed2::Conj<tp3::Registro> conj;
+	aed2::Lista<tp3::Registro>::const_Iterador itLista = lista.CrearIt();
+		//~ std::cout << itLista.HaySiguiente() << std::endl;
+	while(itLista.HaySiguiente()){
+		tp3::Registro regAux = itLista.Siguiente();
+		conj.AgregarRapido(regAux);
+		itLista.Avanzar();
+	}
+	//~ std::cout << "lala" << std::endl;
+	return conj;
+}
 
 Driver::Dato pasarDatoADDato(const tp3::Dato& dato){
 	if (dato.esNat()) return Driver::Dato(dato.dameNat());
@@ -58,6 +70,16 @@ tp3::Registro pasarDRegAReg(const Driver::Registro& dReg){
 		itDReg.Avanzar();
 	}
 	return reg;
+}
+
+aed2::Conj<Driver::Registro>  pasarConjRegAConjDReg(const aed2::Conj<tp3::Registro> conjReg){
+	aed2::Conj<tp3::Registro>::const_Iterador itConjReg = conjReg.CrearIt();
+	aed2::Conj<Driver::Registro> conjDReg;
+	while(itConjReg.HaySiguiente()){
+		Driver::Registro dReg = pasarRegADReg(itConjReg.Siguiente()); 
+		conjDReg.Agregar( dReg);
+		itConjReg.Avanzar();
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -152,9 +174,10 @@ aed2::Conj<NombreCampo> Driver::columnasClaveDeTabla(const NombreTabla& tabla) c
 
 
 aed2::Conj<Driver::Registro> Driver::registrosDeTabla(const NombreTabla& tabla)const{
-	//~ Tabla tablaCompl = BD.DameTabla(tabla);
-	//~ aed2::Lista<Registro> listaReg = tablaCompl.Registros();
-	//~ return deListaAConj(listaReg);
+	Tabla tablaCompl = BD.DameTabla(tabla);
+	aed2::Lista<tp3::Registro> listaReg = tablaCompl.Registros();
+	aed2::Conj<tp3::Registro> conjReg = deListaAConjReg(listaReg);
+	return pasarConjRegAConjDReg(conjReg);
 }
 
 aed2::Nat Driver::cantidadDeAccesosDeTabla(const NombreTabla& tabla) const{
