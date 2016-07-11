@@ -119,7 +119,7 @@ void Tabla::Indexar(const aed2::NombreCampo& c){
 	aed2::Lista<tp3::Registro>::Iterador itReg = Registros().CrearIt();
 	tp3::Dato max = 0; tp3::Dato min = 0;
 	// Si el campo es Nat creo un dicLog
-	if(TipoDelCampo(c)){
+	if(!TipoDelCampo(c)){
 		while(itReg.HaySiguiente()){
 			//Calculo el valor que va a ser clave del Dicc
 			tp3::Dato valor = ((itReg.Siguiente()).Significado(c));
@@ -163,6 +163,7 @@ void Tabla::Indexar(const aed2::NombreCampo& c){
 		indices.y.maxNat = new tp3::Dato(max);
 		indices.y.minNat = new tp3::Dato(min);
 	}
+	std::cout << Indices() << std::endl;
 }
 
 //Devuelvo el nombre de la tabla
