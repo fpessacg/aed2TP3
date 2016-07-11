@@ -157,10 +157,9 @@ void Driver::insertarRegistro(const NombreTabla& tabla, const Driver::Registro& 
 }
 
 void Driver::borrarRegistro(const NombreTabla& tabla, const NombreCampo& columna, const Dato& valor){
-	//~ Dato datoAux = valor;
-	//~ Dato val = pasarDDatoADato(datoAux);
-	//~ Registro regBorrar =  Registro(columna, pasarDDatoADato(valor));
-	//~ BD.Borrar(regBorrar, tabla);
+	tp3::Dato val = pasarDDatoADato(valor);
+	tp3::Registro regBorrar(columna, val);
+	BD.Borrar(regBorrar, tabla);
 }
 
 aed2::Conj<Columna> Driver::columnasDeTabla(const NombreTabla& tabla) const{
@@ -197,9 +196,9 @@ aed2::Conj<Driver::Registro> Driver::buscar(const NombreTabla& tabla, const Regi
 	aed2::Lista<ItLista>::Iterador itListaItLista = listaItLista.CrearIt();
 	aed2::Conj<Driver::Registro> conjDReg;
 	while(itListaItLista.HaySiguiente()){
-		//~ Driver::Registro regAgregar = itListaItLista.Siguiente().Siguiente();
-		//~ conjDReg.Agregar( pasarRegADReg(regAgregar));
-		//~ itListaItLista.Avanzar();
+		tp3::Registro regAgregar = itListaItLista.Siguiente().Siguiente();
+		conjDReg.Agregar( pasarRegADReg(regAgregar));
+		itListaItLista.Avanzar();
 	}
 	return conjDReg;
 }
@@ -286,12 +285,12 @@ Driver::Registro unir(const Driver::Registro& reg1, const Driver::Registro& reg2
 }
 
 aed2::Conj<Driver::Registro> Driver::vistaJoin(const NombreTabla& tabla1, const NombreTabla& tabla2){
-	//~ aed2::Lista<Registro> listaReg = BD.VistaJoin(tabla1, tabla2);
-	//~ aed2::Lista<Registro>::Iterador itListaReg =  listaReg.CrearIt();
-	//~ aed2::Conj<Driver::Registro> conjDReg;
-	//~ while(itListaReg.HaySiguiente()){
-		//~ conjDReg.Agregar(pasarRegADReg(itListaReg.Siguiente()));
-		//~ itListaReg.Avanzar();
-	//~ }
-	//~ return  conjDReg; 
+	aed2::Lista<tp3::Registro> listaReg = BD.VistaJoin(tabla1, tabla2);
+	aed2::Lista<tp3::Registro>::Iterador itListaReg =  listaReg.CrearIt();
+	aed2::Conj<Driver::Registro> conjDReg;
+	while(itListaReg.HaySiguiente()){
+		conjDReg.Agregar(pasarRegADReg(itListaReg.Siguiente()));
+		itListaReg.Avanzar();
+	}
+	return  conjDReg; 
 }

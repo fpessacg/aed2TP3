@@ -141,12 +141,12 @@ void insertar_registros_en_una_tabla()
   CREAR_TABLA_PERSONAS( bd );
 	
 	//~ std::cout << bd.registrosDeTabla(NOMBRE_TABLA_PERSONAS).Cardinal() << "la" << std::endl;
-  bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_1);
+	bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_1);
 	//~ std::cout << "Hola" << std::endl;
 	//~ std::cout << "Hola" << std::endl;
 	bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_2);
-	aed2::Conj<aed2::Driver::Registro > regAux = bd.registrosDeTabla(NOMBRE_TABLA_PERSONAS);
-	std::cout << regAux.Cardinal() << std::endl;
+	aed2::Conj<aed2::Driver::Registro > conjRegAux = bd.registrosDeTabla(NOMBRE_TABLA_PERSONAS);
+	std::cout << conjRegAux.Cardinal() << std::endl;
 	{
 	aed2::Conj<aed2::Driver::Registro> registros;
 	registros.Agregar( persona_1 );
