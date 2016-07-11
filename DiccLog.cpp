@@ -4,7 +4,7 @@
 using namespace std;
 
 template<class T>
-bool tp3::DiccLog<T>::Def(const aed2::Nat n) const{
+bool tp3::DiccLog<T>::Definido(const aed2::Nat n) const{
 	bool definido = false;
 	Nodo<T>* nodoRecorrera = this->raiz;
 
@@ -64,19 +64,25 @@ void tp3::DiccLog<T>::Borrar(aed2::Nat n){
 
 	while(nodoRecorrer != NULL && nodoRecorrer->key != n) {
 		if (nodoRecorrer->key > n) {
+			elPadre = nodoRecorrer;
 			nodoRecorrer = nodoRecorrer->izq;
-			elPadre = nodoRecorrer;
 		} else if (nodoRecorrer->key < n) {
-			nodoRecorrer = nodoRecorrer->der;
 			elPadre = nodoRecorrer;
+			nodoRecorrer = nodoRecorrer->der;
 		}
 	}
 	Nodo<T> *hijoTemp = 0;
 	if (cantHijos(nodoRecorrer) == 0)
 	{
-		if(nodoRecorrer->padre->izq == nodoRecorrer) delete (nodoRecorrer->padre->izq);
-		else delete (nodoRecorrer->padre->der);
 		//delete (nodoRecorrer);
+		if(nodoRecorrer->padre->izq == nodoRecorrer) {
+			delete (nodoRecorrer->padre->izq);
+			nodoRecorrer->padre->izq = NULL;
+		}
+		else {
+			delete (nodoRecorrer->padre->der);
+			nodoRecorrer->padre->der = NULL;
+		}
 	}
 	else if (cantHijos(nodoRecorrer) == 1) {
 		if (!(nodoRecorrer->izq)) {
@@ -84,9 +90,18 @@ void tp3::DiccLog<T>::Borrar(aed2::Nat n){
 		} else {
 			hijoTemp = nodoRecorrer->izq;
 		}
-		delete (nodoRecorrer);
-
-		if(!(elPadre->izq)){
+		if(nodoRecorrer->padre->izq == nodoRecorrer) {
+			elPadre = nodoRecorrer->padre;
+			delete (nodoRecorrer->padre->izq);
+			nodoRecorrer->padre->izq = NULL;
+		}
+		else
+		{
+			elPadre = nodoRecorrer->padre;
+			delete (nodoRecorrer->padre->der);
+			nodoRecorrer->padre->der = NULL;
+		}
+		if((elPadre->izq) == NULL){
 			elPadre->izq = hijoTemp;
 			hijoTemp->padre = elPadre;
 		} else {
@@ -98,10 +113,25 @@ void tp3::DiccLog<T>::Borrar(aed2::Nat n){
 		Nodo<T> *maxNodo;
 		maxNodo = this->CalcularArbolMax(nodoRecorrer->izq);
 
-		aed2::Nat maxValor = maxNodo->key;
-		delete (maxNodo);
+		aed2::Nat maxValorKey = maxNodo->key;
+		T maxValorSig = maxNodo->signi;
 
-		nodoRecorrer->key = maxValor;
+		if (cantHijos(maxNodo) == 1) {
+			Nodo<T> *tempPtr = maxNodo->izq;
+			delete (maxNodo->padre->der);
+			maxNodo->padre->der = tempPtr;
+
+		} else {
+			if(maxNodo->padre->der == maxNodo) {
+				delete (maxNodo->padre->der);
+				maxNodo->padre->der = NULL;
+			} else {
+				delete (maxNodo->padre->izq);
+				maxNodo->padre->izq = NULL;
+			}
+		}
+		nodoRecorrer->key = maxValorKey;
+		nodoRecorrer->signi = maxValorSig;
 	}
 }
 

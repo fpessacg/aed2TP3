@@ -23,9 +23,7 @@ template<typename T>
 		Nodo* padre;
 		aed2::Nat key;
 		aed2::Nat altura;
-		~Nodo(){
-			//delete this;
-		}
+
 	};
 
 	template <typename T>
@@ -47,7 +45,7 @@ template<typename T>
 
 			// Toma un diccionarioLog y un valor natural. Revisa si existe clave
 			// con el valor n.
-			bool Def(const aed2::Nat n) const;
+			bool Definido(const aed2::Nat n) const;
 
 			// Toma un diccionarioLog y un valor natural. Devuelve el significado
 			// que esta asociado al valor n.
