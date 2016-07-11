@@ -276,7 +276,7 @@ void indice_sobre_campo_clave_nat()
   assert(not bd.tieneIndiceNat(NOMBRE_TABLA_PERSONAS));
 
   bd.crearIndiceNat(NOMBRE_TABLA_PERSONAS,"DNI");
-  //~ assert( bd.tieneIndiceNat(NOMBRE_TABLA_PERSONAS));
+  assert( bd.tieneIndiceNat(NOMBRE_TABLA_PERSONAS));
   assert( bd.campoIndiceNat(NOMBRE_TABLA_PERSONAS)=="DNI");
 }
 

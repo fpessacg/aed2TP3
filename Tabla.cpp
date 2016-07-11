@@ -31,6 +31,7 @@ void Tabla::AgregarRegistro(const tp3::Registro& r){
 	//~ std::cout << registros.Longitud() << std::endl;
 	registros.AgregarAtras(r);
 	//~ std::cout << registros.Longitud() << std::endl;
+
 	ItLista itRegAgr = registros.CrearItUlt();
 	cantAccesos++; 
 	// Me fijo si tengo algun indice

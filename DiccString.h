@@ -14,20 +14,23 @@
 namespace tp3
 {
 	template<typename T>
+	struct NodoS
+	{
+		NodoS(bool b, int v) : estaDef(b), fueUsado(v){}
+		bool estaDef;
+		int fueUsado;
+		NodoS* hijos[256];
+		T significado;
+
+	};
+
+	template<typename T>
 	class DiccString
 	{
 		private:
-			struct Nodo
-			{
-				Nodo(bool b, int v) : estaDef(b), fueUsado(v){}
-				bool estaDef;
-				int fueUsado;
-				Nodo* hijos[256];
-				T* significado; 
-		
-			};
 
-			struct Nodo* raiz;
+
+			struct NodoS<T>* raiz;
 			aed2::Conj<aed2::String> claves;
 
 		public:
@@ -35,7 +38,7 @@ namespace tp3
 			DiccString();
 
 			// Constructor por copia
-			DiccString(const DiccString& copyDic);
+			//DiccString(const DiccString& copyDic);
 
 			// Toma un dicString, un dato y un string. Define una nueva clave
 			// con dicha cadena de caracteres, cuyo significado asignado es el dato.
@@ -60,11 +63,7 @@ namespace tp3
 			// del conjunto de claves del diccionario.
 			aed2::Conj<aed2::String>::Iterador Claves() const;
 
-
-			char nth_letter(int n) const;
-
-			int letter_tonum(char ch) const;
-			/*class Iterador{
+		/*class Iterador{
 				public:
 					// Dado un diccionarioLog, crea un iterador que al significado pasado
 					// por parametro

@@ -12,12 +12,12 @@ using namespace std;
 
 template<class T>
 tp3::DiccString<T>::DiccString(){
-	Nodo raizCopy(false,true);
-	this->raiz = &raizCopy;
+	NodoS<T>* raizCopy = new NodoS<T>(false,true);
+	this->raiz = raizCopy;
 	//this->raiz->hijos = new Nodo[256];
 	for(int i = 0; i < 256; ++i){
-		Nodo nodoCopy(false,false);
-		this->raiz->hijos[i] = &nodoCopy;
+		NodoS<T>* nodoCopy = new NodoS<T>(false,false);
+		this->raiz->hijos[i] = nodoCopy;
 	}
 	aed2::Conj<aed2::String> clavesTemp;
 	this->claves = clavesTemp;
@@ -28,7 +28,7 @@ void tp3::DiccString<T>::Definir(aed2::String& c, T& s){
 	this->claves.AgregarRapido(c);
 
 	// Comienzo desde la raiz
-	struct Nodo* nodoRecorrer = this->raiz;
+	struct NodoS<T>* nodoRecorrer = this->raiz;
 		// Recorro hasta la longitud de la clave
 	for(int i = 0; i < c.length(); i++){
 		// Pregunto si el caracter al que se esta evaluando ya fue creado
@@ -43,29 +43,30 @@ void tp3::DiccString<T>::Definir(aed2::String& c, T& s){
 			// En vacio
 			char nuevoChar = (char) c[i];
 			std::cout << "quien te conoce nuevoChar: " << nuevoChar << std::endl;
-			Nodo nuevo(false,true);
+			NodoS<T>* nuevo = new NodoS<T>(false,true);
 			//nuevo.significado = 0;
 			for(int j = 0; j < 256; j++) {
 				// Nodos hijos del nuevo caracter
-				Nodo nodoCopy(false,false);
-				nuevo.hijos[j] = &nodoCopy;
+				NodoS<T>* nodoCopy = new NodoS<T>(false,false);
+				nuevo->hijos[j] = nodoCopy;
 			}
 			// Asigno el nuevo y avanzo al proximo
-			nodoRecorrer->hijos[c[i]] = &nuevo;
+			nodoRecorrer->hijos[c[i]] = nuevo;
 			nodoRecorrer = nodoRecorrer->hijos[c[i]];
 			if(i == c.length() - 1) cout << c[i];
 			if (i == c.length() - 1){
 			std::cout << "LLEGAS PAPA, c[i] es: " << c[i] << std::endl;
 			//nodoCopy.hijos[letter_tonum(c[i])]->significado = &s;
-			Nodo nuevo(false,true);
+			//NodoS<T>* nuevo = new NodoS<T>(false,true);
 			//nuevo.significado = 0;
-			for(int j = 0; j < 256; j++) {
+			//for(int j = 0; j < 256; j++) {
 				// Nodos hijos del nuevo caracter
-				Nodo nodoCopy(false,false);
-				nuevo.hijos[j] = &nodoCopy;
-			}
-			nodoRecorrer = &nuevo;
-			nodoRecorrer->significado = &s;
+			//	NodoS<T>* nodoCopy = new NodoS<T>(false,false);
+			//	nuevo->hijos[j] = nodoCopy;
+			//}
+			//nodoRecorrer = nuevo;
+			nodoRecorrer->significado = s;
+			nodoRecorrer->estaDef = true;
 			break;
 			//std::cout << *(nodoRecorrer->hijos[c[i]]->significado) << std::endl;
 			}
@@ -73,17 +74,15 @@ void tp3::DiccString<T>::Definir(aed2::String& c, T& s){
 			//<< std::endl;
 		} else {
 			std::cout << "Entro aca! con i = " << i << std::endl;
-			nodoRecorrer = nodoRecorrer->hijos[c[i]]->hijos[c[i+1]];
+			nodoRecorrer = nodoRecorrer->hijos[c[i]];
 		}
-
-
 	}
 }
 
 template<class T>
 void tp3::DiccString<T>::Borrar(aed2::String& c){
 	this->claves.Eliminar(c);
-	Nodo* nodoRecorrer = this->raiz;
+	NodoS<T>* nodoRecorrer = this->raiz;
 	for(int i = 0; i < c.length(); ++i){
 		nodoRecorrer = nodoRecorrer->hijos[c[i]];
 		if(i == c.length() - 1){
@@ -96,10 +95,10 @@ void tp3::DiccString<T>::Borrar(aed2::String& c){
 template<class T>
 bool tp3::DiccString<T>::Def(aed2::String& c) const{
 	bool res = false;
-	Nodo* nodoRecorrer = this->raiz;
+	NodoS<T>* nodoRecorrer = this->raiz;
 	int i = 0;
-	while(i < c.length() && nodoRecorrer->hijos[letter_tonum(c[i])] != NULL){
-		nodoRecorrer = nodoRecorrer->hijos[letter_tonum(c[i])];
+	while(i < c.length() && nodoRecorrer->hijos[c[i]] != NULL){
+		nodoRecorrer = nodoRecorrer->hijos[c[i]];
 		if (i == c.length() - 1){
 			res = nodoRecorrer->estaDef;
 		}
@@ -110,18 +109,17 @@ bool tp3::DiccString<T>::Def(aed2::String& c) const{
 
 template<class T>
 T tp3::DiccString<T>::Obtener(aed2::String& c) const{
-	Nodo* nodoRecorrer = this->raiz;
+	NodoS<T>* nodoRecorrer = this->raiz;
 	for(int i = 0; i < c.length(); ++i){
+		nodoRecorrer = nodoRecorrer->hijos[c[i]];
 		if(i == c.length() - 1) {
-			return *(nodoRecorrer->significado);
+			return (nodoRecorrer->significado);
 		}
 		std::cout << "Como va? " << c[i] << " y soy el num: " << i << std::endl;
-		nodoRecorrer = nodoRecorrer->hijos[c[i]];
 
 		//std::cout << "u" << std::endl;
 		//std::cout << "AHI VA EL CAPITAN SEGMENTO con " << *(nodoRecorrer->significado) 
-		//	<< std::endl;
-		
+		//	<< std::endl
 	}
 }
 
@@ -129,8 +127,8 @@ template<class T>
 aed2::String tp3::DiccString<T>::maxString() const{
 	int i = 0; int j = 0;
 	aed2::String res;
-	struct Nodo* nodoRecorrer = this->raiz;
-	struct Nodo* maximoNodo = nodoRecorrer->hijos[i];
+	struct NodoS<T>* nodoRecorrer = this->raiz;
+	struct NodoS<T>* maximoNodo = nodoRecorrer->hijos[i];
 
 	int maxIndice = 0;
 	while(i < 27){
