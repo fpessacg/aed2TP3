@@ -56,8 +56,9 @@ const NombreCampo& BaseDatos::CampoJoin(const NombreTabla& t1, const NombreTabla
 // Agrego un Registro a una Tabla
 void BaseDatos::InsertarEntrada(const tp3::Registro& r, const NombreTabla& t){
 	//~ std::cout << "InsertarEntradaSBD" << std::endl;
-	struct InfoTabla infoT = tablasBD.Significado(t);
+	struct InfoTabla& infoT = tablasBD.Significado(t);
 	infoT.tablaData.AgregarRegistro(r);
+	//~ std::cout << "Long InsertarBD"<<DameTabla(t).Registros().Longitud() << std::endl;
 	if(infoT.tablaData.CantidadDeAccesos() > cantAccesoMax){
 		cantAccesoMax = infoT.tablaData.CantidadDeAccesos();
 		nombreAccesoMax = t;
@@ -85,7 +86,7 @@ void BaseDatos::InsertarEntrada(const tp3::Registro& r, const NombreTabla& t){
 
 //borrar un registro de una tabla
 void BaseDatos::Borrar(const tp3::Registro& r, const NombreTabla& t){
-	struct InfoTabla infoT = tablasBD.Significado(t);
+	struct InfoTabla& infoT = tablasBD.Significado(t);
 	if(infoT.tablaData.CantidadDeAccesos() > cantAccesoMax){
 		cantAccesoMax = infoT.tablaData.CantidadDeAccesos();
 		nombreAccesoMax = t;

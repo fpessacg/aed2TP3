@@ -136,14 +136,17 @@ aed2::Conj<Registro> Registro::combinarTodos(const aed2::NombreCampo& c,const ae
 }
 
 // Devuelvo el significado del campo 
-const tp3::Dato& Registro::Significado(const aed2::NombreCampo& c) const{
+const tp3::Dato Registro::Significado(const aed2::NombreCampo c) const{
 	//~ std::cout << "Significado" << std::endl;
 	//~ std::cout << c << std::endl;
+
+	//~ bool def = reg.Definido(c); 
+	//~ std::cout << "DefinidoRegistro: "<< def << std::endl;
 	return reg.Significado(c);
 }
 
 // Devuelvo True si esta definido el campo
-bool Registro::estaDefinido(const aed2::NombreCampo& c) const{
+bool Registro::estaDefinido(const aed2::NombreCampo c) const{
 	return reg.Definido(c);
 }
 

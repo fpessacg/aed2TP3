@@ -44,11 +44,19 @@ Driver::Dato pasarDatoADDato(const tp3::Dato& dato){
 
 Driver::Registro pasarRegADReg(const tp3::Registro& reg){
 	Driver::Registro dReg;
-	aed2::Conj<aed2::NombreCampo>::Iterador itCamposReg = reg.campos().CrearIt();
+	aed2::Conj<aed2::NombreCampo> camposReg = reg.campos();
+	//~ std::cout << "CamposRegistro:  " << camposReg << std::endl;
+	aed2::Conj<aed2::NombreCampo>::const_Iterador itCamposReg = camposReg.CrearIt();
 	while(itCamposReg.HaySiguiente()){
-		tp3::Dato dato = reg.Significado(itCamposReg.Siguiente());
 		aed2::NombreCampo nombreCamp = itCamposReg.Siguiente();
+	//~ std::cout << "HaySiguienteCampo registro:  " << itCamposReg.HaySiguiente() << std::endl;
+	//~ std::cout << "Nombre Campo:  " << itCamposReg.Siguiente() << std::endl;
+		tp3::Dato dato = reg.Significado(itCamposReg.Siguiente());
+	//~ std::cout << "Funciono" << std::endl;
+		//~ tp3::Dato dato = reg.Significado(nombreCamp);
+		//~ dReg.DefinirRapido(nombreCamp, pasarDatoADDato(dato));
 		dReg.DefinirRapido(nombreCamp, pasarDatoADDato(dato));
+		
 		itCamposReg.Avanzar();
 	}
 	return dReg;
@@ -77,9 +85,11 @@ aed2::Conj<Driver::Registro>  pasarConjRegAConjDReg(const aed2::Conj<tp3::Regist
 	aed2::Conj<Driver::Registro> conjDReg;
 	while(itConjReg.HaySiguiente()){
 		Driver::Registro dReg = pasarRegADReg(itConjReg.Siguiente()); 
+	//~ std::cout << "Hola" << std::endl;
 		conjDReg.Agregar( dReg);
 		itConjReg.Avanzar();
 	}
+	return conjDReg;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -159,6 +169,7 @@ void Driver::insertarRegistro(const NombreTabla& tabla, const Driver::Registro& 
 void Driver::borrarRegistro(const NombreTabla& tabla, const NombreCampo& columna, const Dato& valor){
 	tp3::Dato val = pasarDDatoADato(valor);
 	tp3::Registro regBorrar(columna, val);
+	std::cout << "CampoBorrar: " << columna << std::endl;
 	BD.Borrar(regBorrar, tabla);
 }
 
@@ -176,6 +187,7 @@ aed2::Conj<Driver::Registro> Driver::registrosDeTabla(const NombreTabla& tabla)c
 	Tabla tablaCompl = BD.DameTabla(tabla);
 	aed2::Lista<tp3::Registro> listaReg = tablaCompl.Registros();
 	aed2::Conj<tp3::Registro> conjReg = deListaAConjReg(listaReg);
+	//~ std::cout << listaReg.Longitud() << std::endl;
 	return pasarConjRegAConjDReg(conjReg);
 }
 

@@ -45,10 +45,10 @@ class Registro
 		aed2::Conj<Registro> combinarTodos(const aed2::NombreCampo& c,const aed2::Conj<Registro> cr); 
 		
 		// Devuelvo el significado del campo 
-		const Dato& Significado(const aed2::NombreCampo& c) const;
+		const Dato Significado(const aed2::NombreCampo c) const;
 		
 		// Devuelvo True si esta definido el campo
-		bool estaDefinido(const aed2::NombreCampo& c) const;
+		bool estaDefinido(const aed2::NombreCampo c) const;
 
 	private:
 		aed2::Dicc<aed2::NombreCampo, Dato> reg;

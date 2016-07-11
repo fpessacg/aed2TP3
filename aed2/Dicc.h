@@ -229,12 +229,16 @@ const S& Dicc<K,S>::Significado(const K& clave)const
   #ifdef DEBUG
   assert( Definido(clave) );
   #endif
+	
+	
+	//~ bool def = Definido(clave); 
+	//~ std::cout << "Definido: "<< def << std::endl;
 
     const_Iterador it = Buscar(clave); 
 	//~ std::cout << "SignificadoDicc" << std::endl;
 	
-	bool lala = it.HaySiguiente(); 
-	//~ std::cout << lala << std::endl;
+	//~ bool lala = it.HaySiguiente(); 
+	//~ std::cout << "HaySiguiente itDicc: "<< lala << std::endl;
 
 	return it.SiguienteSignificado();
 

@@ -142,17 +142,25 @@ void insertar_registros_en_una_tabla()
 	
 	//~ std::cout << bd.registrosDeTabla(NOMBRE_TABLA_PERSONAS).Cardinal() << "la" << std::endl;
 	bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_1);
-	//~ std::cout << "Hola" << std::endl;
-	//~ std::cout << "Hola" << std::endl;
+	//~ std::cout << bd.DameTabla(NOMBRE_TABLA_PERSONAS).Registros().Longitud() << std::endl;
+	//~ std::cout << bd.registrosDeTabla(NOMBRE_TABLA_PERSONAS).Cardinal() << std::endl;
+	
+	//~ std::cout << bd.tablas() << std::endl;
 	bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_2);
-	aed2::Conj<aed2::Driver::Registro > conjRegAux = bd.registrosDeTabla(NOMBRE_TABLA_PERSONAS);
-	std::cout << conjRegAux.Cardinal() << std::endl;
+	//~ std::cout << bd.columnasClaveDeTabla(NOMBRE_TABLA_PERSONAS) << std::endl;
+	//~ aed2::Conj<aed2::Driver::Registro > conjRegAux = bd.registrosDeTabla(NOMBRE_TABLA_PERSONAS);
+	//~ std::cout <<  << std::endl;
+	//~ aed2::Conj<aed2::Driver::Registro>::Iterador itConjRegAux = bd.registrosDeTabla(NOMBRE_TABLA_PERSONAS).CrearIt();
+	//~ aed2::Driver::Registro regAux =itConjRegAux.Siguiente();
+	//~ std::cout << regAux.CantClaves() << std::endl;
 	{
 	aed2::Conj<aed2::Driver::Registro> registros;
 	registros.Agregar( persona_1 );
 	registros.Agregar( persona_2 );
 
 	// TODO el ASSERT_EQ deberia usar el ==
+	aed2::Conj<aed2::Driver::Registro> aux = bd.registrosDeTabla(NOMBRE_TABLA_PERSONAS);
+	//~ std::cout << "Hola" << std::endl;
 	assert( bd.registrosDeTabla(NOMBRE_TABLA_PERSONAS) == registros );
   }
 }

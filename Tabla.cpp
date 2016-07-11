@@ -26,7 +26,11 @@ nombre(nombre), claves(claves), cantAccesos(0), columnas(columnas){
 
 // Agrego un registor a la tabla
 void Tabla::AgregarRegistro(const tp3::Registro& r){
+	//~ std::cout << "AgregarRegistro" << std::endl;
+	//~ std::cout << claves << std::endl;
+	//~ std::cout << registros.Longitud() << std::endl;
 	registros.AgregarAtras(r);
+	//~ std::cout << registros.Longitud() << std::endl;
 	ItLista itRegAgr = registros.CrearItUlt();
 	cantAccesos++; 
 	// Me fijo si tengo algun indice
@@ -67,6 +71,7 @@ void Tabla::AgregarRegistro(const tp3::Registro& r){
 		}
 		itIndice.Avanzar();
 	}
+	//~ std::cout << registros.Longitud() << std::endl;
 }
 
 // Borro un registro de la tabla
