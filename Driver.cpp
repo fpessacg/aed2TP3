@@ -169,7 +169,7 @@ void Driver::insertarRegistro(const NombreTabla& tabla, const Driver::Registro& 
 void Driver::borrarRegistro(const NombreTabla& tabla, const NombreCampo& columna, const Dato& valor){
 	tp3::Dato val = pasarDDatoADato(valor);
 	tp3::Registro regBorrar(columna, val);
-	std::cout << "CampoBorrar: " << columna << std::endl;
+	//~ std::cout << "CampoBorrar: " << columna << std::endl;
 	BD.Borrar(regBorrar, tabla);
 }
 

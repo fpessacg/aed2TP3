@@ -86,7 +86,10 @@ void BaseDatos::InsertarEntrada(const tp3::Registro& r, const NombreTabla& t){
 
 //borrar un registro de una tabla
 void BaseDatos::Borrar(const tp3::Registro& r, const NombreTabla& t){
+	int Debug = 0;
 	struct InfoTabla& infoT = tablasBD.Significado(t);
+	if (Debug==1) std::cout << "Nombre Tabla: "  << infoT.tablaData.Nombre() << std::endl;
+	// Actualizo la cantidad de Accesos 
 	if(infoT.tablaData.CantidadDeAccesos() > cantAccesoMax){
 		cantAccesoMax = infoT.tablaData.CantidadDeAccesos();
 		nombreAccesoMax = t;
@@ -96,6 +99,7 @@ void BaseDatos::Borrar(const tp3::Registro& r, const NombreTabla& t){
 		struct InfoTabla infoTabRev = tablasBD.Significado(itTablas.Siguiente());
 		// Pregunto si hay alguna tabla que tenga join con la tabla que modifique t
 		if(infoTabRev.joins.Definido(t)){
+			if (Debug==1) std::cout << "Hay una tabla q tiene join con la que borro " << std::endl;
 			struct InfoJoin infoJoinRev = infoTabRev.joins.Significado(t);
 			Dupla<tp3::Registro, bool> dup;
 			dup.x = r; dup.y = true;
@@ -103,6 +107,7 @@ void BaseDatos::Borrar(const tp3::Registro& r, const NombreTabla& t){
 		}
 		// Pregunto si la tabla t tiene join con alguna tabla 
 		if(infoT.joins.Definido(itTablas.Siguiente())){
+			if (Debug==1) std::cout << "Hay join con otra tabla " << std::endl;
 			struct InfoJoin infoJoinT = infoT.joins.Significado(itTablas.Siguiente());
 			Dupla<tp3::Registro, bool> dup;
 			dup.x = r; dup.y = true;
@@ -110,6 +115,7 @@ void BaseDatos::Borrar(const tp3::Registro& r, const NombreTabla& t){
 		}
 		itTablas.Avanzar();
 	}
+
 	infoT.tablaData.BorrarRegistro(r);
 }
 

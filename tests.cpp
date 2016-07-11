@@ -225,11 +225,13 @@ void contar_cantidad_de_accesos()
   bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_3);
   ASSERT_EQ(bd.cantidadDeAccesosDeTabla(NOMBRE_TABLA_PERSONAS), 3);
 
+
   // Solo se borra por campo clave parece, asi que borro esto
   //bd.borrarRegistro(NOMBRE_TABLA_PERSONAS, "apellido", aed2::Driver::Dato("Perez"));
   //ASSERT_EQ(bd.cantidadDeAccesosDeTabla(NOMBRE_TABLA_PERSONAS), 5);
 
   bd.borrarRegistro(NOMBRE_TABLA_PERSONAS, "DNI", aed2::Driver::Dato(1));
+	//~ std::cout << bd.cantidadDeAccesosDeTabla(NOMBRE_TABLA_PERSONAS) << std::endl;
   ASSERT_EQ(bd.cantidadDeAccesosDeTabla(NOMBRE_TABLA_PERSONAS), 4);
 }
 

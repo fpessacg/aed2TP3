@@ -508,6 +508,7 @@ void Lista<T>::Iterador::EliminarAnterior()
 template <typename T>
 void Lista<T>::Iterador::EliminarSiguiente()
 {
+	//~ std::cout << "entre a eliminar Siguiente" << std::endl;
   #ifdef DEBUG
   assert(HaySiguiente());
   #endif

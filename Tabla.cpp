@@ -76,21 +76,35 @@ void Tabla::AgregarRegistro(const tp3::Registro& r){
 
 // Borro un registro de la tabla
 void Tabla::BorrarRegistro(const tp3::Registro& crit){
-	aed2::Lista<ItLista> conjItLis = Coincidencias(crit, Registros() );
-	aed2::Lista<ItLista>::Iterador itConjItLis = conjItLis.CrearIt();
-	while(itConjItLis.HaySiguiente()){
+	int Debug = 0;
+	cantAccesos++;
+	aed2::Lista<ItLista> listaItLis = Coincidencias(crit, Registros() );
+	if (Debug==1) std::cout << "DNI borrar: " << listaItLis.Primero().Siguiente().Significado("DNI").dameNat()  << std::endl;
+	if (Debug==1) std::cout << "DNI borrar: " << listaItLis.Primero().Siguiente().Significado("nombre").dameString()  << std::endl;
+	
+	if (Debug==1) std::cout << "cant Registros Borrar: " << listaItLis.Longitud()  << std::endl;
+	aed2::Lista<ItLista>::Iterador itLisItLis = listaItLis.CrearIt();
+	while(itLisItLis.HaySiguiente()){
+		if (Debug==1) std::cout << "Borro un registro: "  << std::endl;
+		
 		// Si tengo indice Nat Borro la clave del diccionario
 		if(indices.y.indiceNat.CantClaves() != 0){
-			tp3::Registro registroBorrar = itConjItLis.Siguiente().Siguiente();
+			tp3::Registro registroBorrar = itLisItLis.Siguiente().Siguiente();
 			indices.y.indiceNat.Borrar(registroBorrar.Significado(indices.y.campo).dameNat() );
 			
 		}
 		// Si tengo indice String Borro la clave del diccionario
 		if(indices.x.indiceString.CantClaves() != 0){
-			tp3::Registro registroBorrar = itConjItLis.Siguiente().Siguiente();
+			tp3::Registro registroBorrar = itLisItLis.Siguiente().Siguiente();
 			indices.x.indiceString.Borrar(registroBorrar.Significado(indices.x.campo).dameString() );
 		}
-		itConjItLis.Siguiente().EliminarSiguiente();
+		if (Debug==1) std::cout << "cant Registros Borrar: " << listaItLis.Longitud()  << std::endl;
+		if (Debug==1) std::cout << "HaySiguiente: " << itLisItLis.Siguiente().HaySiguiente()  << std::endl;
+		//~ aed2::Nat val = itLisItLis.Siguiente().Siguiente().Significado("DNI").dameNat();
+		if (Debug==1) std::cout << "DNI borrar: " << itLisItLis.Siguiente().Siguiente().Significado("DNI").dameNat()  << std::endl;
+		itLisItLis.Siguiente().EliminarSiguiente();
+		if (Debug==1) std::cout << "Funciono "  << std::endl;
+		itLisItLis.Avanzar();
 	}
 	//Actualizo los maximos de los indices
 				//FALTA definir la funcion calcularMax calcularMin para los dicc 
@@ -184,10 +198,10 @@ aed2::TipoCampo Tabla::TipoDelCampo(const aed2::NombreCampo& c) const{
 }
 
 // Devuelvo un iterador a la lista de registros de la tabla
-aed2::Lista<tp3::Registro> Tabla::Registros() const{
+const aed2::Lista<tp3::Registro> & Tabla::Registros() const{
 	return registros;
 }
-aed2::Lista<tp3::Registro> Tabla::Registros(){
+aed2::Lista<tp3::Registro>& Tabla::Registros(){
 	return registros;
 }
 
@@ -245,30 +259,43 @@ bool Tabla::HayCoincidencia(const tp3::Registro& r, const aed2::Conj<aed2::Nombr
 }
 
 // Devuelve un iterador al conj de iteradores de Lista de Registros que coinciden 
-aed2::Lista<ItLista> Tabla::Coincidencias(const tp3::Registro& r, aed2::Lista<tp3::Registro> lisReg){
+aed2::Lista<ItLista> Tabla::Coincidencias(const tp3::Registro& r, aed2::Lista<tp3::Registro>& lisReg){
+	int Debug = 0;
 	ItLista itLisReg = lisReg.CrearIt();
 	aed2::Lista<ItLista> listaItLista;
 	aed2::Lista<ItLista>::Iterador itListaItLista = listaItLista.CrearIt();
+	if (Debug==1) std::cout << "cant Registros Borrar: " << listaItLista.Longitud()  << std::endl;
 	// Reviso que no sea vacia la tabla
 	if(itLisReg.HaySiguiente()){
 		// Si tengo indice String busco por este indice
 		if( r.campos().Pertenece(indices.x.campo) ){
+			if (Debug==1) std::cout << "Busco Coincidencias por indice String "  << std::endl;
 			tp3::Dato d = r.Significado(indices.x.campo);
 			listaItLista = indices.x.indiceString.Significado( d.dameString() ); 
 		}
+		// Si tengo indice Nat busco por este indice
 		else if(r.campos().Pertenece(indices.y.campo) ){
+			if (Debug==1) std::cout << "Busco Coincidencias por indice Nat "  << std::endl;
 			tp3::Dato d = r.Significado(indices.y.campo);
 			listaItLista = indices.y.indiceNat.Significado( d.dameNat() ); 
 		}
-		else{
-			while(itListaItLista.HaySiguiente()){
-				if(!(itListaItLista.Siguiente().Siguiente().coincidenTodos(r.campos(), r))){
-					itListaItLista.EliminarSiguiente();
+		else{ // Si no recorro linealmente
+			if (Debug==1) std::cout << "Busco Coincidencias recorriendo todos los registros "  << std::endl;
+			while(itLisReg.HaySiguiente()){
+				if(itLisReg.Siguiente().coincidenTodos(r.campos(), r)){
+					if (Debug==1) std::cout << "Encontre una coincidencia "  << std::endl;
+					if (Debug==1) std::cout << "cantRegistros Lista "  << listaItLista.Longitud() <<std::endl;
+					listaItLista.AgregarAtras( itLisReg );
+					//~ itLisReg.EliminarSiguiente();
+					if (Debug==1) std::cout << "cantRegistros Lista "  << listaItLista.Longitud() <<std::endl;
 				}
-				else itListaItLista.Avanzar();
+				itLisReg.Avanzar();
 			}
 		}
 	}
+	if (Debug==1) std::cout << "cant Registros Borrar: " << listaItLista.Longitud()  << std::endl;
+	if (Debug==1) std::cout << "DNI borrar: " << listaItLista.Primero().Siguiente().Significado("DNI").dameNat()  << std::endl;
+	if (Debug==1) std::cout << "DNI borrar: " << listaItLista.Primero().Siguiente().Significado("nombre").dameString()  << std::endl;
 	return listaItLista; 
 }
 
