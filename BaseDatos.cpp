@@ -165,8 +165,12 @@ aed2::Lista<tp3::Registro> BaseDatos::VistaJoin( const  NombreTabla& t1, const N
 				joinsT1T2.registroJoin.BorrarRegistro(regCrit);
 			} 
 			else { // Si el registro fue agregado Reviso si esta en las dos tablas, si esta lo agrego a la lista de join
-				aed2::Lista<ItLista>::Iterador itLista1 = Buscar(regCrit, t1).CrearIt();
-				aed2::Lista<ItLista>::Iterador itLista2 = Buscar(regCrit, t2).CrearIt();
+				//~ aed2::Lista<ItLista>::Iterador itLista1 = Buscar(regCrit, t1).CrearIt();
+				//~ aed2::Lista<ItLista>::Iterador itLista2 = Buscar(regCrit, t2).CrearIt();
+				aed2::Lista<ItLista> b1 = Buscar(regCrit, t1);
+				aed2::Lista<ItLista>::Iterador itLista1 = b1.CrearIt();
+				aed2::Lista<ItLista> b2 = Buscar(regCrit, t2);
+				aed2::Lista<ItLista>::Iterador itLista2 = b2.CrearIt();
 				if(itLista1.HaySiguiente() && itLista2.HaySiguiente()){
 					tp3::Registro regAgr = itLista1.Siguiente().Siguiente().agregarCampos(itLista2.Siguiente().Siguiente());
 					joinsT1T2.registroJoin.AgregarRegistro(regAgr);
