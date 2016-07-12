@@ -58,7 +58,8 @@ class BaseDatos
 
 
 		// Busca los registro que conincidan con r en la tabla de la base de datos
-		aed2::Lista<ItLista> Buscar(const tp3::Registro& r, const aed2::NombreTabla& t) const;
+		aed2::Lista<const_ItLista> Buscar(const tp3::Registro& r, const aed2::NombreTabla& t) const;
+		aed2::Lista<ItLista> Buscar(const tp3::Registro& r, const aed2::NombreTabla& t);
 
 		// Devuelve el nombre de la tabla que tuvo mayor cant de Accesos
 		const aed2::NombreTabla& EncontrarMaximo( aed2::NombreTabla& t, const aed2::Conj<aed2::NombreTabla>&  conjTab);

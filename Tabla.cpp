@@ -3,6 +3,7 @@
 //~ using namespace tp3;
 
 typedef aed2::Lista < tp3::Registro >::Iterador ItLista;
+typedef aed2::Lista < tp3::Registro >::const_Iterador const_ItLista;
 
 //Cosas q faltan:
 // ----------------------------------------------------------------------------------------------
@@ -230,13 +231,20 @@ aed2::Nat Tabla::CantidadDeAccesos()const{
 
 // Devuelvo el minimo dato de todos los registros para la tabla
 const tp3::Dato Tabla::Minimo(const aed2::NombreCampo& c)const{
+		std::cout << "Tabla::minimo"<< std::endl;
 	if(indices.x.campo == c){
-		return *(indices.x.minString);
+		std::cout << "Tabla::minimo A"<< std::endl;
+		//~ return *(indices.x.minString);
+		return tp3::Dato::min( DameColumna(c, registros));
 	}
 	else if (indices.y.campo == c){
-		return *(indices.y.minNat);
+		//~ std::cout << "Tabla::minimo B"<< std::endl;
+		//~ std::cout << (indices.y.minNat).dameNat() << std::endl;
+		//~ return *(indices.y.minNat);
+		return tp3::Dato::min( DameColumna(c, registros));
 	} 
 	else{
+		std::cout << "Tabla::minimo C"<< std::endl;
 		return tp3::Dato::min( DameColumna(c, registros));
 	}
 }
@@ -316,6 +324,58 @@ aed2::Lista<ItLista> Tabla::Coincidencias(const tp3::Registro& r, aed2::Lista<tp
 	if (Debug==1) std::cout << "DNI borrar: " << listaItLista.Primero().Siguiente().Significado("nombre").dameString()  << std::endl;
 	return listaItLista; 
 }
+
+//Pasar Lista de It a Lista de const_It
+aed2::Lista<const_ItLista> pasarListaItAListaConstIt( aed2::Lista<ItLista> lista){
+	aed2::Lista<ItLista>::Iterador itLista = lista.CrearIt();
+	aed2::Lista<const_ItLista> constLista;
+	while(itLista.HaySiguiente() ){
+		//~ constLista.AgregarAtras(aed2::Lista<tp3::Registro>::const_Iterador(itLista));
+		constLista.AgregarAtras(itLista.Siguiente());
+	}
+	return constLista;
+}
+
+const aed2::Lista<const_ItLista> Tabla::Coincidencias(const tp3::Registro& r, const  aed2::Lista<tp3::Registro>& lisReg)const {
+	int Debug = 0;
+	const_ItLista itLisReg = lisReg.CrearIt();
+	aed2::Lista<const_ItLista> listaItLista;
+	aed2::Lista<const_ItLista>::Iterador itListaItLista = listaItLista.CrearIt();
+	if (Debug==1) std::cout << "cant Registros Borrar: " << listaItLista.Longitud()  << std::endl;
+	// Reviso que no sea vacia la tabla
+	if(itLisReg.HaySiguiente()){
+		// Si tengo indice String busco por este indice
+		if( r.campos().Pertenece(indices.x.campo) ){
+			if (Debug==1) std::cout << "Busco Coincidencias por indice String "  << std::endl;
+			tp3::Dato d = r.Significado(indices.x.campo);
+			listaItLista = pasarListaItAListaConstIt(indices.x.indiceString.Significado( d.dameString() )); 
+		}
+		// Si tengo indice Nat busco por este indice
+		else if(r.campos().Pertenece(indices.y.campo) ){
+			if (Debug==1) std::cout << "Busco Coincidencias por indice Nat "  << std::endl;
+			tp3::Dato d = r.Significado(indices.y.campo);
+			listaItLista = pasarListaItAListaConstIt(indices.y.indiceNat.Significado( d.dameNat() )); 
+		}
+		else{ // Si no recorro linealmente
+			if (Debug==1) std::cout << "Busco Coincidencias recorriendo todos los registros "  << std::endl;
+			while(itLisReg.HaySiguiente()){
+				if(itLisReg.Siguiente().coincidenTodos(r.campos(), r)){
+					if (Debug==1) std::cout << "Encontre una coincidencia "  << std::endl;
+					if (Debug==1) std::cout << "cantRegistros Lista "  << listaItLista.Longitud() <<std::endl;
+					listaItLista.AgregarAtras( itLisReg );
+					//~ itLisReg.EliminarSiguiente();
+					if (Debug==1) std::cout << "cantRegistros Lista "  << listaItLista.Longitud() <<std::endl;
+				}
+				itLisReg.Avanzar();
+			}
+		}
+	}
+	if (Debug==1) std::cout << "cant Registros Borrar: " << listaItLista.Longitud()  << std::endl;
+	if (Debug==1) std::cout << "DNI borrar: " << listaItLista.Primero().Siguiente().Significado("DNI").dameNat()  << std::endl;
+	if (Debug==1) std::cout << "DNI borrar: " << listaItLista.Primero().Siguiente().Significado("nombre").dameString()  << std::endl;
+	return listaItLista; 
+}
+
 
 // Devuelve la comlumna de c en cr
 aed2::Conj<tp3::Dato> Tabla::DameColumna(const aed2::NombreCampo& c, const aed2::Lista<tp3::Registro>& lr){

@@ -83,13 +83,20 @@ Dato Dato::max(const aed2::Conj<Dato> cd){
 Dato Dato::min(const aed2::Conj<Dato> cd){
 	aed2::Conj<Dato>::const_Iterador itConj = cd.CrearIt();
 	Dato dMin = itConj.Siguiente();
+	std::cout << "Dato::min "  << dMin.dameNat() << std::endl;
 	itConj.Avanzar();
 	while( itConj.HaySiguiente() ){
-		if(dMin > itConj.Siguiente() ){
+		std::cout << "Dato::min siguiente "  << dMin.dameNat() << std::endl;
+		Dato dMinAux = itConj.Siguiente(); 
+		std::cout << "Dato::minAux siguiente "  << dMinAux.dameNat() << std::endl;
+		if( dMin >  dMinAux){
+			std::cout << "Adentro if "   << std::endl;
+			
 			dMin = itConj.Siguiente();
 		}
 		itConj.Avanzar();
 	}
+	std::cout << "Dato::min "  << dMin.dameNat() << std::endl;
 	return dMin;
 }
 

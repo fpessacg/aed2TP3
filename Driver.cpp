@@ -196,6 +196,8 @@ aed2::Nat Driver::cantidadDeAccesosDeTabla(const NombreTabla& tabla) const{
 }
 
 Driver::Dato Driver::minimo(const NombreTabla& tabla, const NombreCampo& columna) const{
+	tp3::Dato dato = BD.DameTabla(tabla).Minimo(columna);
+	std::cout << dato.dameNat() << std::endl;
 	return pasarDatoADDato(BD.DameTabla(tabla).Minimo(columna));
 }
 
@@ -204,8 +206,8 @@ Driver::Dato Driver::maximo(const NombreTabla& tabla, const NombreCampo& columna
 }
 
 aed2::Conj<Driver::Registro> Driver::buscar(const NombreTabla& tabla, const Registro& criterio) const{
-	aed2::Lista<ItLista> listaItLista = BD.Buscar(pasarDRegAReg(criterio), tabla);
-	aed2::Lista<ItLista>::Iterador itListaItLista = listaItLista.CrearIt();
+	aed2::Lista<const_ItLista> listaItLista = BD.Buscar(pasarDRegAReg(criterio), tabla);
+	aed2::Lista<const_ItLista>::Iterador itListaItLista = listaItLista.CrearIt();
 	aed2::Conj<Driver::Registro> conjDReg;
 	while(itListaItLista.HaySiguiente()){
 		tp3::Registro regAgregar = itListaItLista.Siguiente().Siguiente();

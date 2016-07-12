@@ -68,6 +68,8 @@ class Tabla {
 		// Devuelve un iterador al conj de iteradores de Lista de Registros que coinciden 
 		aed2::Lista<ItLista> Coincidencias(const tp3::Registro& r, aed2::Lista<tp3::Registro>& lisReg);
 
+		const aed2::Lista<const_ItLista> Coincidencias(const tp3::Registro& r, const aed2::Lista<tp3::Registro>& lisReg) const;
+
 		// Devuelve la comlumna de c en cr
 		static aed2::Conj<tp3::Dato> DameColumna(const aed2::NombreCampo& c, const aed2::Lista<tp3::Registro>& lr);
 
