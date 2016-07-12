@@ -262,10 +262,12 @@ const tp3::Dato Tabla::Minimo(const aed2::NombreCampo& c)const{
 // Devuelvo el Maximo dato de todos los registros para la tabla
 const tp3::Dato Tabla::Maximo(const aed2::NombreCampo& c)const{
 	if(indices.x.campo == c){
-		return *(indices.x.maxString);
+		//~ return *(indices.x.maxString);
+		return tp3::Dato::max( DameColumna(c, registros));
 	}
 	else if (indices.y.campo == c){
-		return *(indices.y.maxNat);
+		//~ return *(indices.y.maxNat);
+		return tp3::Dato::max( DameColumna(c, registros));
 	} 
 	else{
 		return tp3::Dato::max( DameColumna(c, registros));
