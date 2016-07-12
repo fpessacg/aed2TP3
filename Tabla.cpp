@@ -241,9 +241,9 @@ aed2::Nat Tabla::CantidadDeAccesos()const{
 
 // Devuelvo el minimo dato de todos los registros para la tabla
 const tp3::Dato Tabla::Minimo(const aed2::NombreCampo& c)const{
-		std::cout << "Tabla::minimo"<< std::endl;
+		//~ std::cout << "Tabla::minimo"<< std::endl;
 	if(indices.x.campo == c){
-		std::cout << "Tabla::minimo A"<< std::endl;
+		//~ std::cout << "Tabla::minimo A"<< std::endl;
 		//~ return *(indices.x.minString);
 		return tp3::Dato::min( DameColumna(c, registros));
 	}
@@ -254,7 +254,7 @@ const tp3::Dato Tabla::Minimo(const aed2::NombreCampo& c)const{
 		return tp3::Dato::min( DameColumna(c, registros));
 	} 
 	else{
-		std::cout << "Tabla::minimo C"<< std::endl;
+		//~ std::cout << "Tabla::minimo C"<< std::endl;
 		return tp3::Dato::min( DameColumna(c, registros));
 	}
 }

@@ -49,7 +49,7 @@ bool BaseDatos::HayJoin(const NombreTabla& t1, const NombreTabla& t2) const{
 
 // Devuelve el campo para los cuales dos tablas estan vinculadas
 const NombreCampo& BaseDatos::CampoJoin(const NombreTabla& t1, const NombreTabla& t2) const{
-	struct InfoTabla t1Info = tablasBD.Significado(t1);
+	const InfoTabla& t1Info = tablasBD.Significado(t1);
 	return t1Info.joins.Significado(t2).campo;
 }
 
