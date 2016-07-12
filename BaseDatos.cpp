@@ -91,7 +91,7 @@ void BaseDatos::Borrar(const tp3::Registro& r, const NombreTabla& t){
 	if (Debug==1) std::cout << "Nombre Tabla: "  << infoT.tablaData.Nombre() << std::endl;
 	Lista<NombreTabla>::Iterador itTablas = tablaLista.CrearIt();
 	while(itTablas.HaySiguiente()){
-		struct InfoTabla infoTabRev = tablasBD.Significado(itTablas.Siguiente());
+		struct InfoTabla& infoTabRev = tablasBD.Significado(itTablas.Siguiente());
 		// Pregunto si hay alguna tabla que tenga join con la tabla que modifique t
 		if(infoTabRev.joins.Definido(t)){
 			if (Debug==1) std::cout << "Hay una tabla q tiene join con la que borro " << std::endl;
