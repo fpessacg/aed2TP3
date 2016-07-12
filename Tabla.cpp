@@ -16,6 +16,8 @@ typedef aed2::Lista < tp3::Registro >::const_Iterador const_ItLista;
 // Constructor Tabla
 Tabla::Tabla(const aed2::NombreTabla& nombre, const aed2::Conj <aed2::NombreCampo>& claves, const aed2::Conj<aed2::Columna>& columnas):
 nombre(nombre), claves(claves), cantAccesos(0), columnas(columnas){
+	indices.x.campo = "";
+	indices.y.campo = "";
 	aed2::Conj<aed2::Columna>::const_Iterador itColumnas = columnas.CrearIt();
 	while(itColumnas.HaySiguiente()){
 		campos.AgregarRapido(itColumnas.Siguiente().nombre);
@@ -25,11 +27,16 @@ nombre(nombre), claves(claves), cantAccesos(0), columnas(columnas){
 }
 
 Tabla::~Tabla(){
-	if(indices.x.campo != ""){
+	std::cout << "destructor tabla" << std::endl;
+	//~ if(indices.x.campo != ""){
+	if(CamposTabla().Pertenece(indices.x.campo)){
+	std::cout << "Borro String" << std::endl;
 		delete indices.x.minString;
 		delete indices.x.maxString;
 	}
-	if(indices.y.campo != ""){
+	//~ if(indices.y.campo != ""){
+	if(CamposTabla().Pertenece(indices.y.campo)){
+	std::cout << "Borro NAt" << std::endl;
 		delete indices.y.minNat;
 		delete indices.y.maxNat;
 	}
@@ -46,7 +53,9 @@ void Tabla::AgregarRegistro(const tp3::Registro& r){
 	ItLista itRegAgr = registros.CrearItUlt();
 	cantAccesos++; 
 	// Me fijo si tengo algun indice
-	aed2::Conj<aed2::NombreCampo>::Iterador  itIndice = Indices().CrearIt();
+	//~ aed2::Conj<aed2::NombreCampo>::Iterador  itIndice = Indices().CrearIt();
+	auto tmp_idxs = Indices();
+	aed2::Conj<aed2::NombreCampo>::Iterador  itIndice = tmp_idxs.CrearIt();
 	while(itIndice.HaySiguiente()){
 		aed2::NombreCampo campoIndice = itIndice.Siguiente();
 		tp3::Dato datoIndice = r.Significado(campoIndice);
@@ -130,7 +139,7 @@ void Tabla::BorrarRegistro(const tp3::Registro& crit){
 void Tabla::Indexar(const aed2::NombreCampo& c){
 	aed2::Lista<tp3::Registro> reg = Registros();
 	aed2::Lista<tp3::Registro>::Iterador itReg = reg.CrearIt();
-	tp3::Dato max = 0; tp3::Dato min = 0;
+	tp3::Dato max = 0; tp3::Dato min = 100;
 	// Si el campo es Nat creo un dicLog
 	if(!TipoDelCampo(c)){
 		while(itReg.HaySiguiente()){
