@@ -27,6 +27,20 @@ nombre(nombre), claves(claves), cantAccesos(0), columnas(columnas){
 }
 
 Tabla::~Tabla(){
+	//~ aed2::Conj<aed2::NombreCampo> tmp_idxs = Indices();
+	//~ aed2::Conj<aed2::NombreCampo>::Iterador  itIndice = tmp_idxs.CrearIt();
+	//~ while(itIndice.HaySiguiente()){
+			//~ aed2::NombreCampo campoIndice = itIndice.Siguiente();
+			//~ if(campoIndice == indices.y.campo){
+				//~ delete indices.y.minNat;
+				//~ delete indices.y.maxNat;
+			//~ }		
+			//~ if(campoIndice == indices.x.campo){
+				//~ delete indices.x.minString;
+				//~ delete indices.x.maxString;
+			//~ }
+		//~ itIndice.Avanzar();
+	//~ }
 	//~ std::cout << "destructor tabla" << std::endl;
 	//~ if(indices.x.campo != ""){
 	//~ if(CamposTabla().Pertenece(indices.x.campo)){
@@ -113,12 +127,17 @@ void Tabla::BorrarRegistro(const tp3::Registro& crit){
 		if(indices.y.indiceNat.CantClaves() != 0){
 			tp3::Registro registroBorrar = itLisItLis.Siguiente().Siguiente();
 			indices.y.indiceNat.Borrar(registroBorrar.Significado(indices.y.campo).dameNat() );
-			
+			// actualizo los max y min
+			*indices.y.maxNat    = Maximo(indices.y.campo);
+			*indices.y.minNat    = Minimo(indices.y.campo);
 		}
 		// Si tengo indice String Borro la clave del diccionario
 		if(indices.x.indiceString.CantClaves() != 0){
 			tp3::Registro registroBorrar = itLisItLis.Siguiente().Siguiente();
 			indices.x.indiceString.Borrar(registroBorrar.Significado(indices.x.campo).dameString() );
+			// actualizo los max y min
+			*indices.x.maxString = Maximo(indices.x.campo);
+			*indices.x.minString = Minimo(indices.x.campo);
 		}
 		if (Debug==1) std::cout << "cant Registros Borrar: " << listaItLis.Longitud()  << std::endl;
 		if (Debug==1) std::cout << "HaySiguiente: " << itLisItLis.Siguiente().HaySiguiente()  << std::endl;
@@ -130,10 +149,7 @@ void Tabla::BorrarRegistro(const tp3::Registro& crit){
 	}
 	//Actualizo los maximos de los indices
 				//FALTA definir la funcion calcularMax calcularMin para los dicc 
-	//~ indices.x.indiceString.maxNat = indices.x.indiceString.indiceString.calcularMax();
-	//~ indices.x.indiceString.minNat = indices.x.indiceString.indiceString.calcularMin();
-	//~ indices.y.indiceNat.maxNat    = indices.y.indiceNat.indiceNat.calcularMax();
-	//~ indices.y.indiceNat.minNat    = indices.y.indiceNat.indiceNat.calcularMin();
+
 }
 
 // Creo un Indice en el campo c de la tabla

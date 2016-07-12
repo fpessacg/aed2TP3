@@ -197,7 +197,7 @@ aed2::Nat Driver::cantidadDeAccesosDeTabla(const NombreTabla& tabla) const{
 
 Driver::Dato Driver::minimo(const NombreTabla& tabla, const NombreCampo& columna) const{
 	tp3::Dato dato = BD.DameTabla(tabla).Minimo(columna);
-	std::cout << dato.dameNat() << std::endl;
+	//~ std::cout << dato.dameNat() << std::endl;
 	return pasarDatoADDato(BD.DameTabla(tabla).Minimo(columna));
 }
 

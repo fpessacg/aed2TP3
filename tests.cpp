@@ -289,7 +289,7 @@ void minimo_de_tabla()
   bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_2);
   bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_3);
   bd.crearIndiceNat(NOMBRE_TABLA_PERSONAS,"DNI");
-	std::cout << bd.minimo(NOMBRE_TABLA_PERSONAS,"DNI").dameNat() << std::endl;
+	//~ std::cout << bd.minimo(NOMBRE_TABLA_PERSONAS,"DNI").dameNat() << std::endl;
   assert( bd.minimo(NOMBRE_TABLA_PERSONAS,"DNI").dameNat() ==2);
 
   bd.insertarRegistro(NOMBRE_TABLA_PERSONAS, persona_1);
