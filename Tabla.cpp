@@ -27,19 +27,19 @@ nombre(nombre), claves(claves), cantAccesos(0), columnas(columnas){
 }
 
 Tabla::~Tabla(){
-	std::cout << "destructor tabla" << std::endl;
+	//~ std::cout << "destructor tabla" << std::endl;
 	//~ if(indices.x.campo != ""){
-	if(CamposTabla().Pertenece(indices.x.campo)){
-	std::cout << "Borro String" << std::endl;
-		delete indices.x.minString;
-		delete indices.x.maxString;
-	}
+	//~ if(CamposTabla().Pertenece(indices.x.campo)){
+	//~ std::cout << "Borro String" << std::endl;
+		//~ delete indices.x.minString;
+		//~ delete indices.x.maxString;
+	//~ }
 	//~ if(indices.y.campo != ""){
-	if(CamposTabla().Pertenece(indices.y.campo)){
-	std::cout << "Borro NAt" << std::endl;
-		delete indices.y.minNat;
-		delete indices.y.maxNat;
-	}
+	//~ if(CamposTabla().Pertenece(indices.y.campo)){
+	//~ std::cout << "Borro NAt" << std::endl;
+		//~ delete indices.y.minNat;
+		//~ delete indices.y.maxNat;
+	//~ }
 }
 
 // Agrego un registor a la tabla
@@ -51,6 +51,7 @@ void Tabla::AgregarRegistro(const tp3::Registro& r){
 	//~ std::cout << registros.Longitud() << std::endl;
 
 	ItLista itRegAgr = registros.CrearItUlt();
+	itRegAgr.Retroceder();
 	cantAccesos++; 
 	// Me fijo si tengo algun indice
 	//~ aed2::Conj<aed2::NombreCampo>::Iterador  itIndice = Indices().CrearIt();
