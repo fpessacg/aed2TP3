@@ -132,8 +132,8 @@ void BaseDatos::BorrarJoin(const NombreTabla& t1, const NombreTabla& t2){
 	struct InfoTabla& t1Info = tablasBD.Significado(t1);
 	t1Info.joins.Borrar(t2);
 
-	struct InfoTabla& t2Info = tablasBD.Significado(t2);
-	t2Info.joins.Borrar(t1);
+	//~ struct InfoTabla& t2Info = tablasBD.Significado(t2);
+	//~ t2Info.joins.Borrar(t1);
 }
 
 // Busca los registro que conincidan con r en la tabla de la base de datos
