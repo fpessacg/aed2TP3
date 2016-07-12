@@ -161,21 +161,23 @@ void Tabla::Indexar(const aed2::NombreCampo& c){
 			tp3::Dato valor = ((itReg.Siguiente()).Significado(c));
 			//Si el valor ya esta en el dicc agrego el iterador al conjunto
 			if(indices.x.indiceString.Definido(valor.dameString() )){
-				aed2::Lista<aed2::Lista<tp3::Registro>::Iterador> listaReg = indices.x.indiceString.Significado(valor.dameString());
+//~ aed2::Lista<ItLista> listaReg = indices.y.indiceNat.Significado(valor.dameNat());
+				aed2::Lista<ItLista> listaReg = indices.x.indiceString.Significado(valor.dameString());
 				listaReg.AgregarAdelante(itReg);
 			}
 			// Si no esta lo defino en el dicc con significado un conj con el iterador
 			else{
 				aed2::Lista<ItLista> listaNuevo;
 				indices.x.indiceString.Definir(valor.dameString(), listaNuevo);
+				//~ std::cout << "definoNuevo" << std::endl;
 			}
 			if(max < valor) max=valor;
 			if(min > valor) min=valor;
 			itReg.Avanzar();
 		}
-		indices.y.campo = c;
-		indices.y.maxNat = new tp3::Dato(max);
-		indices.y.minNat = new tp3::Dato(min);
+		indices.x.campo = c;
+		indices.x.maxString = new tp3::Dato(max);
+		indices.x.minString = new tp3::Dato(min);
 	}
 	//~ std::cout << Indices() << std::endl;
 }
@@ -199,6 +201,7 @@ aed2::Conj<aed2::NombreCampo> Tabla::Indices() const{
 	if(indices.x.indiceString.CantClaves() != 0){
 		Conj.AgregarRapido(indices.x.campo);
 	}
+	//~ std::cout << "TAbla::indices conj indices" << Conj << std::endl;
 	return Conj;
 }
 

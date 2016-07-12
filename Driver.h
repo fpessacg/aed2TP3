@@ -176,7 +176,7 @@ class Driver
      *  - 'tabla' pertenece a las tablas de la base de datos.
      *  - existe un índice de tipo Nat en dicha tabla.
      */
-    const NombreCampo& campoIndiceNat(const NombreTabla& tabla) const;
+    const NombreCampo campoIndiceNat(const NombreTabla& tabla) const;
 
     /**
      * Devuelve el campo sobre el cuál está definido el índice de tipo String.
@@ -185,7 +185,7 @@ class Driver
      *  - 'tabla' pertenece a las tablas de la base de datos.
      *  - existe un índice de tipo String en dicha tabla.
      */
-    const NombreCampo& campoIndiceString(const NombreTabla& tabla) const;
+    const NombreCampo campoIndiceString(const NombreTabla& tabla) const;
 
     /**
      * Crea un índicede tipo Nat sobre un campo de la tabla.
